@@ -1,0 +1,14 @@
+exports/
+setup/
+screenshots/
+logs/
+
+# gotdot
+# *.import # it is recommended to track .import files
+
+# blobs of imported data
+.import/
+**/src/
+
+# setup formats
+*.psd

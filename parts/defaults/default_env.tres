@@ -1,0 +1,13 @@
+[gd_resource type="Environment" load_steps=2 format=2]
+
+[sub_resource type="ProceduralSky" id=1]
+
+[resource]
+background_mode = 2
+background_sky = SubResource( 1 )
+ssao_enabled = true
+ssao_radius = 2.0
+ssao_radius2 = 0.1
+ssao_intensity2 = 20.0
+ssao_bias = 0.001
+ssao_edge_sharpness = 0.0

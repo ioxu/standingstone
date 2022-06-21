@@ -1,0 +1,73 @@
+[gd_scene load_steps=15 format=2]
+
+[ext_resource path="res://parts/character/mannequin.gltf" type="PackedScene" id=1]
+
+[sub_resource type="AnimationNodeAnimation" id=1]
+animation = "Fast Run-loop"
+
+[sub_resource type="AnimationNodeAnimation" id=2]
+animation = "Idle Action-loop"
+
+[sub_resource type="AnimationNodeAnimation" id=3]
+animation = "Idle Fists Up-loop"
+
+[sub_resource type="AnimationNodeAnimation" id=4]
+animation = "Idle Standing-loop"
+
+[sub_resource type="AnimationNodeAnimation" id=5]
+animation = "Idle Tap Foot-loop"
+
+[sub_resource type="AnimationNodeAnimation" id=6]
+animation = "Running-loop"
+
+[sub_resource type="AnimationNodeAnimation" id=7]
+animation = "Standard Run-loop"
+
+[sub_resource type="AnimationNodeAnimation" id=8]
+animation = "Standard Walk-loop"
+
+[sub_resource type="AnimationNodeAnimation" id=9]
+animation = "Start Walking-loop"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=10]
+switch_mode = 2
+auto_advance = true
+xfade_time = 0.5
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=11]
+
+[sub_resource type="AnimationNodeStateMachine" id=12]
+"states/Fast Run-loop/node" = SubResource( 1 )
+"states/Fast Run-loop/position" = Vector2( 1285, 186 )
+"states/Idle Action-loop/node" = SubResource( 2 )
+"states/Idle Action-loop/position" = Vector2( 259, 150 )
+"states/Idle Fists Up-loop/node" = SubResource( 3 )
+"states/Idle Fists Up-loop/position" = Vector2( 259, 238 )
+"states/Idle Standing-loop/node" = SubResource( 4 )
+"states/Idle Standing-loop/position" = Vector2( 259, 329 )
+"states/Idle Tap Foot-loop/node" = SubResource( 5 )
+"states/Idle Tap Foot-loop/position" = Vector2( 259, 410 )
+states/Running-loop/node = SubResource( 6 )
+states/Running-loop/position = Vector2( 797, 213 )
+"states/Standard Run-loop/node" = SubResource( 7 )
+"states/Standard Run-loop/position" = Vector2( 1051, 186 )
+"states/Standard Walk-loop/node" = SubResource( 8 )
+"states/Standard Walk-loop/position" = Vector2( 1015, 329 )
+"states/Start Walking-loop/node" = SubResource( 9 )
+"states/Start Walking-loop/position" = Vector2( 725, 329 )
+transitions = [ "Start Walking-loop", "Standard Walk-loop", SubResource( 10 ), "Standard Walk-loop", "Start Walking-loop", SubResource( 11 ) ]
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id=13]
+
+[node name="character" type="KinematicBody"]
+
+[node name="mannequin" parent="." instance=ExtResource( 1 )]
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource( 12 )
+anim_player = NodePath("../mannequin/AnimationPlayer")
+active = true
+root_motion_track = NodePath("Armature/Skeleton:RootMotion")
+parameters/playback = SubResource( 13 )
+
+[editable path="mannequin"]
