@@ -8,10 +8,20 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "Resource",
+"class": "CameraData",
+"language": "GDScript",
+"path": "res://parts/camera/camera_data.gd"
+} ]
+_global_script_class_icons={
+"CameraData": ""
+}
+
 [application]
 
 config/name="Standingstone"
-run/main_scene="res://levels/default_level.tscn"
+run/main_scene="res://globals/game.tscn"
 config/icon="res://icon.png"
 
 [physics]
