@@ -32,13 +32,21 @@ func _process(delta):
 	
 	self.transform.origin += target_offset
 	self.look_at(look_at, Vector3.UP)
-	
-	
+
+
+
 func _unhandled_input(event):
 	if event is InputEventMouseMotion:
 		var _mrel = event.get_relative()*0.005
 #		print("InputEventMouseMotion %s"% _mrel)
 		camera_data.rotation.y -= _mrel.x
 		camera_data.rotation.x -= _mrel.y
-		camera_data.rotation.x = clamp( camera_data.rotation.x, pitch_limit.x, pitch_limit.y)
 
+	if event is InputEventJoypadMotion:
+		var horizontal = Input.get_action_strength("look_right") - Input.get_action_strength("look_left")
+		var vertical = Input.get_action_strength("look_up") - Input.get_action_strength("look_down")
+
+		camera_data.rotation.y -= horizontal * 0.025
+		camera_data.rotation.x += vertical * 0.025
+
+	camera_data.rotation.x = clamp( camera_data.rotation.x, pitch_limit.x, pitch_limit.y)

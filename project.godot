@@ -24,6 +24,29 @@ config/name="Standingstone"
 run/main_scene="res://globals/game.tscn"
 config/icon="res://icon.png"
 
+[input]
+
+look_left={
+"deadzone": 0.13,
+"events": [ Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":0,"axis":0,"axis_value":-1.0,"script":null)
+ ]
+}
+look_right={
+"deadzone": 0.13,
+"events": [ Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":0,"axis":0,"axis_value":1.0,"script":null)
+ ]
+}
+look_up={
+"deadzone": 0.13,
+"events": [ Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":0,"axis":1,"axis_value":-1.0,"script":null)
+ ]
+}
+look_down={
+"deadzone": 0.13,
+"events": [ Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":0,"axis":1,"axis_value":1.0,"script":null)
+ ]
+}
+
 [physics]
 
 common/enable_pause_aware_picking=true
