@@ -11,7 +11,7 @@ script = ExtResource( 5 )
 anchor_offset = Vector3( 0, 1.2, 0 )
 target_offset = Vector3( 0, 0, 0 )
 rotation = Vector3( 0, 0, 0 )
-pitch_limit = Vector2( -75, 80 )
+pitch_limit = Vector2( -45, 70 )
 look_target = Vector3( 0, 0, 0 )
 
 [node name="game" type="Node2D"]
