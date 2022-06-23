@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://parts/character/mannequin.gltf" type="PackedScene" id=1]
 [ext_resource path="res://parts/character/character_controller.gd" type="Script" id=2]
@@ -6,13 +6,25 @@
 [sub_resource type="AnimationNodeAnimation" id=1]
 animation = "Fast Run-loop"
 
+[sub_resource type="AnimationNodeAnimation" id=28]
+animation = "Idle Action-loop"
+
+[sub_resource type="AnimationNodeAnimation" id=29]
+animation = "Idle Standing-loop"
+
 [sub_resource type="AnimationNodeAnimation" id=4]
 animation = "Idle Standing-loop"
+
+[sub_resource type="AnimationNodeAnimation" id=30]
+animation = "Idle Tap Foot-loop"
 
 [sub_resource type="AnimationNodeAnimation" id=5]
 animation = "Idle Tap Foot-loop"
 
 [sub_resource type="AnimationNodeAnimation" id=2]
+animation = "Idle Action-loop"
+
+[sub_resource type="AnimationNodeAnimation" id=23]
 animation = "Idle Action-loop"
 
 [sub_resource type="AnimationNodeAnimation" id=3]
@@ -30,56 +42,68 @@ animation = "Start Walking-loop"
 [sub_resource type="AnimationNodeAnimation" id=8]
 animation = "Standard Walk-loop"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=14]
-xfade_time = 0.3
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=15]
-xfade_time = 0.3
-
 [sub_resource type="AnimationNodeStateMachineTransition" id=16]
 xfade_time = 0.2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=17]
 xfade_time = 0.3
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=18]
+[sub_resource type="AnimationNodeStateMachineTransition" id=31]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=32]
 xfade_time = 0.3
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=19]
-xfade_time = 0.3
+[sub_resource type="AnimationNodeStateMachineTransition" id=33]
+switch_mode = 2
+xfade_time = 0.5
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=21]
-xfade_time = 0.1
+[sub_resource type="AnimationNodeStateMachineTransition" id=34]
+xfade_time = 0.15
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=22]
+[sub_resource type="AnimationNodeStateMachineTransition" id=35]
+xfade_time = 0.15
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=36]
+xfade_time = 0.15
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=37]
 xfade_time = 0.15
 
 [sub_resource type="AnimationNodeStateMachine" id=12]
 "states/Fast Run-loop/node" = SubResource( 1 )
 "states/Fast Run-loop/position" = Vector2( 1285, 186 )
 states/Idle/node = SubResource( 2 )
-states/Idle/position = Vector2( 501, 472 )
+states/Idle/position = Vector2( 1092, 532 )
+"states/Idle Action-loop/node" = SubResource( 28 )
+"states/Idle Action-loop/position" = Vector2( 952, 296 )
 "states/Idle Standing-loop/node" = SubResource( 4 )
-"states/Idle Standing-loop/position" = Vector2( 259, 329 )
+"states/Idle Standing-loop/position" = Vector2( 44, 288 )
+"states/Idle Standing-loop 2/node" = SubResource( 29 )
+"states/Idle Standing-loop 2/position" = Vector2( 1204, 296 )
 "states/Idle Tap Foot-loop/node" = SubResource( 5 )
-"states/Idle Tap Foot-loop/position" = Vector2( 259, 410 )
+"states/Idle Tap Foot-loop/position" = Vector2( -79, 383 )
+"states/Idle Tap Foot-loop 2/node" = SubResource( 30 )
+"states/Idle Tap Foot-loop 2/position" = Vector2( 1539, 296 )
+states/IdleAction/node = SubResource( 23 )
+states/IdleAction/position = Vector2( 190, 383 )
 states/IdleFistsUp/node = SubResource( 3 )
-states/IdleFistsUp/position = Vector2( 573, 367 )
+states/IdleFistsUp/position = Vector2( 506, 388 )
 states/Running/node = SubResource( 6 )
-states/Running/position = Vector2( 934, 465 )
+states/Running/position = Vector2( 999, 452 )
 "states/Standard Run-loop/node" = SubResource( 7 )
 "states/Standard Run-loop/position" = Vector2( 1051, 186 )
 "states/Start Walking-loop/node" = SubResource( 9 )
-"states/Start Walking-loop/position" = Vector2( 1264, 593 )
+"states/Start Walking-loop/position" = Vector2( 529, 483 )
 states/Walking/node = SubResource( 8 )
 states/Walking/position = Vector2( 729, 593 )
-transitions = [ "Idle", "Walking", SubResource( 14 ), "Walking", "Idle", SubResource( 15 ), "Idle", "Running", SubResource( 16 ), "Running", "Idle", SubResource( 17 ), "Running", "Walking", SubResource( 18 ), "Walking", "Running", SubResource( 19 ), "IdleFistsUp", "Running", SubResource( 21 ), "Running", "IdleFistsUp", SubResource( 22 ) ]
-start_node = "Idle"
-graph_offset = Vector2( 120, 246 )
+transitions = [ "Idle", "Running", SubResource( 16 ), "Running", "Idle", SubResource( 17 ), "Idle Action-loop", "Idle Standing-loop 2", SubResource( 31 ), "IdleFistsUp", "Start Walking-loop", SubResource( 32 ), "Start Walking-loop", "Walking", SubResource( 33 ), "Idle Tap Foot-loop", "IdleAction", SubResource( 34 ), "IdleAction", "IdleFistsUp", SubResource( 35 ), "IdleFistsUp", "IdleAction", SubResource( 36 ), "IdleAction", "Idle Tap Foot-loop", SubResource( 37 ) ]
+start_node = "IdleFistsUp"
+graph_offset = Vector2( -392, 221 )
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=13]
 
 [sub_resource type="CapsuleShape" id=20]
+margin = 0.075
 radius = 0.31
 height = 1.16
 
@@ -93,11 +117,17 @@ animation_tree_path = NodePath("AnimationTree")
 tree_root = SubResource( 12 )
 anim_player = NodePath("../mannequin/AnimationPlayer")
 active = true
+process_mode = 0
 root_motion_track = NodePath("Armature/Skeleton:RootMotion")
 parameters/playback = SubResource( 13 )
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.894, 0 )
 shape = SubResource( 20 )
+
+[node name="RootMotionView" type="RootMotionView" parent="."]
+visible = false
+animation_path = NodePath("../AnimationTree")
+radius = 2.87
 
 [editable path="mannequin"]

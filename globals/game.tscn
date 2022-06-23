@@ -24,10 +24,10 @@ margin_bottom = 40.0
 [node name="default_level" parent="ViewportContainer" instance=ExtResource( 2 )]
 
 [node name="character" parent="ViewportContainer" instance=ExtResource( 3 )]
-transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 2.64401, 1.40117, -0.939105 )
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 2.644, 0, -0.939 )
 
 [node name="Camera" type="Camera" parent="ViewportContainer"]
-transform = Transform( 0.999857, 0.0031688, -0.0165941, 0, 0.982251, 0.18757, 0.016894, -0.187543, 0.982111, 3.219, 2.803, 0.507 )
+transform = Transform( 0.999857, 0.00316881, -0.0165942, 0, 0.982251, 0.18757, 0.016894, -0.187543, 0.982111, 3.21423, 1.24633, 1.34832 )
 script = ExtResource( 4 )
 target = NodePath("../character")
 camera_data = SubResource( 1 )
