@@ -29,7 +29,7 @@ func _process(delta):
 	var vertical = Input.get_action_strength("look_up") - Input.get_action_strength("look_down")
 	if horizontal != 0 or vertical != 0 :
 		target_rotation.y -= horizontal * GameSettings.gamepad_look_sensitivity
-		target_rotation.x += vertical * GameSettings.gamepad_look_sensitivity * ( 1 if GameSettings.gamepad_look_invert_vertical else -1 )
+		target_rotation.x -= vertical * GameSettings.gamepad_look_sensitivity * ( 1 if GameSettings.gamepad_look_invert_vertical else -1 )
 
 
 	camera_data.rotation.y = lerp(camera_data.rotation.y, target_rotation.y, delta*10.0)

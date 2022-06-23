@@ -5,6 +5,8 @@ onready var animation_tree = get_node( animation_tree_path )
 
 var gravity : Vector3 = Vector3.ZERO
 
+var ms_collision_vel := Vector3.ZERO
+
 func _ready():
 	pass
 
@@ -28,6 +30,6 @@ func _physics_process(delta):
 	else:
 		animation_tree["parameters/playback"].travel("IdleFistsUp")
 
-	move_and_slide(v, Vector3.UP)
+	ms_collision_vel = move_and_slide(v, Vector3.UP)
 
 
