@@ -9,6 +9,8 @@ var target_rotation := Vector3.ZERO
 
 
 func _ready():
+	print("[camera] target reference: %s"%target.get_path())
+	
 	if camera_data.target_offset == Vector3.ZERO:
 		camera_data.target_offset = self.transform.origin -\
 									target.transform.origin -\
