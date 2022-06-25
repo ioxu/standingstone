@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=32 format=2]
 
 [ext_resource path="res://parts/character/mannequin.gltf" type="PackedScene" id=1]
 [ext_resource path="res://parts/character/character_controller.gd" type="Script" id=2]
@@ -42,6 +42,29 @@ animation = "Start Walking-loop"
 [sub_resource type="AnimationNodeAnimation" id=34]
 animation = "Stop Walking-loop"
 
+[sub_resource type="AnimationNodeAnimation" id=37]
+animation = "Running-loop"
+
+[sub_resource type="AnimationNodeAnimation" id=38]
+animation = "Standard Walk-loop"
+
+[sub_resource type="AnimationNodeAnimation" id=39]
+animation = "Fast Run-loop"
+
+[sub_resource type="AnimationNodeBlend3" id=40]
+
+[sub_resource type="AnimationNodeBlendTree" id=41]
+nodes/Animation/node = SubResource( 39 )
+nodes/Animation/position = Vector2( 240, 400 )
+"nodes/Animation 2/node" = SubResource( 37 )
+"nodes/Animation 2/position" = Vector2( 240, 280 )
+"nodes/Animation 3/node" = SubResource( 38 )
+"nodes/Animation 3/position" = Vector2( 240, 160 )
+nodes/blend_walk_running/node = SubResource( 40 )
+nodes/blend_walk_running/position = Vector2( 700, 240 )
+nodes/output/position = Vector2( 1160, 140 )
+node_connections = [ "output", 0, "blend_walk_running", "blend_walk_running", 0, "Animation 3", "blend_walk_running", 1, "Animation 2", "blend_walk_running", 2, "Animation" ]
+
 [sub_resource type="AnimationNodeAnimation" id=8]
 animation = "Standard Walk-loop"
 
@@ -57,6 +80,12 @@ xfade_time = 0.3
 xfade_time = 0.18
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=36]
+xfade_time = 0.18
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=42]
+xfade_time = 0.18
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=43]
 xfade_time = 0.18
 
 [sub_resource type="AnimationNodeStateMachine" id=12]
@@ -86,11 +115,13 @@ states/Running/position = Vector2( 999, 452 )
 "states/Start Walking-loop/position" = Vector2( 625, 416 )
 "states/Stop Walking-loop/node" = SubResource( 34 )
 "states/Stop Walking-loop/position" = Vector2( 226, 913 )
+states/WalkRun_blendspace/node = SubResource( 41 )
+states/WalkRun_blendspace/position = Vector2( 769, 667 )
 states/Walking/node = SubResource( 8 )
-states/Walking/position = Vector2( 708, 816 )
-transitions = [ "Idle", "Running", SubResource( 16 ), "Running", "Idle", SubResource( 17 ), "Idle Action-loop", "Idle Standing-loop 2", SubResource( 31 ), "IdleAction", "Walking", SubResource( 35 ), "Walking", "IdleAction", SubResource( 36 ) ]
+states/Walking/position = Vector2( 575, 929 )
+transitions = [ "Idle", "Running", SubResource( 16 ), "Running", "Idle", SubResource( 17 ), "Idle Action-loop", "Idle Standing-loop 2", SubResource( 31 ), "IdleAction", "Walking", SubResource( 35 ), "Walking", "IdleAction", SubResource( 36 ), "IdleAction", "WalkRun_blendspace", SubResource( 42 ), "WalkRun_blendspace", "IdleAction", SubResource( 43 ) ]
 start_node = "IdleFistsUp"
-graph_offset = Vector2( -316, 469 )
+graph_offset = Vector2( -196, 345 )
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=13]
 
@@ -112,6 +143,7 @@ active = true
 process_mode = 0
 root_motion_track = NodePath("Armature/Skeleton:RootMotion")
 parameters/playback = SubResource( 13 )
+parameters/WalkRun_blendspace/blend_walk_running/blend_amount = 0
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.894, 0 )

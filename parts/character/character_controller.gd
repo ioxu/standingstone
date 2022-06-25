@@ -53,8 +53,8 @@ func _physics_process(delta):
 	var left_right = Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
 	var forward_back = Input.get_action_strength("move_backward") - Input.get_action_strength("move_forward")
 
-	dir.z += forward_back *5.0
-	dir.x += left_right *5.0
+	dir.z += forward_back 
+	dir.x += left_right 
 
 
 	if dir.length_squared() > 0.01:
@@ -68,7 +68,11 @@ func _physics_process(delta):
 		self.rotation.y += phi
 		v = v.rotated( Vector3.UP, self.rotation.y)
 
-		animation_tree["parameters/playback"].travel("Walking")
+		animation_tree["parameters/playback"].travel("WalkRun_blendspace")
+		#animation_tree["parameters/BlendTree/blend_walk_running/blend_amount"]
+		var _blend = Util.remap(dir.length(), 0.0, 1.05, -1.0, 1.0 )
+		print("[character] move blend: %0.2f"%_blend)
+		animation_tree.set("parameters/WalkRun_blendspace/blend_walk_running/blend_amount", _blend )
 	else:
 		v = v.rotated( Vector3.UP, self.rotation.y)	
 		animation_tree["parameters/playback"].travel("IdleAction")
