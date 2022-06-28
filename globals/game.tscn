@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://globals/game.gd" type="Script" id=1]
 [ext_resource path="res://levels/default_level.tscn" type="PackedScene" id=2]
@@ -13,6 +13,9 @@ target_offset = Vector3( 0, 0, 0 )
 rotation = Vector3( 0, 0, 0 )
 pitch_limit = Vector2( -45, 70 )
 look_target = Vector3( 0, 0, 0 )
+
+[sub_resource type="Curve" id=2]
+_data = [ Vector2( 0, 0 ), 0.0, 1.0, 0, 1, Vector2( 1, 1 ), 1.0, 0.0, 1, 0 ]
 
 [node name="game" type="Node2D"]
 script = ExtResource( 1 )
@@ -32,6 +35,8 @@ transform = Transform( 0.999857, 0.00316881, -0.0165942, 0, 0.982251, 0.18757, 0
 script = ExtResource( 4 )
 target = NodePath("../character")
 camera_data = SubResource( 1 )
+look_stick_response_curve = SubResource( 2 )
+look_stick_response_regions = [ Vector2( 0, 0 ), Vector2( 0.5, 0.1 ), Vector2( 0.85, 0.65 ), Vector2( 1, 1 ) ]
 
 [node name="fps_label" type="Label" parent="."]
 margin_left = 975.0

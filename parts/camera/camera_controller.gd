@@ -3,12 +3,16 @@ extends Camera
 export (NodePath) onready var target = get_node(target)
 export (Resource) var camera_data
 
-var pitch_limit : Vector2 = Vector2(-0.5, 0.5)
+export(Curve) var look_stick_response_curve
+export(Array, Vector2) var look_stick_response_regions setget set_look_stick_response_regions
 
+var pitch_limit : Vector2 = Vector2(-0.5, 0.5)
 var target_rotation := Vector3.ZERO
 
 
 func _ready():
+	yield(get_owner(), "ready")
+	
 	print("[camera] target reference: %s"%target.get_path())
 	
 	if camera_data.target_offset == Vector3.ZERO:
@@ -23,21 +27,28 @@ func _ready():
 
 	target_rotation = camera_data.rotation
 
-
 func _process(delta):
 	
 	# handle gamepad
 	var horizontal = Input.get_action_strength("look_right") - Input.get_action_strength("look_left")
 	var vertical = Input.get_action_strength("look_up") - Input.get_action_strength("look_down")
+	
+	# look stick sensitivity curve lookup
+	var hsign := sign(horizontal)
+	var vsign := sign(vertical)
+	horizontal = hsign * look_stick_response_curve.interpolate_baked( abs(horizontal) )
+	vertical = vsign * look_stick_response_curve.interpolate_baked( abs(vertical) )
+	
+	# times settings sensitivity and inverted-look
 	if horizontal != 0 or vertical != 0 :
 		target_rotation.y -= horizontal * GameSettings.gamepad_look_sensitivity
 		target_rotation.x -= vertical * GameSettings.gamepad_look_sensitivity * ( 1 if GameSettings.gamepad_look_invert_vertical else -1 )
 
-
+	# time smoothing
 	camera_data.rotation.y = lerp(camera_data.rotation.y, target_rotation.y, delta*10.0)
 	camera_data.rotation.x = lerp(camera_data.rotation.x, target_rotation.x, delta*10.0)
 
-
+	# set camera rig
 	self.transform.origin = target.transform.origin + camera_data.anchor_offset
 	var target_offset = camera_data.target_offset
 	var look_at = camera_data.look_target
@@ -58,4 +69,14 @@ func _unhandled_input(event):
 		target_rotation.x -= _mrel.y
 	
 	target_rotation.x = clamp( target_rotation.x, pitch_limit.x, pitch_limit.y)
+
+
+func set_look_stick_response_regions(new_value) -> void:
+	look_stick_response_regions = new_value
+	print("[camera] set_look_stick_response_regions new_value %s"%str(new_value))
+	Util.set_curve_from_array_linear( new_value, look_stick_response_curve )
+	look_stick_response_curve.set_bake_resolution(32)
+	print("[camera] look_stick_response_curve npoints %s"%[look_stick_response_curve.get_point_count()])
+
+
 

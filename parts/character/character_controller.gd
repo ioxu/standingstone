@@ -9,6 +9,7 @@ var gravity : Vector3 = Vector3.ZERO
 
 var ms_collision_vel := Vector3.ZERO
 
+
 func _ready():
 	print("[character] camera reference: %s"%camera.get_path())
 
@@ -16,8 +17,6 @@ func _ready():
 func _physics_process(delta):
 	var root_motion : Transform = animation_tree.get_root_motion_transform()
 
-
-	#var v = root_motion.origin / (delta * Vector3(-1,1,-1)) # TODO: root_motion: WHY swizzle channels?
 	var v = root_motion.origin / delta
 	
 	#--------------------------------------------------------------------------
@@ -69,9 +68,8 @@ func _physics_process(delta):
 		v = v.rotated( Vector3.UP, self.rotation.y)
 
 		animation_tree["parameters/playback"].travel("WalkRun_blendspace")
-		#animation_tree["parameters/BlendTree/blend_walk_running/blend_amount"]
 		var _blend = Util.remap(dir.length(), 0.0, 1.05, -1.0, 1.0 )
-		print("[character] move blend: %0.2f"%_blend)
+		#print("[character] move blend: %0.2f"%_blend)
 		animation_tree.set("parameters/WalkRun_blendspace/blend_walk_running/blend_amount", _blend )
 	else:
 		v = v.rotated( Vector3.UP, self.rotation.y)	

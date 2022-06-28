@@ -3,7 +3,7 @@ extends Node
 # - math shaping functions
 
 func _ready():
-	print("util.dg autoload ready")
+	print("[util] autoload ready")
 
 
 # ------------------------------------------------------------------------------
@@ -96,6 +96,17 @@ func arc_points(npoints:int = 10, start:float = 45.0, end:float = 315.0, radius:
 		var p = deg2rad(start + i * (end-start) / float(npoints) - 90)
 		arc_points.append( Vector3( cos( p ) , 0.0, sin( p ) ) * radius )
 	return arc_points
+
+
+func set_curve_from_array_linear(in_array: Array, curve:Curve) -> void:
+	# sets a Curve resource's CVs by Vector2s in an Array.
+	curve.clear_points()
+	var _ret := int()
+	for v in in_array:
+		_ret = curve.add_point(v, 0.0, 0.0, Curve.TANGENT_LINEAR, Curve.TANGENT_LINEAR)
+	#curve.clean_dupes() # seems to leave the curve with a single cv
+	curve.bake()
+
 
 
 # ------------------------------------------------------------------------------

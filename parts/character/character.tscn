@@ -149,8 +149,4 @@ parameters/WalkRun_blendspace/blend_walk_running/blend_amount = 0
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.894, 0 )
 shape = SubResource( 20 )
 
-[node name="RootMotionView" type="RootMotionView" parent="."]
-animation_path = NodePath("../AnimationTree")
-radius = 2.87
-
 [editable path="mannequin"]

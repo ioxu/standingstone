@@ -18,6 +18,7 @@ var circ_grid := Array()
 var _p1:=Vector2()
 var _p2:=Vector2()
 
+
 func _ready() -> void:
 	print(\"[main] remap_square_to_circle\")
 	print(\"[main] generating square grid\")
