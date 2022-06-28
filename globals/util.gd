@@ -60,6 +60,18 @@ func bias_lut( b = 0.5, resolution = 32 ) -> Curve:
 	return lut
 
 
+func square_to_circle(inv: Vector2) -> Vector2:
+	# for remapping the square domain of thumbstick controls back into a circle
+	# https://youtu.be/Q4aQiuJYZ2s?t=1524
+	# https://www.xarg.org/2017/07/how-to-map-a-square-to-a-circle/
+	# args:
+	#	inv: Vector2 - members from -1 to +1
+	var _o = Vector2()
+	_o.x = inv.x * sqrt( 1-inv.y*inv.y/2.0 )
+	_o.y = inv.y * sqrt( 1-inv.x*inv.x/2.0 )
+	return _o
+
+
 # ------------------------------------------------------------------------------
 # arrays
 # ------------------------------------------------------------------------------

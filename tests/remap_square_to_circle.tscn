@@ -1,0 +1,100 @@
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Node2D
+
+onready var window_res = get_viewport().size
+onready var half_window_res = window_res/2.0
+
+var interpolation_amount := 0.0
+var slider_r_start = 0.1
+var slider_r_end = 0.9
+
+var disp_size = 250
+
+var square_grid := Array()
+var circ_grid := Array()
+
+var _p1:=Vector2()
+var _p2:=Vector2()
+
+func _ready() -> void:
+	print(\"[main] remap_square_to_circle\")
+	print(\"[main] generating square grid\")
+	square_grid = gen_square_grid(20, 20)
+	print(\"[main] generating circular grid\")
+	circ_grid = map_to_circle( square_grid )
+	print(\"[main] scale arrays to display\")
+	
+	for i in range(square_grid.size()):
+		square_grid[i] = square_grid[i] * disp_size + half_window_res
+		circ_grid[i] = circ_grid[i] * disp_size + half_window_res
+	print(\"[main] done.\")
+	
+
+
+func _process(delta: float) -> void:
+	update()
+
+
+func _draw() -> void:
+	# virtual slider
+	draw_line(
+		Vector2(window_res.x * slider_r_start, window_res.y * 0.9),
+		Vector2(window_res.x * slider_r_end, window_res.y * 0.9),
+		Color(0.453125, 0.453125, 0.453125),
+		3.0,
+		true)
+	draw_circle(
+		Vector2(window_res.x * slider_r_start +\\
+				 (window_res.x * (slider_r_end-slider_r_start)) * interpolation_amount, window_res.y * 0.9 ),
+		8,
+		Color(0.753906, 0.209091, 0.209091))
+	
+#	for _p in square_grid:
+#		draw_circle( _p, 2.5, Color(0.309804, 0.756863, 0.309804, 0.2) )
+
+	for i in range(square_grid.size()):
+		_p1 = square_grid[i] 
+		_p2 = circ_grid[i]
+		draw_circle( lerp(_p1, _p2, interpolation_amount), 2.5, Color(0.937255, 0.721569, 0.078431, 0.733333) )
+
+	draw_arc(half_window_res, disp_size, 0.0, 2*PI, 64, Color(0.184314, 0.376471, 0.576471, 0.364706), 2.0)
+
+func _input(event: InputEvent) -> void:
+	
+	if Input.is_action_pressed(\"ui_cancel\"):
+		get_tree().quit()
+	
+	if event is InputEventMouseMotion:
+		var _i :float = event.position.x/window_res.x
+		interpolation_amount = Util.remap_clamp(_i,
+											slider_r_start,
+											slider_r_end,
+											0.0,
+											1.0 )
+
+
+func gen_square_grid( x:=20, y:=20 ) -> Array:
+	var _g = []
+	for u in range(x+1):
+		for v in range(y+1):
+			_g.append( Vector2( Util.remap(float(u)/x, 0.0, 1.0, -1.0, 1.0),
+								Util.remap(float(v)/y, 0.0, 1.0, -1.0, 1.0) ) )
+
+	return _g
+
+
+func map_to_circle( p_array: Array ) -> Array:
+	# p_array: array of Vector2D
+	var _a = Array()
+	for _p in p_array:
+		_a.append( Util.square_to_circle(_p) )
+	return _a
+
+
+
+"
+
+[node name="Node2D" type="Node2D"]
+script = SubResource( 1 )
