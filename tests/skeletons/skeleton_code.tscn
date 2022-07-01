@@ -1,6 +1,6 @@
 [gd_scene load_steps=18 format=2]
 
-[ext_resource path="res://tests/skeletons/mannequin.tscn" type="PackedScene" id=1]
+[ext_resource path="res://parts/character/mannequin.tscn" type="PackedScene" id=1]
 [ext_resource path="res://parts/defaults/texture_01.png" type="Texture" id=2]
 
 [sub_resource type="GDScript" id=1]
@@ -188,8 +188,10 @@ var tri_colours= [ Color(0.859375, 0.37199, 0.181274, tria_alpha),
 
 var default_font
 
+
 func _ready() -> void:
 	yield(owner, \"ready\")
+	default_font = Control.new().get_font(\"font\")
 	blend = animtree.tree_root.get_node(\"BlendSpace2D\")
 	pprint(\"%s (%s)\"%[blend.get_name(), blend.get_class()])
 	pprint(\"%s points\"%blend.get_blend_point_count())
@@ -197,7 +199,6 @@ func _ready() -> void:
 	yield(get_tree().create_timer(0.1), \"timeout\")
 	ntris = blend.get_triangle_count()
 	pprint(\"%s triangles\"%ntris)
-	default_font = Control.new().get_font(\"font\")
 
 
 func _draw() -> void:
