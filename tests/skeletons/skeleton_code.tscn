@@ -29,11 +29,21 @@ var rightArm_id := -2
 var rightForeArm_id := -2
 var rightHand_id := -2
 
+var leftUpLeg_id := -2
+
 var initial_spine_pose:Transform
 var initial_spine1_pose:Transform
 var initial_spine2_pose:Transform
 var initial_neck_pose:Transform
 var initial_head_pose:Transform
+var initial_leftShoulder_pose:Transform
+var initial_leftArm_pose:Transform
+var initial_leftForeArm_pose:Transform
+var initial_leftHand_pose:Transform
+var initial_rightShoulder_pose:Transform
+var initial_rightArm_pose:Transform
+var initial_rightForeArm_pose:Transform
+var initial_rightHand_pose:Transform
 
 var spine_pose:Transform
 var spine1_pose:Transform
@@ -50,6 +60,8 @@ var rightForeArm_pose:Transform
 var rightHand_pose:Transform
 
 var gtime := 0.0
+
+var time_scale = 2
 
 func _ready() -> void:
 	skel = $ViewportContainer/mannequin/Armature/Skeleton #$mannequin/Armature/Skeleton
@@ -69,6 +81,8 @@ func _ready() -> void:
 	rightForeArm_id = skel.find_bone(\"RightForeArm\")
 	rightHand_id = skel.find_bone(\"RightHand\")
 
+	leftUpLeg_id = skel.find_bone(\"LeftUpLeg\")
+
 	pprint(\"Spine %s\"%spine_id)
 	pprint(\"Spine1 %s\"%spine1_id)
 	pprint(\"Spine2 %s\"%spine2_id)
@@ -81,51 +95,60 @@ func _ready() -> void:
 	initial_neck_pose = skel.get_bone_pose(neck_id)
 	initial_head_pose = skel.get_bone_pose(head_id)
 
+	initial_leftShoulder_pose = skel.get_bone_pose(leftShoulder_id)
+	initial_leftArm_pose = skel.get_bone_pose(leftArm_id)
+	initial_leftForeArm_pose = skel.get_bone_pose(leftForeArm_id)
+	initial_leftHand_pose = skel.get_bone_pose(leftHand_id)
+	initial_rightShoulder_pose = skel.get_bone_pose(rightShoulder_id)
+	initial_rightArm_pose = skel.get_bone_pose(rightArm_id)
+	initial_rightForeArm_pose = skel.get_bone_pose(rightForeArm_id)
+	initial_rightHand_pose = skel.get_bone_pose(rightHand_id)
+
 
 func _process(delta: float) -> void:
 	gtime += delta
 
 	# --
-	spine_pose = initial_spine_pose * Transform().rotated( Vector3.RIGHT, sin(gtime * 2) * 0.15)
-	skel.set_bone_pose(spine_id, spine_pose )
+	spine_pose = initial_spine_pose * Transform().rotated( Vector3.RIGHT, sin(gtime * time_scale) * 0.15)
+	skel.set_bone_custom_pose(spine_id, spine_pose )
 
-	spine1_pose = initial_spine1_pose * Transform().rotated( Vector3.RIGHT, sin((gtime-0.4) * 2) * 0.25)
-	skel.set_bone_pose(spine1_id, spine1_pose )
+	spine1_pose = initial_spine1_pose * Transform().rotated( Vector3.RIGHT, sin((gtime-0.4) * time_scale) * 0.25)
+	skel.set_bone_custom_pose(spine1_id, spine1_pose )
 
-	spine2_pose = initial_spine2_pose * Transform().rotated( Vector3.RIGHT, sin((gtime-0.8) * 2) * 0.65)
-	skel.set_bone_pose(spine2_id, spine2_pose )
+	spine2_pose = initial_spine2_pose * Transform().rotated( Vector3.RIGHT, sin((gtime-0.8) * time_scale) * 0.65)
+	skel.set_bone_custom_pose(spine2_id, spine2_pose )
 
-	neck_pose = initial_neck_pose * Transform().rotated( Vector3.RIGHT, sin((gtime-1.2) * 2) * 0.35)
-	skel.set_bone_pose(neck_id, neck_pose )
+	neck_pose = initial_neck_pose * Transform().rotated( Vector3.RIGHT, sin((gtime-1.2) * time_scale) * 0.35)
+	skel.set_bone_custom_pose(neck_id, neck_pose )
 
-	head_pose = initial_head_pose * Transform().rotated( Vector3.RIGHT, sin((gtime-1.6) * 2) * 0.55)
-	skel.set_bone_pose(head_id, head_pose )
-
-	# --
-	leftShoulder_pose = Transform().rotated( Vector3.FORWARD, sin((gtime-2.0) * 2) * 0.55) #2.0
-	skel.set_bone_pose(leftShoulder_id, leftShoulder_pose )
-
-	leftArm_pose = Transform().rotated( Vector3.FORWARD, sin((gtime-2.8) * 2) * 0.55) #2.4
-	skel.set_bone_pose(leftArm_id, leftArm_pose )
-
-	leftForeArm_pose = Transform().rotated( Vector3.FORWARD, (sin((gtime-3.2) * 2) - 1.0 ) * 0.55) #2.8
-	skel.set_bone_pose(leftForeArm_id, leftForeArm_pose )
-
-	leftHand_pose = Transform().rotated( Vector3.FORWARD, (sin((gtime-3.6) * 2) - 1.0 ) * 0.35) #3.2
-	skel.set_bone_pose(leftHand_id, leftHand_pose )
+	head_pose = initial_head_pose * Transform().rotated( Vector3.RIGHT, sin((gtime-1.6) * time_scale) * 0.55)
+	skel.set_bone_custom_pose(head_id, head_pose )
 
 	# --
-	rightShoulder_pose = Transform().rotated( Vector3.FORWARD, sin((gtime-2.0) * 2) * -0.55) #2.0
-	skel.set_bone_pose(rightShoulder_id, rightShoulder_pose )
+	leftShoulder_pose = initial_leftShoulder_pose * Transform().rotated( Vector3.FORWARD, sin((gtime-2.0) * time_scale) * 0.55) #2.0
+	skel.set_bone_custom_pose(leftShoulder_id, leftShoulder_pose )
 
-	rightArm_pose = Transform().rotated( Vector3.FORWARD, sin((gtime-2.8) * 2) * -0.55) #2.4
-	skel.set_bone_pose(rightArm_id, rightArm_pose )
+	leftArm_pose = initial_leftArm_pose * Transform().rotated( Vector3.FORWARD, sin((gtime-2.8) * time_scale) * 0.55) #2.4
+	skel.set_bone_custom_pose(leftArm_id, leftArm_pose )
 
-	rightForeArm_pose = Transform().rotated( Vector3.FORWARD, (sin((gtime-3.2) * 2) - 1.0 ) * -0.55) #2.8
-	skel.set_bone_pose(rightForeArm_id, rightForeArm_pose )
+	leftForeArm_pose = initial_leftForeArm_pose * Transform().rotated( Vector3.FORWARD, (sin((gtime-3.2) * time_scale) - 1.0 ) * 0.55) #2.8
+	skel.set_bone_custom_pose(leftForeArm_id, leftForeArm_pose )
 
-	rightHand_pose = Transform().rotated( Vector3.FORWARD, (sin((gtime-3.6) * 2) - 1.0 ) * -0.35) #3.2
-	skel.set_bone_pose(rightHand_id, rightHand_pose )
+	leftHand_pose = initial_leftHand_pose * Transform().rotated( Vector3.FORWARD, (sin((gtime-3.6) * time_scale) - 1.0 ) * 0.35) #3.2
+	skel.set_bone_custom_pose(leftHand_id, leftHand_pose )
+
+	# --
+	rightShoulder_pose = initial_rightShoulder_pose * Transform().rotated( Vector3.FORWARD, sin((gtime-2.0) * time_scale) * -0.55) #2.0
+	skel.set_bone_custom_pose(rightShoulder_id, rightShoulder_pose )
+
+	rightArm_pose = initial_rightArm_pose * Transform().rotated( Vector3.FORWARD, sin((gtime-2.8) * time_scale) * -0.55) #2.4
+	skel.set_bone_custom_pose(rightArm_id, rightArm_pose )
+
+	rightForeArm_pose = initial_rightForeArm_pose * Transform().rotated( Vector3.FORWARD, (sin((gtime-3.2) * time_scale) - 1.0 ) * -0.55) #2.8
+	skel.set_bone_custom_pose(rightForeArm_id, rightForeArm_pose )
+
+	rightHand_pose = initial_rightHand_pose * Transform().rotated( Vector3.FORWARD, (sin((gtime-3.6) * time_scale) - 1.0 ) * -0.35) #3.2
+	skel.set_bone_custom_pose(rightHand_id, rightHand_pose )
 
 	# --
 	$AnimationTree.set(\"parameters/BlendSpace2D/blend_position\", mouse_pos_blend )
@@ -141,7 +164,7 @@ func _input(event: InputEvent) -> void:
 		#pprint(\"mouse_pos_blend (%0.2f, %0.2f)\"%[mouse_pos_blend.x, mouse_pos_blend.y])
 
 
-func pprint(msg: String) -> void:
+func pprint(msg) -> void:
 	print(\"[skeleton_code] %s\"%str(msg))
 	
 
@@ -199,7 +222,7 @@ func _input(event: InputEvent) -> void:
 		mouse_pos = Vector2(event.position.x, event.position.y)
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	#pprint(\"%s triangles\"%blend.get_triangle_count())
 	if ntris > -1:
 		update()
