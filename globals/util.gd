@@ -45,7 +45,6 @@ func gain(t, g):
 		return bias( t * 2.0 - 1.0, 1.0 - g )/2.0 + 0.5
 
 
-
 func log2(value):
 	return log(value) / log(2)
 
@@ -66,7 +65,7 @@ func square_to_circle(inv: Vector2) -> Vector2:
 	# https://www.xarg.org/2017/07/how-to-map-a-square-to-a-circle/
 	# args:
 	#	inv: Vector2 - members from -1 to +1
-	var _o = Vector2()
+	var _o:Vector2
 	_o.x = inv.x * sqrt( 1-inv.y*inv.y/2.0 )
 	_o.y = inv.y * sqrt( 1-inv.x*inv.x/2.0 )
 	return _o
