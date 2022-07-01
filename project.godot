@@ -29,6 +29,10 @@ config/icon="res://icon.png"
 GameSettings="*res://globals/game_settings.gd"
 Util="*res://globals/util.gd"
 
+[global]
+
+warning=false
+
 [input]
 
 ui_cancel={

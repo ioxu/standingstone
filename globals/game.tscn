@@ -15,7 +15,7 @@ pitch_limit = Vector2( -45, 70 )
 look_target = Vector3( 0, 0, 0 )
 
 [sub_resource type="Curve" id=2]
-_data = [ Vector2( 0, 0 ), 0.0, 1.0, 0, 1, Vector2( 1, 1 ), 1.0, 0.0, 1, 0 ]
+_data = [ Vector2( 0, 0 ), 0.0, 5.42416, 0, 1, Vector2( 0.147806, 0.801724 ), 5.42416, -1.78815, 1, 1, Vector2( 0.533487, 0.112069 ), -1.78815, 1.90334, 1, 1, Vector2( 1, 1 ), 1.90334, 0.0, 1, 0 ]
 
 [node name="game" type="Node2D"]
 script = ExtResource( 1 )

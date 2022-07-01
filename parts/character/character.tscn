@@ -55,11 +55,11 @@ animation = "Fast Run-loop"
 
 [sub_resource type="AnimationNodeBlendTree" id=41]
 nodes/Animation/node = SubResource( 39 )
-nodes/Animation/position = Vector2( 240, 400 )
+nodes/Animation/position = Vector2( 180, 380 )
 "nodes/Animation 2/node" = SubResource( 37 )
-"nodes/Animation 2/position" = Vector2( 240, 280 )
+"nodes/Animation 2/position" = Vector2( 180, 260 )
 "nodes/Animation 3/node" = SubResource( 38 )
-"nodes/Animation 3/position" = Vector2( 240, 160 )
+"nodes/Animation 3/position" = Vector2( 180, 140 )
 nodes/blend_walk_running/node = SubResource( 40 )
 nodes/blend_walk_running/position = Vector2( 700, 240 )
 nodes/output/position = Vector2( 1160, 140 )

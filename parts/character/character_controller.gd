@@ -12,6 +12,7 @@ var ms_collision_vel := Vector3.ZERO
 
 func _ready():
 	print("[character] camera reference: %s"%camera.get_path())
+	$AnimationTree.set_active(true)
 
 
 func _physics_process(delta):

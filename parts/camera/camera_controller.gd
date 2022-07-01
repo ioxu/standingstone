@@ -27,6 +27,7 @@ func _ready():
 
 	target_rotation = camera_data.rotation
 
+
 func _process(delta):
 	
 	# handle gamepad
@@ -77,6 +78,7 @@ func set_look_stick_response_regions(new_value) -> void:
 	Util.set_curve_from_array_linear( new_value, look_stick_response_curve )
 	look_stick_response_curve.set_bake_resolution(32)
 	print("[camera] look_stick_response_curve npoints %s"%[look_stick_response_curve.get_point_count()])
+	
 
 
 
