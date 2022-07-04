@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://parts/character/mannequin.tscn" type="PackedScene" id=1]
 [ext_resource path="res://parts/defaults/texture_01.png" type="Texture" id=2]
@@ -10,10 +10,11 @@ onready var window_res = get_viewport().size
 onready var half_window_res = window_res/2.0
 
 var mouse_pos_blend := Vector2.ZERO
+var proc_anim_blend := 1.0
+var proc_anim_blend_rate := 0.05
 
 var skel:Skeleton
 var p = \"[skeleton_code]\"
-
 
 var spine_id := -2
 var spine1_id := -2
@@ -65,6 +66,7 @@ var time_scale = 2
 
 func _ready() -> void:
 	skel = $ViewportContainer/mannequin/Armature/Skeleton #$mannequin/Armature/Skeleton
+	$AnimationTree.set_active(true)
 	pprint(\"skeleton: %s\"%skel.get_path())
 
 	spine_id = skel.find_bone(\"Spine\")
@@ -109,45 +111,45 @@ func _process(delta: float) -> void:
 	gtime += delta
 
 	# --
-	spine_pose = initial_spine_pose * Transform().rotated( Vector3.RIGHT, sin(gtime * time_scale) * 0.15)
+	spine_pose = initial_spine_pose * Transform().rotated( Vector3.RIGHT, proc_anim_blend * (sin(gtime * time_scale) * 0.15))
 	skel.set_bone_custom_pose(spine_id, spine_pose )
 
-	spine1_pose = initial_spine1_pose * Transform().rotated( Vector3.RIGHT, sin((gtime-0.4) * time_scale) * 0.25)
+	spine1_pose = initial_spine1_pose * Transform().rotated( Vector3.RIGHT, proc_anim_blend * (sin((gtime-0.4) * time_scale) * 0.25))
 	skel.set_bone_custom_pose(spine1_id, spine1_pose )
 
-	spine2_pose = initial_spine2_pose * Transform().rotated( Vector3.RIGHT, sin((gtime-0.8) * time_scale) * 0.65)
+	spine2_pose = initial_spine2_pose * Transform().rotated( Vector3.RIGHT, proc_anim_blend *(sin((gtime-0.8) * time_scale) * 0.65))
 	skel.set_bone_custom_pose(spine2_id, spine2_pose )
 
-	neck_pose = initial_neck_pose * Transform().rotated( Vector3.RIGHT, sin((gtime-1.2) * time_scale) * 0.35)
+	neck_pose = initial_neck_pose * Transform().rotated( Vector3.RIGHT, proc_anim_blend *(sin((gtime-1.2) * time_scale) * 0.35))
 	skel.set_bone_custom_pose(neck_id, neck_pose )
 
-	head_pose = initial_head_pose * Transform().rotated( Vector3.RIGHT, sin((gtime-1.6) * time_scale) * 0.55)
+	head_pose = initial_head_pose * Transform().rotated( Vector3.RIGHT, proc_anim_blend *(sin((gtime-1.6) * time_scale) * 0.55))
 	skel.set_bone_custom_pose(head_id, head_pose )
 
 	# --
-	leftShoulder_pose = initial_leftShoulder_pose * Transform().rotated( Vector3.FORWARD, sin((gtime-2.0) * time_scale) * 0.55) #2.0
+	leftShoulder_pose = initial_leftShoulder_pose * Transform().rotated( Vector3.FORWARD, proc_anim_blend *(sin((gtime-2.0) * time_scale) * 0.55))
 	skel.set_bone_custom_pose(leftShoulder_id, leftShoulder_pose )
 
-	leftArm_pose = initial_leftArm_pose * Transform().rotated( Vector3.FORWARD, sin((gtime-2.8) * time_scale) * 0.55) #2.4
+	leftArm_pose = initial_leftArm_pose * Transform().rotated( Vector3.FORWARD, proc_anim_blend *(sin((gtime-2.8) * time_scale) * 0.55))
 	skel.set_bone_custom_pose(leftArm_id, leftArm_pose )
 
-	leftForeArm_pose = initial_leftForeArm_pose * Transform().rotated( Vector3.FORWARD, (sin((gtime-3.2) * time_scale) - 1.0 ) * 0.55) #2.8
+	leftForeArm_pose = initial_leftForeArm_pose * Transform().rotated( Vector3.FORWARD, proc_anim_blend *((sin((gtime-3.2) * time_scale) - 1.0 ) * 0.55))
 	skel.set_bone_custom_pose(leftForeArm_id, leftForeArm_pose )
 
-	leftHand_pose = initial_leftHand_pose * Transform().rotated( Vector3.FORWARD, (sin((gtime-3.6) * time_scale) - 1.0 ) * 0.35) #3.2
+	leftHand_pose = initial_leftHand_pose * Transform().rotated( Vector3.FORWARD, proc_anim_blend *((sin((gtime-3.6) * time_scale) - 1.0 ) * 0.35))
 	skel.set_bone_custom_pose(leftHand_id, leftHand_pose )
 
 	# --
-	rightShoulder_pose = initial_rightShoulder_pose * Transform().rotated( Vector3.FORWARD, sin((gtime-2.0) * time_scale) * -0.55) #2.0
+	rightShoulder_pose = initial_rightShoulder_pose * Transform().rotated( Vector3.FORWARD, proc_anim_blend *(sin((gtime-2.0) * time_scale) * -0.55))
 	skel.set_bone_custom_pose(rightShoulder_id, rightShoulder_pose )
 
-	rightArm_pose = initial_rightArm_pose * Transform().rotated( Vector3.FORWARD, sin((gtime-2.8) * time_scale) * -0.55) #2.4
+	rightArm_pose = initial_rightArm_pose * Transform().rotated( Vector3.FORWARD, proc_anim_blend *(sin((gtime-2.8) * time_scale) * -0.55))
 	skel.set_bone_custom_pose(rightArm_id, rightArm_pose )
 
-	rightForeArm_pose = initial_rightForeArm_pose * Transform().rotated( Vector3.FORWARD, (sin((gtime-3.2) * time_scale) - 1.0 ) * -0.55) #2.8
+	rightForeArm_pose = initial_rightForeArm_pose * Transform().rotated( Vector3.FORWARD, proc_anim_blend *((sin((gtime-3.2) * time_scale) - 1.0 ) * -0.55))
 	skel.set_bone_custom_pose(rightForeArm_id, rightForeArm_pose )
 
-	rightHand_pose = initial_rightHand_pose * Transform().rotated( Vector3.FORWARD, (sin((gtime-3.6) * time_scale) - 1.0 ) * -0.35) #3.2
+	rightHand_pose = initial_rightHand_pose * Transform().rotated( Vector3.FORWARD, proc_anim_blend *((sin((gtime-3.6) * time_scale) - 1.0 ) * -0.35))
 	skel.set_bone_custom_pose(rightHand_id, rightHand_pose )
 
 	# --
@@ -163,6 +165,14 @@ func _input(event: InputEvent) -> void:
 		mouse_pos_blend.y = event.position.y/window_res.y *2 -1
 		#pprint(\"mouse_pos_blend (%0.2f, %0.2f)\"%[mouse_pos_blend.x, mouse_pos_blend.y])
 
+	if event is InputEventMouseButton:
+		if event.button_index == BUTTON_WHEEL_DOWN:
+			proc_anim_blend -= proc_anim_blend_rate
+		elif event.button_index == BUTTON_WHEEL_UP:
+			proc_anim_blend += proc_anim_blend_rate
+
+		proc_anim_blend = clamp(proc_anim_blend, 0.0, 1.0)
+		pprint(\"proc anim blend %0.2f\"%proc_anim_blend)
 
 func pprint(msg) -> void:
 	print(\"[skeleton_code] %s\"%str(msg))
@@ -292,6 +302,23 @@ uv1_scale = Vector3( 100, 65.375, 100 )
 [sub_resource type="BoxShape" id=12]
 extents = Vector3( 50, 0.5, 50 )
 
+[sub_resource type="ProceduralSky" id=16]
+sky_top_color = Color( 0.8455, 0.913425, 0.95, 1 )
+sky_horizon_color = Color( 0.9408, 0.96236, 0.98, 1 )
+
+[sub_resource type="Environment" id=17]
+background_mode = 3
+background_sky = SubResource( 16 )
+ss_reflections_enabled = true
+ssao_enabled = true
+ssao_intensity = 2.0
+ssao_radius2 = 0.2
+ssao_intensity2 = 1.5
+dof_blur_far_enabled = true
+dof_blur_far_distance = 1.79
+dof_blur_far_amount = 0.2
+glow_enabled = true
+
 [node name="Spatial" type="Spatial"]
 script = SubResource( 1 )
 
@@ -306,7 +333,6 @@ animtree = NodePath("../AnimationTree")
 [node name="AnimationTree" type="AnimationTree" parent="."]
 tree_root = SubResource( 7 )
 anim_player = NodePath("../ViewportContainer/mannequin/AnimationPlayer")
-active = true
 root_motion_track = NodePath("Armature/Skeleton:RootMotion")
 parameters/playback = SubResource( 8 )
 parameters/BlendSpace2D/blend_position = Vector2( 0.0101118, 0.955556 )
@@ -316,12 +342,12 @@ transform = Transform( 0.227875, 0.468811, -0.853399, 0, 0.876458, 0.481478, 0.9
 fov = 50.2
 
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
-transform = Transform( 0.226229, -0.838589, 0.495569, -0.378824, 0.392963, 0.837897, -0.897392, -0.37729, -0.228778, 0.619914, 0, 0.211717 )
-light_energy = 3.0
+transform = Transform( 0.490079, -0.844009, 0.217879, 0.34258, 0.416334, 0.842202, -0.801537, -0.338104, 0.493177, 0.619914, 0, 0.211717 )
+light_energy = 2.5
 light_specular = 1.0
 shadow_enabled = true
 directional_shadow_mode = 1
-directional_shadow_split_1 = 0.039
+directional_shadow_split_1 = 0.05
 directional_shadow_split_2 = 1.0
 directional_shadow_split_3 = 0.0
 directional_shadow_normal_bias = 0.0
@@ -337,5 +363,8 @@ material/0 = SubResource( 11 )
 
 [node name="CollisionShape" type="CollisionShape" parent="floormesh/StaticBody"]
 shape = SubResource( 12 )
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 17 )
 
 [editable path="ViewportContainer/mannequin"]
