@@ -5,8 +5,8 @@ script/source = "extends Node2D
 
 var _raw_left_stick_input := Vector2.ZERO
 
-var stick_display_radius := 100.0
-var left_stick_display_centre := Vector2(200, 300)
+var stick_display_radius := 200.0
+var left_stick_display_centre := Vector2(300, 300)
 
 # trackers
 var _stick_outer_extents_track_threshold := 0.75
@@ -42,16 +42,16 @@ func _process(delta: float) -> void:
 func _draw() -> void:
 	
 	# left stick
-	draw_arc(left_stick_display_centre, stick_display_radius, 0, 2*PI, 64, Color(0.835294, 0.521569, 0.011765, 0.3), 1.0, true)
-	draw_circle(left_stick_display_centre, 10.0, Color(0.158386, 0.457505, 0.675781, 0.596078))
+	draw_circle(left_stick_display_centre, 10.0, Color(0.257813, 0.102722, 0.175421, 0.843137))
 	draw_line(left_stick_display_centre,
 		left_stick_display_centre + (_raw_left_stick_input * stick_display_radius),
 		Color(0.204758, 0.832031, 0.758523, 0.596078),
 		2.5)
-
-	draw_multiline( _left_stick_outer_extents,
-		Color(0.909804, 0.333333, 0.858824, 0.666667),
-		1.0 )
+	if _left_stick_outer_extents.size() > 2:
+		draw_multiline( _left_stick_outer_extents,
+			Color(0.909804, 0.333333, 0.858824, 0.2),
+			1.0 )
+	draw_arc(left_stick_display_centre, stick_display_radius, 0, 2*PI, 64, Color(0.011765, 0.835294, 0.12114, 0.72549), 1.0, true)
 "
 
 [node name="Node2D" type="Node2D"]
