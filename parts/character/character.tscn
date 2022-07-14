@@ -1,7 +1,8 @@
-[gd_scene load_steps=35 format=2]
+[gd_scene load_steps=36 format=2]
 
 [ext_resource path="res://parts/character/mannequin.gltf" type="PackedScene" id=1]
 [ext_resource path="res://parts/character/character_controller.gd" type="Script" id=2]
+[ext_resource path="res://parts/character/materials/mannequin.material" type="Material" id=3]
 
 [sub_resource type="AnimationNodeAnimation" id=1]
 animation = "Fast Run-loop"
@@ -77,7 +78,7 @@ nodes/TimeScale/position = Vector2( 360, 140 )
 nodes/blend_walk_running/node = SubResource( 40 )
 nodes/blend_walk_running/position = Vector2( 640, 220 )
 nodes/output/position = Vector2( 1200, 220 )
-node_connections = [ "output", 0, "blend_walk_running", "TimeScale 3", 0, "Animation", "TimeScale", 0, "Animation 3", "blend_walk_running", 0, "TimeScale", "blend_walk_running", 1, "TimeScale 2", "blend_walk_running", 2, "TimeScale 3", "TimeScale 2", 0, "Animation 2" ]
+node_connections = [ "output", 0, "blend_walk_running", "TimeScale 3", 0, "Animation", "blend_walk_running", 0, "TimeScale", "blend_walk_running", 1, "TimeScale 2", "blend_walk_running", 2, "TimeScale 3", "TimeScale 2", 0, "Animation 2", "TimeScale", 0, "Animation 3" ]
 
 [sub_resource type="AnimationNodeAnimation" id=8]
 animation = "Standard Walk-loop"
@@ -149,6 +150,9 @@ script = ExtResource( 2 )
 animation_tree_path = NodePath("AnimationTree")
 
 [node name="mannequin" parent="." instance=ExtResource( 1 )]
+
+[node name="Ch36" parent="mannequin/Armature/Skeleton" index="0"]
+material/0 = ExtResource( 3 )
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
 tree_root = SubResource( 12 )
