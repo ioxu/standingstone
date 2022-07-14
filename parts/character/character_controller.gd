@@ -9,6 +9,7 @@ var gravity : Vector3 = Vector3.ZERO
 
 var ms_collision_vel := Vector3.ZERO
 var dir := Vector3.ZERO
+var _raw_dir_input := Vector2.ZERO
 
 #---------------------------------------------
 # TODO: make most character locomotion parameters into a struct/resource (single object for other objects to read from)
@@ -55,11 +56,14 @@ func _physics_process(delta):
 	dir = Vector3.ZERO
 	
 	# handle gamepad
-	var left_right = Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
-	var forward_back = Input.get_action_strength("move_backward") - Input.get_action_strength("move_forward")
+	_raw_dir_input.x = Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
+	_raw_dir_input.y = Input.get_action_strength("move_backward") - Input.get_action_strength("move_forward")
 
-	dir.z += forward_back 
-	dir.x += left_right 
+	if GameSettings.gamepad_move_square_to_circle: # TODO: review
+		_raw_dir_input = Util.square_to_circle(_raw_dir_input)
+
+	dir.z += _raw_dir_input.y
+	dir.x += _raw_dir_input.x
 
 	if dir.length_squared() > 0.005:
 		dir = dir.rotated(Vector3.UP, camera.camera_data.rotation.y)

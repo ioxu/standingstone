@@ -1,0 +1,98 @@
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Node2D
+
+var _raw_left_stick_input := Vector2.ZERO
+
+var stick_display_radius := 100.0
+var left_stick_display_centre := Vector2(200, 300)
+
+# trackers
+var _stick_outer_extents_track_threshold := 0.75
+var _left_stick_outer_extents := PoolVector2Array()
+
+
+func _ready() -> void:
+	$title.text = get_tree().current_scene.filename
+	$gamepad_name_label.text = '\"%s\"'%Input.get_joy_name(0)
+	ProjectSettings.set_setting(\"rendering/quality/depth/hdr\", false)
+	print(\"rendering/quality/depth/hdr:\", ProjectSettings.get_setting(\"rendering/quality/depth/hdr\") )
+
+
+func _input(_event):
+	if Input.is_action_pressed(\"ui_cancel\"):
+		get_tree().quit()
+
+
+func _process(delta: float) -> void:
+	_raw_left_stick_input.x = Input.get_action_strength(\"move_right\") - Input.get_action_strength(\"move_left\")
+	_raw_left_stick_input.y = Input.get_action_strength(\"move_backward\") - Input.get_action_strength(\"move_forward\")
+
+	$x_label.text = \"x: %0.2f\"%_raw_left_stick_input.x
+	$y_label.text = \"y: %0.2f\"%_raw_left_stick_input.y
+
+	if _raw_left_stick_input.length() > _stick_outer_extents_track_threshold:
+		if _left_stick_outer_extents.size() > 1:
+			_left_stick_outer_extents.append( _left_stick_outer_extents[ _left_stick_outer_extents.size()-1 ] )
+		_left_stick_outer_extents.append(left_stick_display_centre + (_raw_left_stick_input * stick_display_radius))
+	update()
+
+
+func _draw() -> void:
+	
+	# left stick
+	draw_arc(left_stick_display_centre, stick_display_radius, 0, 2*PI, 64, Color(0.835294, 0.521569, 0.011765, 0.3), 1.0, true)
+	draw_circle(left_stick_display_centre, 10.0, Color(0.158386, 0.457505, 0.675781, 0.596078))
+	draw_line(left_stick_display_centre,
+		left_stick_display_centre + (_raw_left_stick_input * stick_display_radius),
+		Color(0.204758, 0.832031, 0.758523, 0.596078),
+		2.5)
+
+	draw_multiline( _left_stick_outer_extents,
+		Color(0.909804, 0.333333, 0.858824, 0.666667),
+		1.0 )
+"
+
+[node name="Node2D" type="Node2D"]
+script = SubResource( 1 )
+
+[node name="title" type="Label" parent="."]
+margin_left = 15.0
+margin_top = 13.0
+margin_right = 399.0
+margin_bottom = 43.0
+text = "title"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="gamepad_name_label" type="Label" parent="."]
+margin_left = 65.0
+margin_top = 93.0
+margin_right = 105.0
+margin_bottom = 107.0
+text = "name"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="x_label" type="Label" parent="."]
+margin_left = 67.0
+margin_top = 129.0
+margin_right = 107.0
+margin_bottom = 143.0
+text = "x"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="y_label" type="Label" parent="."]
+margin_left = 67.0
+margin_top = 153.0
+margin_right = 107.0
+margin_bottom = 167.0
+text = "y"
+__meta__ = {
+"_edit_use_anchors_": false
+}
