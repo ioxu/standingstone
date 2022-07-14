@@ -31,13 +31,15 @@ func remap_clamp(f, start1, stop1, start2, stop2):
 	return clamp( start2 + (stop2 - start2) * ((f - start1) / (stop1 - start1)), start2, stop2 )
 
 
-# fast bias, C. Schlick, Graphics Gems IV
+# fast bias, C. Schlick, Graphics Gems IV, pp. 401–403
 func bias(value, b):
+	value = clamp(value, 0.0, 1.0)
+	#assert(b > 0.0, "[Util.bias] b=%s but 0.0 causes divide-by-zero here"%b)
 	b = -log2(1.0 - b)
 	return 1.0 - pow(1.0 - pow(value, 1.0/b), b)
 
 
-# fast gain, C. Schlick, Graphics Gems IV
+# fast gain, C. Schlick, Graphics Gems IV, pp. 401–403
 func gain(t, g):
 	if(t < 0.5):
 		return bias(t * 2.0, g)/2.0

@@ -14,7 +14,6 @@ var proc_anim_blend := 1.0
 var proc_anim_blend_rate := 0.05
 
 var skel:Skeleton
-var p = \"[skeleton_code]\"
 
 var spine_id := -2
 var spine1_id := -2
@@ -333,9 +332,10 @@ animtree = NodePath("../AnimationTree")
 [node name="AnimationTree" type="AnimationTree" parent="."]
 tree_root = SubResource( 7 )
 anim_player = NodePath("../ViewportContainer/mannequin/AnimationPlayer")
+active = true
 root_motion_track = NodePath("Armature/Skeleton:RootMotion")
 parameters/playback = SubResource( 8 )
-parameters/BlendSpace2D/blend_position = Vector2( 0.0101118, 0.955556 )
+parameters/BlendSpace2D/blend_position = Vector2( 0.6704, -0.865828 )
 
 [node name="Camera" type="Camera" parent="."]
 transform = Transform( 0.227875, 0.468811, -0.853399, 0, 0.876458, 0.481478, 0.97369, -0.109717, 0.199723, -2.14968, 2.14065, 0.687521 )

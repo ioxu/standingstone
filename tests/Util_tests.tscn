@@ -1,0 +1,26 @@
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Node2D
+
+
+func _ready() -> void:
+	print(\"tests\")
+	print(\"Util.bias\")
+	test_Util_bias()
+
+
+func test_Util_bias(res:=100) -> void:
+	print(\"value = 1.0\")
+	print(Util.bias(1.0, 0.15))
+
+	print(\"bias = 0.0\")
+	print(Util.bias(1.0, 0.0))
+	
+	print(\"range.. (%s)\"%res)
+	for i in range(res):
+		print(Util.bias(0.5, i/float(res)))
+"
+
+[node name="Node2D" type="Node2D"]
+script = SubResource( 1 )
