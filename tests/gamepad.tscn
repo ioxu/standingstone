@@ -4,13 +4,16 @@
 script/source = "extends Node2D
 
 var _raw_left_stick_input := Vector2.ZERO
+var _raw_right_stick_input := Vector2.ZERO
 
-var stick_display_radius := 200.0
-var left_stick_display_centre := Vector2(300, 300)
+var stick_display_radius := 150.0
+var left_stick_display_centre := Vector2.ZERO
+var right_stick_display_centre := Vector2.ZERO
 
 # trackers
 var _stick_outer_extents_track_threshold := 0.75
 var _left_stick_outer_extents := PoolVector2Array()
+var _right_stick_outer_extents := PoolVector2Array()
 
 
 func _ready() -> void:
@@ -18,6 +21,11 @@ func _ready() -> void:
 	$gamepad_name_label.text = '\"%s\"'%Input.get_joy_name(0)
 	ProjectSettings.set_setting(\"rendering/quality/depth/hdr\", false)
 	print(\"rendering/quality/depth/hdr:\", ProjectSettings.get_setting(\"rendering/quality/depth/hdr\") )
+
+	var wsize = get_tree().get_root().size
+
+	left_stick_display_centre = Vector2(300, 300)
+	right_stick_display_centre = Vector2(wsize.x-300, 300)
 
 
 func _input(_event):
@@ -29,13 +37,25 @@ func _process(delta: float) -> void:
 	_raw_left_stick_input.x = Input.get_action_strength(\"move_right\") - Input.get_action_strength(\"move_left\")
 	_raw_left_stick_input.y = Input.get_action_strength(\"move_backward\") - Input.get_action_strength(\"move_forward\")
 
-	$x_label.text = \"x: %0.2f\"%_raw_left_stick_input.x
-	$y_label.text = \"y: %0.2f\"%_raw_left_stick_input.y
+	_raw_right_stick_input.x = Input.get_action_strength(\"look_right\") - Input.get_action_strength(\"look_left\") 
+	_raw_right_stick_input.y = Input.get_action_strength(\"look_down\") - Input.get_action_strength(\"look_up\") 
+
+	$xl_label.text = \"x: %0.2f\"%_raw_left_stick_input.x
+	$yl_label.text = \"y: %0.2f\"%_raw_left_stick_input.y
+
+	$xr_label.text = \"x: %0.2f\"%_raw_right_stick_input.x
+	$yr_label.text = \"y: %0.2f\"%_raw_right_stick_input.y
+
 
 	if _raw_left_stick_input.length() > _stick_outer_extents_track_threshold:
 		if _left_stick_outer_extents.size() > 1:
 			_left_stick_outer_extents.append( _left_stick_outer_extents[ _left_stick_outer_extents.size()-1 ] )
 		_left_stick_outer_extents.append(left_stick_display_centre + (_raw_left_stick_input * stick_display_radius))
+	
+	if _raw_right_stick_input.length() > _stick_outer_extents_track_threshold:
+		if _right_stick_outer_extents.size() > 1:
+			_right_stick_outer_extents.append( _right_stick_outer_extents[ _right_stick_outer_extents.size()-1 ] )
+		_right_stick_outer_extents.append(right_stick_display_centre + (_raw_right_stick_input * stick_display_radius))
 	update()
 
 
@@ -52,6 +72,20 @@ func _draw() -> void:
 			Color(0.909804, 0.333333, 0.858824, 0.2),
 			1.0 )
 	draw_arc(left_stick_display_centre, stick_display_radius, 0, 2*PI, 64, Color(0.011765, 0.835294, 0.12114, 0.72549), 1.0, true)
+	draw_arc(left_stick_display_centre, stick_display_radius*_stick_outer_extents_track_threshold, 0, 2*PI, 64, Color(0.011765, 0.835294, 0.12114, 0.15), 1.0, true)
+
+	# rigfht stick
+	draw_circle(right_stick_display_centre, 10.0, Color(0.257813, 0.102722, 0.175421, 0.843137))
+	draw_line(right_stick_display_centre,
+		right_stick_display_centre + (_raw_right_stick_input * stick_display_radius),
+		Color(0.204758, 0.832031, 0.758523, 0.596078),
+		2.5)
+	if _right_stick_outer_extents.size() > 2:
+		draw_multiline( _right_stick_outer_extents,
+			Color(0.909804, 0.333333, 0.858824, 0.2),
+			1.0 )
+	draw_arc(right_stick_display_centre, stick_display_radius, 0, 2*PI, 64, Color(0.011765, 0.835294, 0.12114, 0.72549), 1.0, true)
+	draw_arc(right_stick_display_centre, stick_display_radius*_stick_outer_extents_track_threshold, 0, 2*PI, 64, Color(0.011765, 0.835294, 0.12114, 0.15), 1.0, true)
 "
 
 [node name="Node2D" type="Node2D"]
@@ -77,20 +111,34 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="x_label" type="Label" parent="."]
+[node name="xl_label" type="Label" parent="."]
 margin_left = 67.0
 margin_top = 129.0
 margin_right = 107.0
 margin_bottom = 143.0
 text = "x"
+
+[node name="yl_label" type="Label" parent="."]
+margin_left = 67.0
+margin_top = 153.0
+margin_right = 107.0
+margin_bottom = 167.0
+text = "y"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="y_label" type="Label" parent="."]
-margin_left = 67.0
+[node name="xr_label" type="Label" parent="."]
+margin_left = 869.0
+margin_top = 129.0
+margin_right = 909.0
+margin_bottom = 143.0
+text = "x"
+
+[node name="yr_label" type="Label" parent="."]
+margin_left = 869.0
 margin_top = 153.0
-margin_right = 107.0
+margin_right = 909.0
 margin_bottom = 167.0
 text = "y"
 __meta__ = {
