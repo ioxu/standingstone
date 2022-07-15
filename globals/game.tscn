@@ -42,6 +42,13 @@ camera_data = SubResource( 1 )
 look_stick_response_curve = SubResource( 2 )
 look_stick_response_regions = [ Vector2( 0, 0 ), Vector2( 0.5, 0.1 ), Vector2( 0.85, 0.65 ), Vector2( 1, 1 ) ]
 
+[node name="ColorRect2" type="ColorRect" parent="."]
+margin_left = 5.0
+margin_top = 135.0
+margin_right = 149.0
+margin_bottom = 194.0
+color = Color( 0, 0, 0, 0.0941176 )
+
 [node name="fps_label" type="Label" parent="."]
 margin_left = 975.0
 margin_top = 7.0
@@ -53,14 +60,11 @@ __meta__ = {
 }
 
 [node name="ColorRect" type="ColorRect" parent="."]
-margin_left = 11.0
-margin_top = 135.0
-margin_right = 87.0
-margin_bottom = 186.0
+margin_left = 972.0
+margin_top = 5.0
+margin_right = 1020.0
+margin_bottom = 23.0
 color = Color( 0, 0, 0, 0.0941176 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="c_dir" type="Label" parent="."]
 margin_left = 11.0
