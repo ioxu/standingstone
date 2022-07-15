@@ -14,13 +14,22 @@ var _raw_dir_input := Vector2.ZERO
 #---------------------------------------------
 # TODO: make most character locomotion parameters into a struct/resource (single object for other objects to read from)
 var movement_walk_run_blend = 0.0 # TODO: temp
-
+var dir_length_smoothed := 0.0
+#---------------------------------------------
+# timescales are set in the blendspace, calculated to normalise their length egainst each other
+# and set to 'sync' mode in the blend
+var initial_timescale_walk := 1.0
+var initial_timescale_run := 1.0
+var initial_timescale_fastrun := 1.0
 #---------------------------------------------
 
 
 func _ready():
 	print("[character] camera reference: %s"%camera.get_path())
 	$AnimationTree.set_active(true)
+	initial_timescale_walk = animation_tree.get("parameters/WalkRun_blendspace/walk_timescale/scale")
+	initial_timescale_run = animation_tree.get("parameters/WalkRun_blendspace/run_timescale/scale")
+	initial_timescale_fastrun = animation_tree.get("parameters/WalkRun_blendspace/fastrun_timescale/scale")
 
 
 func _physics_process(delta):
@@ -65,6 +74,7 @@ func _physics_process(delta):
 	dir.z += _raw_dir_input.y
 	dir.x += _raw_dir_input.x
 
+	dir_length_smoothed = lerp( dir_length_smoothed, dir.length(), 0.95 * delta * 5.5 )
 	if dir.length_squared() > 0.005:
 		dir = dir.rotated(Vector3.UP, camera.camera_data.rotation.y)
 
@@ -77,8 +87,15 @@ func _physics_process(delta):
 		v = v.rotated( Vector3.UP, self.rotation.y)
 
 		animation_tree["parameters/playback"].travel("WalkRun_blendspace")
-		var _dir_length_bias = Util.bias(dir.length(), 0.3)#TODO: curve control instead of bias
+		
+		var _dir_length_bias = Util.bias(dir_length_smoothed, 0.3)#TODO: curve control instead of bias
 		movement_walk_run_blend = Util.remap(_dir_length_bias, 0.0, 1.0, -1.0, 1.0 )
+		
+		var _ts = Util.remap( _dir_length_bias, 0.0, 1.0, 1.0, 2.5 )
+		animation_tree.set("parameters/WalkRun_blendspace/walk_timescale/scale", initial_timescale_walk * _ts)
+		animation_tree.set("parameters/WalkRun_blendspace/run_timescale/scale", initial_timescale_run * _ts )
+		animation_tree.set("parameters/WalkRun_blendspace/fastrun_timescale/scale", initial_timescale_fastrun * _ts)
+		
 		animation_tree.set("parameters/WalkRun_blendspace/blend_walk_running/blend_amount", movement_walk_run_blend )
 	else:
 		v = v.rotated( Vector3.UP, self.rotation.y)

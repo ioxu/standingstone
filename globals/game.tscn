@@ -78,6 +78,10 @@ margin_top = 158.0
 margin_right = 60.0
 margin_bottom = 172.0
 text = "c_blend"
-__meta__ = {
-"_edit_use_anchors_": false
-}
+
+[node name="c_dir_length_smoothed" type="Label" parent="."]
+margin_left = 11.0
+margin_top = 173.0
+margin_right = 60.0
+margin_bottom = 187.0
+text = "dir_length_smoothed"

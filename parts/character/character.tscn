@@ -52,33 +52,33 @@ animation = "Standard Walk-loop"
 [sub_resource type="AnimationNodeAnimation" id=39]
 animation = "Fast Run-loop"
 
-[sub_resource type="AnimationNodeTimeScale" id=44]
-
-[sub_resource type="AnimationNodeTimeScale" id=45]
-
-[sub_resource type="AnimationNodeTimeScale" id=46]
-
 [sub_resource type="AnimationNodeBlend3" id=40]
 sync = true
 
+[sub_resource type="AnimationNodeTimeScale" id=45]
+
+[sub_resource type="AnimationNodeTimeScale" id=44]
+
+[sub_resource type="AnimationNodeTimeScale" id=46]
+
 [sub_resource type="AnimationNodeBlendTree" id=41]
-graph_offset = Vector2( -252, 90 )
+graph_offset = Vector2( -90, 71 )
 nodes/Animation/node = SubResource( 39 )
 nodes/Animation/position = Vector2( 180, 380 )
 "nodes/Animation 2/node" = SubResource( 37 )
 "nodes/Animation 2/position" = Vector2( 180, 260 )
 "nodes/Animation 3/node" = SubResource( 38 )
 "nodes/Animation 3/position" = Vector2( 140, 140 )
-nodes/TimeScale/node = SubResource( 46 )
-nodes/TimeScale/position = Vector2( 360, 140 )
-"nodes/TimeScale 2/node" = SubResource( 44 )
-"nodes/TimeScale 2/position" = Vector2( 360, 260 )
-"nodes/TimeScale 3/node" = SubResource( 45 )
-"nodes/TimeScale 3/position" = Vector2( 360, 380 )
 nodes/blend_walk_running/node = SubResource( 40 )
 nodes/blend_walk_running/position = Vector2( 640, 220 )
+nodes/fastrun_timescale/node = SubResource( 45 )
+nodes/fastrun_timescale/position = Vector2( 360, 380 )
 nodes/output/position = Vector2( 1200, 220 )
-node_connections = [ "output", 0, "blend_walk_running", "TimeScale 2", 0, "Animation 2", "TimeScale", 0, "Animation 3", "TimeScale 3", 0, "Animation", "blend_walk_running", 0, "TimeScale", "blend_walk_running", 1, "TimeScale 2", "blend_walk_running", 2, "TimeScale 3" ]
+nodes/run_timescale/node = SubResource( 44 )
+nodes/run_timescale/position = Vector2( 360, 260 )
+nodes/walk_timescale/node = SubResource( 46 )
+nodes/walk_timescale/position = Vector2( 360, 140 )
+node_connections = [ "output", 0, "blend_walk_running", "blend_walk_running", 0, "walk_timescale", "blend_walk_running", 1, "run_timescale", "blend_walk_running", 2, "fastrun_timescale", "fastrun_timescale", 0, "Animation", "walk_timescale", 0, "Animation 3", "run_timescale", 0, "Animation 2" ]
 
 [sub_resource type="AnimationNodeAnimation" id=8]
 animation = "Standard Walk-loop"
@@ -98,10 +98,10 @@ xfade_time = 0.18
 xfade_time = 0.18
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=42]
-xfade_time = 0.18
+xfade_time = 0.25
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=43]
-xfade_time = 0.18
+xfade_time = 0.25
 
 [sub_resource type="AnimationNodeStateMachine" id=12]
 "states/Fast Run-loop/node" = SubResource( 1 )
@@ -136,7 +136,7 @@ states/Walking/node = SubResource( 8 )
 states/Walking/position = Vector2( 575, 929 )
 transitions = [ "Idle", "Running", SubResource( 16 ), "Running", "Idle", SubResource( 17 ), "Idle Action-loop", "Idle Standing-loop 2", SubResource( 31 ), "IdleAction", "Walking", SubResource( 35 ), "Walking", "IdleAction", SubResource( 36 ), "IdleAction", "WalkRun_blendspace", SubResource( 42 ), "WalkRun_blendspace", "IdleAction", SubResource( 43 ) ]
 start_node = "IdleFistsUp"
-graph_offset = Vector2( -330, 461 )
+graph_offset = Vector2( -187, 537 )
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=13]
 
@@ -161,10 +161,10 @@ active = true
 process_mode = 0
 root_motion_track = NodePath("Armature/Skeleton:RootMotion")
 parameters/playback = SubResource( 13 )
-parameters/WalkRun_blendspace/TimeScale/scale = 1.0
-"parameters/WalkRun_blendspace/TimeScale 2/scale" = 0.72
-"parameters/WalkRun_blendspace/TimeScale 3/scale" = 0.47
 parameters/WalkRun_blendspace/blend_walk_running/blend_amount = -1.0
+parameters/WalkRun_blendspace/fastrun_timescale/scale = 0.47
+parameters/WalkRun_blendspace/run_timescale/scale = 0.72
+parameters/WalkRun_blendspace/walk_timescale/scale = 1.0
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.894, 0 )

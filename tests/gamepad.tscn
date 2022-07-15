@@ -42,10 +42,11 @@ func _process(delta: float) -> void:
 
 	$xl_label.text = \"x: %0.2f\"%_raw_left_stick_input.x
 	$yl_label.text = \"y: %0.2f\"%_raw_left_stick_input.y
+	$lengthl_label.text = \"length: %0.2f\"%_raw_left_stick_input.length()
 
 	$xr_label.text = \"x: %0.2f\"%_raw_right_stick_input.x
 	$yr_label.text = \"y: %0.2f\"%_raw_right_stick_input.y
-
+	$lengthr_label.text = \"length: %0.2f\"%_raw_right_stick_input.length()
 
 	if _raw_left_stick_input.length() > _stick_outer_extents_track_threshold:
 		if _left_stick_outer_extents.size() > 1:
@@ -63,29 +64,29 @@ func _draw() -> void:
 	
 	# left stick
 	draw_circle(left_stick_display_centre, 10.0, Color(0.257813, 0.102722, 0.175421, 0.843137))
-	draw_line(left_stick_display_centre,
-		left_stick_display_centre + (_raw_left_stick_input * stick_display_radius),
-		Color(0.204758, 0.832031, 0.758523, 0.596078),
-		2.5)
 	if _left_stick_outer_extents.size() > 2:
 		draw_multiline( _left_stick_outer_extents,
 			Color(0.909804, 0.333333, 0.858824, 0.2),
 			1.0 )
-	draw_arc(left_stick_display_centre, stick_display_radius, 0, 2*PI, 64, Color(0.011765, 0.835294, 0.12114, 0.72549), 1.0, true)
+	draw_arc(left_stick_display_centre, stick_display_radius, 0, 2*PI, 64, Color(0.011765, 0.835294, 0.12114, 0.55), 1.0, true)
 	draw_arc(left_stick_display_centre, stick_display_radius*_stick_outer_extents_track_threshold, 0, 2*PI, 64, Color(0.011765, 0.835294, 0.12114, 0.15), 1.0, true)
+	draw_line(left_stick_display_centre,
+		left_stick_display_centre + (_raw_left_stick_input * stick_display_radius),
+		Color(0.204758, 0.832031, 0.758523, 0.596078),
+		2.5)
 
 	# rigfht stick
 	draw_circle(right_stick_display_centre, 10.0, Color(0.257813, 0.102722, 0.175421, 0.843137))
-	draw_line(right_stick_display_centre,
-		right_stick_display_centre + (_raw_right_stick_input * stick_display_radius),
-		Color(0.204758, 0.832031, 0.758523, 0.596078),
-		2.5)
 	if _right_stick_outer_extents.size() > 2:
 		draw_multiline( _right_stick_outer_extents,
 			Color(0.909804, 0.333333, 0.858824, 0.2),
 			1.0 )
-	draw_arc(right_stick_display_centre, stick_display_radius, 0, 2*PI, 64, Color(0.011765, 0.835294, 0.12114, 0.72549), 1.0, true)
+	draw_arc(right_stick_display_centre, stick_display_radius, 0, 2*PI, 64, Color(0.011765, 0.835294, 0.12114, 0.55), 1.0, true)
 	draw_arc(right_stick_display_centre, stick_display_radius*_stick_outer_extents_track_threshold, 0, 2*PI, 64, Color(0.011765, 0.835294, 0.12114, 0.15), 1.0, true)
+	draw_line(right_stick_display_centre,
+		right_stick_display_centre + (_raw_right_stick_input * stick_display_radius),
+		Color(0.204758, 0.832031, 0.758523, 0.596078),
+		2.5)
 "
 
 [node name="Node2D" type="Node2D"]
@@ -128,6 +129,13 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="lengthl_label" type="Label" parent="."]
+margin_left = 67.0
+margin_top = 179.0
+margin_right = 107.0
+margin_bottom = 193.0
+text = "length"
+
 [node name="xr_label" type="Label" parent="."]
 margin_left = 869.0
 margin_top = 129.0
@@ -141,6 +149,16 @@ margin_top = 153.0
 margin_right = 909.0
 margin_bottom = 167.0
 text = "y"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="lengthr_label" type="Label" parent="."]
+margin_left = 869.0
+margin_top = 180.0
+margin_right = 909.0
+margin_bottom = 194.0
+text = "length"
 __meta__ = {
 "_edit_use_anchors_": false
 }

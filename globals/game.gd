@@ -18,5 +18,6 @@ func _process(_delta):
 	$fps_label.text = str(Engine.get_frames_per_second())
 	$c_dir.text= "c_dir: %0.2f (%0.2f)"%[player.dir.length(), player.dir.length_squared()] #TODO: temp
 	$c_blend.text= "c_blend: %0.2f"%player.movement_walk_run_blend#TODO: temp
+	$c_dir_length_smoothed.text = "dl smoothed: %0.2f"%player.dir_length_smoothed # TODO: temp
 
 
