@@ -13,9 +13,15 @@ _global_script_classes=[ {
 "class": "CameraData",
 "language": "GDScript",
 "path": "res://parts/camera/camera_data.gd"
+}, {
+"base": "Node2D",
+"class": "Plot2D",
+"language": "GDScript",
+"path": "res://scripts/Plot2D.gd"
 } ]
 _global_script_class_icons={
-"CameraData": ""
+"CameraData": "",
+"Plot2D": "res://scripts/icons/Plot2D.svg"
 }
 
 [application]
@@ -109,4 +115,5 @@ common/enable_pause_aware_picking=true
 [rendering]
 
 quality/filters/msaa=3
+quality/depth/hdr=false
 environment/default_environment="res://parts/defaults/default_env.tres"

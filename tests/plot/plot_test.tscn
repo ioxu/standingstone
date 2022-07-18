@@ -1,0 +1,170 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://scripts/Plot2D.gd" type="Script" id=1]
+
+[sub_resource type="GDScript" id=2]
+script/source = "extends Node2D
+
+# graphing addon protoype
+
+###############################################################################
+###############################################################################
+##
+## check out https://github.com/ioxu/godot_threads/blob/master/delta_graph.gd
+##
+###############################################################################
+###############################################################################
+
+func _ready() -> void:
+	pass
+
+
+
+func _input(event: InputEvent) -> void:
+	if Input.is_action_pressed(\"ui_cancel\"):
+		get_tree().quit()
+"
+
+[sub_resource type="Shader" id=5]
+code = "shader_type canvas_item;
+
+void fragment() {
+    vec3 col = -8.0 * texture(TEXTURE, UV).xyz;
+    col += texture(TEXTURE, UV + vec2(0.0, SCREEN_PIXEL_SIZE.y)).xyz;
+    col += texture(TEXTURE, UV + vec2(0.0, -SCREEN_PIXEL_SIZE.y)).xyz;
+    col += texture(TEXTURE, UV + vec2(SCREEN_PIXEL_SIZE.x, 0.0)).xyz;
+    col += texture(TEXTURE, UV + vec2(-SCREEN_PIXEL_SIZE.x, 0.0)).xyz;
+    col += texture(TEXTURE, UV + SCREEN_PIXEL_SIZE.xy).xyz;
+    col += texture(TEXTURE, UV - SCREEN_PIXEL_SIZE.xy).xyz;
+    col += texture(TEXTURE, UV + vec2(-SCREEN_PIXEL_SIZE.x, SCREEN_PIXEL_SIZE.y)).xyz;
+    col += texture(TEXTURE, UV + vec2(SCREEN_PIXEL_SIZE.x, -SCREEN_PIXEL_SIZE.y)).xyz;
+    COLOR.xyz = col;
+}"
+
+[sub_resource type="ShaderMaterial" id=6]
+shader = SubResource( 5 )
+
+[sub_resource type="GDScript" id=3]
+script/source = "extends Node2D
+
+var opos := Vector2(300,50)
+var pos := Vector2.ZERO
+var last_pos := Vector2.ZERO
+var gtime := 0.0
+
+var pc = Color(0.333333, 0.427451, 0.584314, 1.0)
+
+var point_jitter_n := 30
+var point_jitter_o := 0.75
+
+func _ready() -> void:
+	pass
+
+
+func _process(delta: float) -> void:
+	gtime += delta
+	last_pos = pos
+	pos = Vector2(opos.x + sin(gtime * 2.34534535)* 300, opos.y + cos(gtime * -5.23)* 35 )
+	update()
+	
+
+func _draw() -> void:
+	
+	if last_pos != Vector2.ZERO:
+		for i in range(30):
+			var cc = Color.from_hsv( fmod(gtime*1.0, 1.0), 0.7, 0.65  ,1.0/point_jitter_n )
+			#draw_circle(pos + Vector2(_rr(point_jitter_o) , _rr(point_jitter_o)), 0.5, cc)
+			var pj = Vector2(_rr(point_jitter_o) , _rr(point_jitter_o) )
+			draw_line(last_pos + pj, pos + pj, cc, 0.5, true)
+
+
+func _rr(ran:=2.0)->float:
+	return randf() *ran -(ran/2.0)
+"
+
+[sub_resource type="Shader" id=9]
+code = "shader_type canvas_item;
+
+void fragment() {
+//    vec3 col = -8.0 * texture(TEXTURE, UV).xyz;
+//    col += texture(TEXTURE, UV + vec2(0.0, SCREEN_PIXEL_SIZE.y)).xyz;
+//    col += texture(TEXTURE, UV + vec2(0.0, -SCREEN_PIXEL_SIZE.y)).xyz;
+//    col += texture(TEXTURE, UV + vec2(SCREEN_PIXEL_SIZE.x, 0.0)).xyz;
+//    col += texture(TEXTURE, UV + vec2(-SCREEN_PIXEL_SIZE.x, 0.0)).xyz;
+//    col += texture(TEXTURE, UV + SCREEN_PIXEL_SIZE.xy).xyz;
+//    col += texture(TEXTURE, UV - SCREEN_PIXEL_SIZE.xy).xyz;
+//    col += texture(TEXTURE, UV + vec2(-SCREEN_PIXEL_SIZE.x, SCREEN_PIXEL_SIZE.y)).xyz;
+//    col += texture(TEXTURE, UV + vec2(SCREEN_PIXEL_SIZE.x, -SCREEN_PIXEL_SIZE.y)).xyz;
+    vec3 col = texture(TEXTURE, UV + vec2(SCREEN_PIXEL_SIZE.x, 0.0)).xyz;
+	COLOR.xyz = col;
+}"
+
+[sub_resource type="ShaderMaterial" id=10]
+shader = SubResource( 9 )
+
+[sub_resource type="ViewportTexture" id=7]
+viewport_path = NodePath("ViewportContainer/Viewport")
+
+[sub_resource type="ViewportTexture" id=8]
+viewport_path = NodePath("ViewportContainer/Viewport")
+
+[node name="Node2D" type="Node2D"]
+script = SubResource( 2 )
+
+[node name="ViewportContainer" type="ViewportContainer" parent="."]
+material = SubResource( 6 )
+margin_left = 24.0
+margin_top = 32.0
+margin_right = 624.0
+margin_bottom = 132.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Viewport" type="Viewport" parent="ViewportContainer"]
+size = Vector2( 600, 100 )
+handle_input_locally = false
+render_target_clear_mode = 2
+render_target_update_mode = 3
+
+[node name="Node2D" type="Node2D" parent="ViewportContainer/Viewport"]
+script = SubResource( 3 )
+
+[node name="TextureRect" type="TextureRect" parent="."]
+material = SubResource( 10 )
+margin_left = 42.0
+margin_top = 214.0
+margin_right = 642.0
+margin_bottom = 314.0
+rect_scale = Vector2( 3, 3 )
+texture = SubResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect2" type="TextureRect" parent="."]
+margin_left = 301.0
+margin_top = 482.0
+margin_right = 901.0
+margin_bottom = 582.0
+texture = SubResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 592, 197 )
+texture = SubResource( 8 )
+
+[node name="Plot2D" type="Node2D" parent="."]
+position = Vector2( 17, 152 )
+script = ExtResource( 1 )
+color_plot = Color( 0.0941176, 0.458824, 0.2, 0.74902 )
+color_time_marker = Color( 0.180392, 0.964706, 0.403922, 1 )
+
+[node name="TextureRect3" type="TextureRect" parent="."]
+margin_right = 544.0
+margin_bottom = 189.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
