@@ -1,28 +1,47 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://scripts/Plot2D.gd" type="Script" id=1]
 
 [sub_resource type="GDScript" id=2]
 script/source = "extends Node2D
-
 # graphing addon protoype
 
-###############################################################################
-###############################################################################
-##
-## check out https://github.com/ioxu/godot_threads/blob/master/delta_graph.gd
-##
-###############################################################################
-###############################################################################
+var gtime = 0.0
+var _raw_left_stick_input := Vector2.ZERO
+var _raw_right_stick_input := Vector2.ZERO
 
 func _ready() -> void:
 	pass
 
 
+func _process(delta: float) -> void:
+	gtime += delta
+	_raw_left_stick_input.x = Input.get_action_strength(\"move_right\") - Input.get_action_strength(\"move_left\")	
+	_raw_left_stick_input.y = Input.get_action_strength(\"move_backward\") - Input.get_action_strength(\"move_forward\")
+
+	_raw_right_stick_input.x = Input.get_action_strength(\"look_right\") - Input.get_action_strength(\"look_left\") 
+	_raw_right_stick_input.y = Input.get_action_strength(\"look_down\") - Input.get_action_strength(\"look_up\") 
+
+	$Plot2D.push_column_blend(Util.remap(_raw_left_stick_input.y, -1.0, 1.0, 1.0, 0.0), Color(0.458824, 0.878431, 0.290196, 0.35))
+	$Plot2D.push_column_blend(Util.remap(_raw_left_stick_input.x, -1.0, 1.0, 0.0, 1.0), Color(0.8, 0.262745, 0.262745, 0.35))
+
+	$Plot2D3.push_column_blend(Util.remap(_raw_right_stick_input.y, -1.0, 1.0, 1.0, 0.0), Color(0.458824, 0.878431, 0.290196, 0.35))
+	$Plot2D3.push_column_blend(Util.remap(_raw_right_stick_input.x, -1.0, 1.0, 0.0, 1.0), Color(0.8, 0.262745, 0.262745, 0.35))
+
+	#$Plot2D.push_point_blend(fmod(gtime*0.2, 1.0), Color(0.847059, 0.847059, 0.847059, 0.094118))
+	#$Plot2D.push_point_blend((sin(gtime*2.124)+1)/2, Color(0.894118, 0.670588, 0.145098, 0.337255))
+
+	#var ts = (sin(gtime*3.724)+1)/2
+	var ts = sin(gtime*3.724)*0.35 + 0.5
+	var ts2 = sin(gtime*18.375) * 0.15
+	#$Plot2D.push_line_blend(ts + ts2, ts, Color(0.145098, 0.648346, 0.894118, 0.286275) )
+
 
 func _input(event: InputEvent) -> void:
 	if Input.is_action_pressed(\"ui_cancel\"):
 		get_tree().quit()
+
+
 "
 
 [sub_resource type="Shader" id=5]
@@ -82,89 +101,50 @@ func _rr(ran:=2.0)->float:
 	return randf() *ran -(ran/2.0)
 "
 
-[sub_resource type="Shader" id=9]
-code = "shader_type canvas_item;
-
-void fragment() {
-//    vec3 col = -8.0 * texture(TEXTURE, UV).xyz;
-//    col += texture(TEXTURE, UV + vec2(0.0, SCREEN_PIXEL_SIZE.y)).xyz;
-//    col += texture(TEXTURE, UV + vec2(0.0, -SCREEN_PIXEL_SIZE.y)).xyz;
-//    col += texture(TEXTURE, UV + vec2(SCREEN_PIXEL_SIZE.x, 0.0)).xyz;
-//    col += texture(TEXTURE, UV + vec2(-SCREEN_PIXEL_SIZE.x, 0.0)).xyz;
-//    col += texture(TEXTURE, UV + SCREEN_PIXEL_SIZE.xy).xyz;
-//    col += texture(TEXTURE, UV - SCREEN_PIXEL_SIZE.xy).xyz;
-//    col += texture(TEXTURE, UV + vec2(-SCREEN_PIXEL_SIZE.x, SCREEN_PIXEL_SIZE.y)).xyz;
-//    col += texture(TEXTURE, UV + vec2(SCREEN_PIXEL_SIZE.x, -SCREEN_PIXEL_SIZE.y)).xyz;
-    vec3 col = texture(TEXTURE, UV + vec2(SCREEN_PIXEL_SIZE.x, 0.0)).xyz;
-	COLOR.xyz = col;
-}"
-
-[sub_resource type="ShaderMaterial" id=10]
-shader = SubResource( 9 )
-
-[sub_resource type="ViewportTexture" id=7]
-viewport_path = NodePath("ViewportContainer/Viewport")
-
-[sub_resource type="ViewportTexture" id=8]
-viewport_path = NodePath("ViewportContainer/Viewport")
-
 [node name="Node2D" type="Node2D"]
 script = SubResource( 2 )
 
 [node name="ViewportContainer" type="ViewportContainer" parent="."]
+visible = false
 material = SubResource( 6 )
 margin_left = 24.0
 margin_top = 32.0
 margin_right = 624.0
 margin_bottom = 132.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Viewport" type="Viewport" parent="ViewportContainer"]
 size = Vector2( 600, 100 )
 handle_input_locally = false
 render_target_clear_mode = 2
-render_target_update_mode = 3
+render_target_update_mode = 0
 
 [node name="Node2D" type="Node2D" parent="ViewportContainer/Viewport"]
 script = SubResource( 3 )
 
-[node name="TextureRect" type="TextureRect" parent="."]
-material = SubResource( 10 )
-margin_left = 42.0
-margin_top = 214.0
-margin_right = 642.0
-margin_bottom = 314.0
-rect_scale = Vector2( 3, 3 )
-texture = SubResource( 7 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="TextureRect2" type="TextureRect" parent="."]
-margin_left = 301.0
-margin_top = 482.0
-margin_right = 901.0
-margin_bottom = 582.0
-texture = SubResource( 7 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Sprite" type="Sprite" parent="."]
-position = Vector2( 592, 197 )
-texture = SubResource( 8 )
-
 [node name="Plot2D" type="Node2D" parent="."]
-position = Vector2( 17, 152 )
+position = Vector2( 57, 417 )
 script = ExtResource( 1 )
+title = "left stick"
+title_color = Color( 0.572549, 0.964706, 0.890196, 0.376471 )
+view_scale = Vector2( 2, 2 )
 color_plot = Color( 0.0941176, 0.458824, 0.2, 0.74902 )
-color_time_marker = Color( 0.180392, 0.964706, 0.403922, 1 )
+border_color = Color( 0.466667, 0.803922, 0.827451, 0.101961 )
 
-[node name="TextureRect3" type="TextureRect" parent="."]
-margin_right = 544.0
-margin_bottom = 189.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="Plot2D3" type="Node2D" parent="."]
+position = Vector2( 476, 417 )
+script = ExtResource( 1 )
+title = "right stick"
+title_color = Color( 0.572549, 0.964706, 0.890196, 0.376471 )
+view_scale = Vector2( 2, 2 )
+color_plot = Color( 0.0941176, 0.458824, 0.2, 0.74902 )
+border_color = Color( 0.466667, 0.803922, 0.827451, 0.101961 )
+
+[node name="alto_graph" type="Node2D" parent="."]
+position = Vector2( 57, 534 )
+script = ExtResource( 1 )
+title = "alto"
+title_color = Color( 1, 0.494118, 0.160784, 0.635294 )
+width = 819
+height = 25
+color_plot = Color( 0.0941176, 0.458824, 0.2, 0.74902 )
+border_color = Color( 1, 0.713726, 0.168627, 0.25098 )
