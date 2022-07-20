@@ -62,7 +62,7 @@ sync = true
 [sub_resource type="AnimationNodeTimeScale" id=46]
 
 [sub_resource type="AnimationNodeBlendTree" id=41]
-graph_offset = Vector2( -90, 71 )
+graph_offset = Vector2( -106, 85.5 )
 nodes/Animation/node = SubResource( 39 )
 nodes/Animation/position = Vector2( 180, 380 )
 "nodes/Animation 2/node" = SubResource( 37 )

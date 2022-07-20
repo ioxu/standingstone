@@ -1,6 +1,9 @@
 tool
 extends Node2D
 class_name Plot2D, "res://scripts/icons/Plot2D.svg"
+## 2d plotting widget to graph values over time
+## can plot single points, bars and columns
+## colours can be blended with colours beneath 
 
 var texture_rect := TextureRect.new()
 var image := Image.new()
@@ -103,13 +106,13 @@ func _draw() -> void:
 # TODO: these methods should buffer edits so they can be all contained between a single lock/unlock pair
 func push_point(value:float, color:Color=Color.white) -> void:
 	self.image.lock()
-	self.image.set_pixel( width-1, int(value*height), color )
+	self.image.set_pixel( width-1, min(height-1, value*height), color )
 	self.image.unlock()
 
 
 func push_point_blend(value:float, color:Color=Color.white) -> void:
 	var w = width -1
-	var h = int(value*height)
+	var h = min(height-1, int(value*height))
 	self.image.lock()
 	var p = self.image.get_pixel( w, h)
 	self.image.set_pixel( w, h, p.blend(color) )
@@ -129,7 +132,7 @@ func push_line(value_from:float, value_to:float, color:Color=Color.white) -> voi
 	var f = min(value_from, value_to)
 	self.image.lock()
 	for i in range(di):
-		self.image.set_pixel( width-1, f*height + i , color )
+		self.image.set_pixel( width-1, min(height-1, f*height + i) , color )
 	self.image.unlock()
 
 
@@ -140,7 +143,7 @@ func push_line_blend(value_from:float, value_to:float, color:Color=Color.white) 
 	self.image.lock()
 	for i in range(di):
 		p = self.image.get_pixel( width-1, f*height + i)
-		self.image.set_pixel( width-1, f*height + i , p.blend( color ) )
+		self.image.set_pixel( width-1, min(height-1, f*height + i) , p.blend( color ) )
 	self.image.unlock()
 
 

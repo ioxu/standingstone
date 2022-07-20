@@ -74,7 +74,8 @@ func _physics_process(delta):
 	dir.z += _raw_dir_input.y
 	dir.x += _raw_dir_input.x
 
-	dir_length_smoothed = lerp( dir_length_smoothed, dir.length(), 0.95 * delta * 5.5 )
+	#dir_length_smoothed = lerp( dir_length_smoothed, dir.length(), 0.95 * delta * 5.5 )
+	dir_length_smoothed = lerp( dir_length_smoothed, dir.length(), 0.95 * delta * 3.5 )
 	if dir.length_squared() > 0.005:
 		dir = dir.rotated(Vector3.UP, camera.camera_data.rotation.y)
 
@@ -88,7 +89,7 @@ func _physics_process(delta):
 
 		animation_tree["parameters/playback"].travel("WalkRun_blendspace")
 		
-		var _dir_length_bias = Util.bias(dir_length_smoothed, 0.3)#TODO: curve control instead of bias
+		var _dir_length_bias = dir_length_smoothed #Util.bias(dir_length_smoothed, 0.3)#TODO: curve control instead of bias
 		movement_walk_run_blend = Util.remap(_dir_length_bias, 0.0, 1.0, -1.0, 1.0 )
 		
 		var _ts = Util.remap( _dir_length_bias, 0.0, 1.0, 1.0, 2.5 )
@@ -98,6 +99,7 @@ func _physics_process(delta):
 		
 		animation_tree.set("parameters/WalkRun_blendspace/blend_walk_running/blend_amount", movement_walk_run_blend )
 	else:
+		movement_walk_run_blend = -1.0
 		v = v.rotated( Vector3.UP, self.rotation.y)
 		animation_tree["parameters/playback"].travel("IdleAction")
 

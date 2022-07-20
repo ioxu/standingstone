@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://globals/game.gd" type="Script" id=1]
 [ext_resource path="res://levels/default_level.tscn" type="PackedScene" id=2]
 [ext_resource path="res://parts/character/character.tscn" type="PackedScene" id=3]
 [ext_resource path="res://parts/camera/camera_controller.gd" type="Script" id=4]
 [ext_resource path="res://parts/camera/camera_data.gd" type="Script" id=5]
+[ext_resource path="res://scripts/Plot2D.gd" type="Script" id=6]
 
 [sub_resource type="Resource" id=1]
 script = ExtResource( 5 )
@@ -24,9 +25,6 @@ player = NodePath("ViewportContainer/character")
 [node name="ViewportContainer" type="ViewportContainer" parent="."]
 margin_right = 40.0
 margin_bottom = 40.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="default_level" parent="ViewportContainer" instance=ExtResource( 2 )]
 
@@ -45,9 +43,9 @@ look_stick_response_regions = [ Vector2( 0, 0 ), Vector2( 0.5, 0.1 ), Vector2( 0
 [node name="ColorRect2" type="ColorRect" parent="."]
 margin_left = 5.0
 margin_top = 135.0
-margin_right = 149.0
-margin_bottom = 194.0
-color = Color( 0, 0, 0, 0.0941176 )
+margin_right = 554.0
+margin_bottom = 225.0
+color = Color( 0, 0, 0, 0.309804 )
 
 [node name="fps_label" type="Label" parent="."]
 margin_left = 975.0
@@ -66,26 +64,29 @@ margin_right = 1020.0
 margin_bottom = 23.0
 color = Color( 0, 0, 0, 0.0941176 )
 
-[node name="c_dir" type="Label" parent="."]
-margin_left = 11.0
-margin_top = 143.0
-margin_right = 60.0
-margin_bottom = 157.0
-text = "c_dir"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="c_blend" type="Label" parent="."]
 margin_left = 11.0
-margin_top = 158.0
+margin_top = 139.0
 margin_right = 60.0
-margin_bottom = 172.0
+margin_bottom = 153.0
 text = "c_blend"
+
+[node name="c_dir_length" type="Label" parent="."]
+margin_left = 11.0
+margin_top = 153.0
+margin_right = 87.0
+margin_bottom = 167.0
+text = "c_dir_length"
 
 [node name="c_dir_length_smoothed" type="Label" parent="."]
 margin_left = 11.0
-margin_top = 173.0
-margin_right = 60.0
-margin_bottom = 187.0
+margin_top = 168.0
+margin_right = 145.0
+margin_bottom = 182.0
 text = "dir_length_smoothed"
+
+[node name="c_dir_length_plots" type="Node2D" parent="."]
+position = Vector2( 150, 140 )
+script = ExtResource( 6 )
+height = 40
+view_scale = Vector2( 2, 2 )
