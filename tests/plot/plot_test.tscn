@@ -34,10 +34,10 @@ func _process(delta: float) -> void:
 	#var ts = (sin(gtime*3.724)+1)/2
 	var ts = sin(gtime*3.724)*0.35 + 0.5
 	var ts2 = sin(gtime*18.375) * 0.15
-	#$Plot2D.push_line_blend(ts + ts2, ts, Color(0.145098, 0.648346, 0.894118, 0.286275) )
+	$alto_graph.push_line_blend(ts + ts2, ts, Color(0.145098, 0.648346, 0.894118, 0.286275) )
 
 
-func _input(event: InputEvent) -> void:
+func _input(_event: InputEvent) -> void:
 	if Input.is_action_pressed(\"ui_cancel\"):
 		get_tree().quit()
 
@@ -90,7 +90,7 @@ func _process(delta: float) -> void:
 func _draw() -> void:
 	
 	if last_pos != Vector2.ZERO:
-		for i in range(30):
+		for _i in range(30):
 			var cc = Color.from_hsv( fmod(gtime*1.0, 1.0), 0.7, 0.65  ,1.0/point_jitter_n )
 			#draw_circle(pos + Vector2(_rr(point_jitter_o) , _rr(point_jitter_o)), 0.5, cc)
 			var pj = Vector2(_rr(point_jitter_o) , _rr(point_jitter_o) )

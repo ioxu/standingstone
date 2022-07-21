@@ -106,7 +106,7 @@ func _draw() -> void:
 # TODO: these methods should buffer edits so they can be all contained between a single lock/unlock pair
 func push_point(value:float, color:Color=Color.white) -> void:
 	self.image.lock()
-	self.image.set_pixel( width-1, min(height-1, value*height), color )
+	self.image.set_pixel( width-1, int(min(height-1, value*height)), color )
 	self.image.unlock()
 
 
@@ -132,7 +132,7 @@ func push_line(value_from:float, value_to:float, color:Color=Color.white) -> voi
 	var f = min(value_from, value_to)
 	self.image.lock()
 	for i in range(di):
-		self.image.set_pixel( width-1, min(height-1, f*height + i) , color )
+		self.image.set_pixel( width-1, int(min(height-1, f*height + i)) , color )
 	self.image.unlock()
 
 
@@ -143,7 +143,7 @@ func push_line_blend(value_from:float, value_to:float, color:Color=Color.white) 
 	self.image.lock()
 	for i in range(di):
 		p = self.image.get_pixel( width-1, f*height + i)
-		self.image.set_pixel( width-1, min(height-1, f*height + i) , p.blend( color ) )
+		self.image.set_pixel( width-1, int(min( height-1, f*height+i )) , p.blend( color ) )
 	self.image.unlock()
 
 
