@@ -78,7 +78,7 @@ nodes/run_timescale/node = SubResource( 44 )
 nodes/run_timescale/position = Vector2( 360, 260 )
 nodes/walk_timescale/node = SubResource( 46 )
 nodes/walk_timescale/position = Vector2( 360, 140 )
-node_connections = [ "output", 0, "blend_walk_running", "blend_walk_running", 0, "walk_timescale", "blend_walk_running", 1, "run_timescale", "blend_walk_running", 2, "fastrun_timescale", "walk_timescale", 0, "Animation 3", "run_timescale", 0, "Animation 2", "fastrun_timescale", 0, "Animation" ]
+node_connections = [ "output", 0, "blend_walk_running", "walk_timescale", 0, "Animation 3", "fastrun_timescale", 0, "Animation", "run_timescale", 0, "Animation 2", "blend_walk_running", 0, "walk_timescale", "blend_walk_running", 1, "run_timescale", "blend_walk_running", 2, "fastrun_timescale" ]
 
 [sub_resource type="AnimationNodeAnimation" id=8]
 animation = "Standard Walk-loop"
@@ -119,7 +119,7 @@ states/Idle/position = Vector2( 1092, 532 )
 "states/Idle Tap Foot-loop 2/node" = SubResource( 30 )
 "states/Idle Tap Foot-loop 2/position" = Vector2( 1539, 296 )
 states/IdleAction/node = SubResource( 23 )
-states/IdleAction/position = Vector2( 142, 661 )
+states/IdleAction/position = Vector2( 146, 667 )
 states/IdleFistsUp/node = SubResource( 3 )
 states/IdleFistsUp/position = Vector2( -92, 913 )
 states/Running/node = SubResource( 6 )
@@ -136,7 +136,7 @@ states/Walking/node = SubResource( 8 )
 states/Walking/position = Vector2( 575, 929 )
 transitions = [ "Idle", "Running", SubResource( 16 ), "Running", "Idle", SubResource( 17 ), "Idle Action-loop", "Idle Standing-loop 2", SubResource( 31 ), "IdleAction", "Walking", SubResource( 35 ), "Walking", "IdleAction", SubResource( 36 ), "IdleAction", "WalkRun_blendspace", SubResource( 42 ), "WalkRun_blendspace", "IdleAction", SubResource( 43 ) ]
 start_node = "IdleFistsUp"
-graph_offset = Vector2( -187, 537 )
+graph_offset = Vector2( -230, 580 )
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=13]
 
@@ -157,7 +157,6 @@ material/0 = ExtResource( 3 )
 [node name="AnimationTree" type="AnimationTree" parent="."]
 tree_root = SubResource( 12 )
 anim_player = NodePath("../mannequin/AnimationPlayer")
-active = true
 process_mode = 0
 root_motion_track = NodePath("Armature/Skeleton:RootMotion")
 parameters/playback = SubResource( 13 )

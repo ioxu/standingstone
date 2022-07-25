@@ -35,6 +35,10 @@ config/icon="res://icon.png"
 GameSettings="*res://globals/game_settings.gd"
 Util="*res://globals/util.gd"
 
+[editor]
+
+main_run_args="--verbose"
+
 [global]
 
 warning=false
@@ -107,6 +111,11 @@ action_stance={
 "events": [ Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":6,"pressure":0.0,"pressed":false,"script":null)
  ]
 }
+
+[network]
+
+limits/debugger_stdout/max_chars_per_second=20480
+limits/debugger_stdout/max_messages_per_frame=100
 
 [physics]
 
