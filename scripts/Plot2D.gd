@@ -26,7 +26,9 @@ export var view_scale := Vector2(1.0, 1.0) setget set_view_scale
 #export var y_value_min := 0.0
 #export var y_value_max := 100.0
 
-export var continuous_update := true # perform updates per update tick in _process
+#export var continuous_update := true # perform updates per update tick in _process
+export var update_frequency_fps:= 60.0 # in fps
+var update_frequency_timer := 0.0
 
 # which side to add new plot values to (Right means plot will scroll from right to left)
 enum Side{ Left, Right }
@@ -37,7 +39,7 @@ export var color_plot = Color(0.12616, 0.609375, 0.264221) * 0.75
 export var plot_time_marker := true
 var gtime := 0.0
 var marker_timer = 0.0
-export var time_marker_frequency := 1000 # every second
+export var time_marker_frequency_fps := 1.0 # every second
 export var color_time_marker = Color(0.47, 0.91, 0.26, 0.13)
 
 export var draw_border := true
@@ -45,6 +47,9 @@ export var border_color := Color(1, 1, 1, 0.25) setget set_border_color
 export var border_thickness := 1.0 setget set_border_thickness
 
 var default_font = Control.new().get_font("font")
+
+# y_rules are additional horizontal lines across the graph
+var _y_rules := {} 
 
 
 func _ready() -> void:
@@ -72,20 +77,25 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	gtime += delta
 	marker_timer += delta
+	update_frequency_timer += delta
 
-	# shift graph over
-	self.image.blit_rect(self.image, Rect2(0, 0, width+1, height), Vector2(-1,0))
+	if update_frequency_timer > (1.0/update_frequency_fps):
+		update_frequency_timer = 0.0
 
-	# clear line (blit a clear column)
-	self.image.blit_rect(self.clear_image, Rect2(0, 0, 1, height), Vector2(width-1, 0))
+		# shift graph over
+		self.image.blit_rect(self.image, Rect2(0, 0, width+1, height), Vector2(-1,0))
 
-	# time marker
-	if plot_time_marker and marker_timer > time_marker_frequency/1000.0:
-		image.blend_rect(time_marker_image, Rect2(0,0,1,height), Vector2(width-1, 0))
-		marker_timer = 0.0
-	
-	# commit image data
-	self.image_texture.set_data(self.image)
+		# clear line (blit a clear column)
+		self.image.blit_rect(self.clear_image, Rect2(0, 0, 1, height), Vector2(width-1, 0))
+
+		# time marker
+		if plot_time_marker and marker_timer > time_marker_frequency_fps:
+			image.blend_rect(time_marker_image, Rect2(0,0,1,height), Vector2(width-1, 0))
+			marker_timer = 0.0
+		
+		# commit image data
+		self.image_texture.set_data(self.image)
+	#update()
 
 
 func _draw() -> void:
@@ -99,6 +109,14 @@ func _draw() -> void:
 		draw_line(tr, br, border_color, border_thickness)
 		draw_line(bl, br, border_color, border_thickness)
 		draw_line(tl, bl, border_color, border_thickness)
+	
+		for _k in _y_rules.keys():
+			var _d = _y_rules[_k]
+			draw_line(tl+(bl-tl)*(1.0-_d.value), tr+(br-tr)*(1.0-_d.value), _d.color, border_thickness)
+
+
+func add_y_rule(name:String="y rule", value:=0.5, color:Color=Color(0.392157, 0.721569, 0.941176, 0.780392)) -> void:
+	_y_rules[name] = {value = value, color = color}
 
 
 ################################################################################
@@ -201,7 +219,7 @@ func update_rect() -> void:
 
 ################################################################################
 func pprint(thing) -> void:
-	print("[Plot2D:%s] %s"%[self.get_path(), thing])
+	print("[Plot2D:%s] %s"%[self.get_name(), thing])
 
 
 func test_image() -> void:

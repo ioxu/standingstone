@@ -11,7 +11,9 @@ var _raw_left_stick_input := Vector2.ZERO
 var _raw_right_stick_input := Vector2.ZERO
 
 func _ready() -> void:
-	pass
+	$Plot2D3.add_y_rule( \"h1\", 0.25, Color(1, 0.425781, 0.425781, 0.392157) )
+	$Plot2D3.add_y_rule( \"h_m\", 0.5, Color(1, 1, 1, 0.392157) )
+	$Plot2D3.add_y_rule( \"h2\", 0.75, Color(1, 0.425781, 0.425781, 0.392157) )
 
 
 func _process(delta: float) -> void:
@@ -127,6 +129,7 @@ script = ExtResource( 1 )
 title = "left stick"
 title_color = Color( 0.572549, 0.964706, 0.890196, 0.376471 )
 view_scale = Vector2( 2, 2 )
+update_frequency_fps = 20.0
 color_plot = Color( 0.0941176, 0.458824, 0.2, 0.74902 )
 border_color = Color( 0.466667, 0.803922, 0.827451, 0.101961 )
 
@@ -136,6 +139,7 @@ script = ExtResource( 1 )
 title = "right stick"
 title_color = Color( 0.572549, 0.964706, 0.890196, 0.376471 )
 view_scale = Vector2( 2, 2 )
+update_frequency_fps = 20.0
 color_plot = Color( 0.0941176, 0.458824, 0.2, 0.74902 )
 border_color = Color( 0.466667, 0.803922, 0.827451, 0.101961 )
 
