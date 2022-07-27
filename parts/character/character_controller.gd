@@ -47,9 +47,7 @@ func _physics_process(delta):
 		gravity += Vector3(0.0, -9.8, 0.0) * delta
 		#print("NOT on floor")
 
-	v += gravity #*.01 
-	# TODO: gravity: Y animation in the root motion is screwing this
-	# TODO: root_motion: take Y animation out of root_motion and add it to the hips channel
+	v += gravity
 	#--------------------------------------------------------------------------
 
 	if Input.is_action_pressed("ui_select") || Input.is_action_pressed("action_stance"):
