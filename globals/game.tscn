@@ -63,6 +63,9 @@ margin_top = 5.0
 margin_right = 1020.0
 margin_bottom = 23.0
 color = Color( 0, 0, 0, 0.0941176 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="c_blend" type="Label" parent="."]
 margin_left = 11.0
@@ -90,3 +93,29 @@ position = Vector2( 150, 140 )
 script = ExtResource( 6 )
 height = 40
 view_scale = Vector2( 2, 2 )
+
+[node name="ColorRect3" type="ColorRect" parent="."]
+margin_left = 5.0
+margin_top = 233.0
+margin_right = 355.0
+margin_bottom = 293.0
+color = Color( 0, 0, 0, 0.309804 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="c_is_sprinting" type="Label" parent="."]
+margin_left = 5.0
+margin_top = 233.0
+margin_right = 91.0
+margin_bottom = 247.0
+text = "c_is_sprinting"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="c_sprint_blend_plot" type="Node2D" parent="."]
+position = Vector2( 151, 238 )
+script = ExtResource( 6 )
+title = "sprint blend"
+title_color = Color( 1, 1, 1, 0.34902 )

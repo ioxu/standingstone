@@ -22,10 +22,11 @@ var initial_timescale_walk := 1.0
 var initial_timescale_run := 1.0
 var initial_timescale_fastrun := 1.0
 #---------------------------------------------
-
+var is_sprinting := false
+var sprint_blend := 0.0
 
 func _ready():
-	print("[character] camera reference: %s"%camera.get_path())
+	pprint("camera reference: %s"%camera.get_path())
 	$AnimationTree.set_active(true)
 	initial_timescale_walk = animation_tree.get("parameters/WalkRun_blendspace/walk_timescale/scale")
 	initial_timescale_run = animation_tree.get("parameters/WalkRun_blendspace/run_timescale/scale")
@@ -85,21 +86,41 @@ func _physics_process(delta):
 		v = v.rotated( Vector3.UP, self.rotation.y)
 
 		animation_tree["parameters/playback"].travel("WalkRun_blendspace")
-		
+
 		var _dir_length_bias = dir_length_smoothed #Util.bias(dir_length_smoothed, 0.3)#TODO: curve control instead of bias
-		movement_walk_run_blend = Util.remap(_dir_length_bias, 0.0, 1.0, -1.0, 1.0 )
 		
-		var _ts = Util.remap( _dir_length_bias, 0.0, 1.0, 1.0, 2.5 )
+		movement_walk_run_blend = Util.remap(_dir_length_bias, 0.0, 1.0, -1.0, self.sprint_blend )
+		var _top_speed = Util.remap(self.sprint_blend, 0.0, 1.0, 1.5, 2.5)
+		
+		var _ts = Util.remap( _dir_length_bias, 0.0, 1.0, 1.0, _top_speed )
 		animation_tree.set("parameters/WalkRun_blendspace/walk_timescale/scale", initial_timescale_walk * _ts)
 		animation_tree.set("parameters/WalkRun_blendspace/run_timescale/scale", initial_timescale_run * _ts )
 		animation_tree.set("parameters/WalkRun_blendspace/fastrun_timescale/scale", initial_timescale_fastrun * _ts)
-		
+
 		animation_tree.set("parameters/WalkRun_blendspace/blend_walk_running/blend_amount", movement_walk_run_blend )
+	
+		if dir.length() > 0.5:
+			if !is_sprinting and Input.is_action_just_pressed("sprint"):
+				pprint("sprinting .. ")
+				self.is_sprinting = true
+			elif is_sprinting and Input.is_action_just_pressed("sprint"):
+				pprint("stop sprinting .. ")
+				self.is_sprinting = false
+		
+		if self.is_sprinting:
+			self.sprint_blend = lerp( self.sprint_blend, 1.0, delta*5.0)
+		else:
+			self.sprint_blend = lerp( self.sprint_blend, 0.0, delta*5.0)
+			
 	else:
 		movement_walk_run_blend = -1.0
 		v = v.rotated( Vector3.UP, self.rotation.y)
 		animation_tree["parameters/playback"].travel("IdleAction")
+		self.is_sprinting = false
+		self.sprint_blend = 0.0
 
 	ms_collision_vel = move_and_slide(v, Vector3.UP)
 
 
+func pprint(thing) -> void:
+	print("[character] %s"%thing)
