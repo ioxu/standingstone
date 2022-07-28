@@ -111,7 +111,7 @@ func _physics_process(delta):
 			self.sprint_blend = lerp( self.sprint_blend, 1.0, delta*5.0)
 		else:
 			self.sprint_blend = lerp( self.sprint_blend, 0.0, delta*5.0)
-			
+
 	else:
 		movement_walk_run_blend = -1.0
 		v = v.rotated( Vector3.UP, self.rotation.y)
