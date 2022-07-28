@@ -11,6 +11,8 @@ var ms_collision_vel := Vector3.ZERO
 var dir := Vector3.ZERO
 var _raw_dir_input := Vector2.ZERO
 
+const harmonic_motion_lib = preload("res://scripts/harmonic_motion.gd")
+
 #---------------------------------------------
 # TODO: make most character locomotion parameters into a struct/resource (single object for other objects to read from)
 var movement_walk_run_blend = 0.0 # TODO: temp
@@ -24,6 +26,7 @@ var initial_timescale_fastrun := 1.0
 #---------------------------------------------
 var is_sprinting := false
 var sprint_blend := 0.0
+var sprint_blend_hm = harmonic_motion_lib.new()
 
 func _ready():
 	pprint("camera reference: %s"%camera.get_path())
@@ -31,6 +34,8 @@ func _ready():
 	initial_timescale_walk = animation_tree.get("parameters/WalkRun_blendspace/walk_timescale/scale")
 	initial_timescale_run = animation_tree.get("parameters/WalkRun_blendspace/run_timescale/scale")
 	initial_timescale_fastrun = animation_tree.get("parameters/WalkRun_blendspace/fastrun_timescale/scale")
+
+	sprint_blend_hm.initialise(0.95, 4.5)
 
 
 func _physics_process(delta):
@@ -101,23 +106,22 @@ func _physics_process(delta):
 	
 		if dir.length() > 0.5:
 			if !is_sprinting and Input.is_action_just_pressed("sprint"):
-				pprint("sprinting .. ")
 				self.is_sprinting = true
 			elif is_sprinting and Input.is_action_just_pressed("sprint"):
-				pprint("stop sprinting .. ")
 				self.is_sprinting = false
-		
+
 		if self.is_sprinting:
-			self.sprint_blend = lerp( self.sprint_blend, 1.0, delta*5.0)
+			self.sprint_blend = sprint_blend_hm.calculate( self.sprint_blend, 1.0 )
 		else:
-			self.sprint_blend = lerp( self.sprint_blend, 0.0, delta*5.0)
+			self.sprint_blend = sprint_blend_hm.calculate( self.sprint_blend, 0.0 )
 
 	else:
 		movement_walk_run_blend = -1.0
 		v = v.rotated( Vector3.UP, self.rotation.y)
 		animation_tree["parameters/playback"].travel("IdleAction")
 		self.is_sprinting = false
-		self.sprint_blend = 0.0
+		self.sprint_blend = sprint_blend_hm.calculate( self.sprint_blend, 0.0 )
+ 
 
 	ms_collision_vel = move_and_slide(v, Vector3.UP)
 
