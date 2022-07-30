@@ -26,5 +26,5 @@ func _process(_delta):
 	$c_dir_length_plots.push_point_blend(min(0.975, dls), Color(0.949219, 0.60583, 0.163147, 0.709804))
 
 	$c_is_sprinting.text = "is_sprinting %s"%[player.is_sprinting]
-	$c_sprint_blend_plot.push_point( player.sprint_blend, Color(0.996078, 0.670588, 0.25098, 0.72549) )
+	$c_dir_length_plots.push_point( player.sprint_blend, Color(0.286275, 0.827451, 0.211765, 0.5) )
 

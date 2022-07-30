@@ -76,6 +76,8 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
+	if !self.visible:
+		return
 	gtime += delta
 	marker_timer += delta
 	update_frequency_timer += delta
@@ -100,6 +102,9 @@ func _process(delta: float) -> void:
 
 
 func _draw() -> void:
+	if !self.visible:
+		return
+
 	if draw_border:
 		# TODO: immediate mode ornaments that should be pre-rendered
 		var tl = Vector2.ZERO
@@ -124,12 +129,16 @@ func add_y_rule(name:String="y rule", value:=0.5, color:Color=Color(0.392157, 0.
 # value: float: 0.0 to 1.0 is remapped to the full height of the graph
 # TODO: these methods should buffer edits so they can be all contained between a single lock/unlock pair
 func push_point(value:float, color:Color=Color.white) -> void:
+	if !self.visible:
+		return
 	self.image.lock()
 	self.image.set_pixel( width-1, int(min(height-1, value*height)), color )
 	self.image.unlock()
 
 
 func push_point_blend(value:float, color:Color=Color.white) -> void:
+	if !self.visible:
+		return
 	var w = width -1
 	var h = min(height-1, int(value*height))
 	self.image.lock()
@@ -147,6 +156,8 @@ func push_column_blend(value:float, color:Color=Color.white) -> void:
 
 
 func push_line(value_from:float, value_to:float, color:Color=Color.white) -> void:
+	if !self.visible:
+		return
 	var di = floor(abs(value_to - value_from) * height)
 	var f = min(value_from, value_to)
 	self.image.lock()
@@ -156,6 +167,8 @@ func push_line(value_from:float, value_to:float, color:Color=Color.white) -> voi
 
 
 func push_line_blend(value_from:float, value_to:float, color:Color=Color.white) -> void:
+	if !self.visible:
+		return
 	var p = Color(0.0, 0.0, 0.0, 0.0)
 	var di = floor(abs(value_to - value_from) * height)
 	var f = min(value_from, value_to)

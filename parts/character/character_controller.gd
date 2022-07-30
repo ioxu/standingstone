@@ -109,6 +109,8 @@ func _physics_process(delta):
 				self.is_sprinting = true
 			elif is_sprinting and Input.is_action_just_pressed("sprint"):
 				self.is_sprinting = false
+		elif dir.length() < 0.5 and self.is_sprinting:
+			self.is_sprinting = false
 
 		if self.is_sprinting:
 			self.sprint_blend = sprint_blend_hm.calculate( self.sprint_blend, 1.0 )
