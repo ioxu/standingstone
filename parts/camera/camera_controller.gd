@@ -9,10 +9,13 @@ export(Array, Vector2) var look_stick_response_regions setget set_look_stick_res
 var pitch_limit : Vector2 = Vector2(-0.5, 0.5)
 var target_rotation := Vector3.ZERO
 
+var target_origin_track := Vector3.ZERO
+const harmonic_motion_lib = preload("res://scripts/harmonic_motion.gd")
+var target_origin_spring = harmonic_motion_lib.new()
+var unproject_target := Vector2.ZERO
 
 func _ready():
 	yield(get_owner(), "ready")
-	
 	print("[camera] target reference: %s"%target.get_path())
 	
 	if camera_data.target_offset == Vector3.ZERO:
@@ -26,6 +29,9 @@ func _ready():
 	pitch_limit.y = deg2rad( camera_data.pitch_limit.y )
 
 	target_rotation = camera_data.rotation
+
+	target_origin_track = target.transform.origin
+	target_origin_spring.initialise( 0.965, 4.0 )
 
 
 func _process(delta):
@@ -50,7 +56,10 @@ func _process(delta):
 	camera_data.rotation.x = lerp(camera_data.rotation.x, target_rotation.x, delta*10.0)
 
 	# set camera rig
-	self.transform.origin = target.transform.origin + camera_data.anchor_offset
+	target_origin_track = target_origin_spring.calculate_v3( target_origin_track, target.transform.origin )
+	self.transform.origin = target_origin_track + camera_data.anchor_offset
+	#self.transform.origin = target.transform.origin + camera_data.anchor_offset
+	
 	var target_offset = camera_data.target_offset
 	var look_at = camera_data.look_target
 	var up_down_axis = Vector3.RIGHT.rotated(Vector3.UP, camera_data.rotation.y)
@@ -61,6 +70,8 @@ func _process(delta):
 	
 	self.transform.origin += target_offset
 	self.look_at(look_at, Vector3.UP)
+
+	unproject_target = self.unproject_position( target.transform.origin )
 
 
 func _unhandled_input(event):

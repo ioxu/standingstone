@@ -35,6 +35,10 @@ config/icon="res://icon.png"
 GameSettings="*res://globals/game_settings.gd"
 Util="*res://globals/util.gd"
 
+[debug]
+
+settings/fps/force_fps=60
+
 [editor]
 
 main_run_args="--verbose"

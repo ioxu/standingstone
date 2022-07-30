@@ -9,9 +9,14 @@ func _ready():
 
 	print("[game] player: %s"%player.get_path())
 
+
 func _input(_event):
 	if Input.is_action_pressed("ui_cancel"):
 		get_tree().quit()
+
+
+func _draw() -> void:
+	draw_arc( $ViewportContainer/Camera.unproject_target, 12, 0, PI*2, 24, Color(0.933594, 0.481384, 0.862936, 0.803922), true)
 
 
 func _process(_delta):
@@ -22,9 +27,11 @@ func _process(_delta):
 	$c_blend.text= "c_blend: %0.2f"%player.movement_walk_run_blend#TODO: temp
 	$c_dir_length.text = "dl: %0.2f"%dl
 	$c_dir_length_smoothed.text = "dl smoothed: %0.2f"%dls # TODO: temp
-	$c_dir_length_plots.push_column(dl, Color(0.515625, 0.457214, 0.457214, 0.333333))
+	$c_dir_length_plots.push_column(dl, Color(1, 1, 1, 0.098039))
 	$c_dir_length_plots.push_point_blend(min(0.975, dls), Color(0.949219, 0.60583, 0.163147, 0.709804))
 
 	$c_is_sprinting.text = "is_sprinting %s"%[player.is_sprinting]
 	$c_dir_length_plots.push_point( player.sprint_blend, Color(0.286275, 0.827451, 0.211765, 0.5) )
+	
+	update()
 
