@@ -6,13 +6,27 @@ export (Resource) var camera_data
 export(Curve) var look_stick_response_curve
 export(Array, Vector2) var look_stick_response_regions setget set_look_stick_response_regions
 
+
+
+
+
 var pitch_limit : Vector2 = Vector2(-0.5, 0.5)
 var target_rotation := Vector3.ZERO
+
+export(float) var track_horizontal_margin_min := 0.3
+export(float) var track_horizontal_margin_max := 0.075
+
+export(float) var track_bottom_margin_min := .95 # (very bottom of screen)
+export(float) var track_bottom_margin_max := 1.2
+
+export(float) var track_distance_margin_min := 1.0
+export(float) var track_distance_margin_max := 3.0
+
 
 var target_origin_track := Vector3.ZERO
 const harmonic_motion_lib = preload("res://scripts/harmonic_motion.gd")
 var target_origin_spring = harmonic_motion_lib.new()
-var unproject_target := Vector2.ZERO
+var target_margin_factor := 0.0 # the factor thaat the target origin is in the edge margins of the camera view
 
 func _ready():
 	yield(get_owner(), "ready")
@@ -31,7 +45,7 @@ func _ready():
 	target_rotation = camera_data.rotation
 
 	target_origin_track = target.transform.origin
-	target_origin_spring.initialise( 0.965, 4.0 )
+	target_origin_spring.initialise( 0.965, 2.0 )
 
 
 func _process(delta):
@@ -56,6 +70,12 @@ func _process(delta):
 	camera_data.rotation.x = lerp(camera_data.rotation.x, target_rotation.x, delta*10.0)
 
 	# set camera rig
+	target_margin_factor = calculate_targe_tmargin_factor()
+	if target_margin_factor > 0.0:
+		target_origin_spring.initialise( 0.965, 2.0 + exp(target_margin_factor * 2.5) )
+	else:
+		target_origin_spring.initialise( 0.965, 2.0 )
+		
 	target_origin_track = target_origin_spring.calculate_v3( target_origin_track, target.transform.origin )
 	self.transform.origin = target_origin_track + camera_data.anchor_offset
 	#self.transform.origin = target.transform.origin + camera_data.anchor_offset
@@ -70,8 +90,6 @@ func _process(delta):
 	
 	self.transform.origin += target_offset
 	self.look_at(look_at, Vector3.UP)
-
-	unproject_target = self.unproject_position( target.transform.origin )
 
 
 func _unhandled_input(event):
@@ -91,5 +109,41 @@ func set_look_stick_response_regions(new_value) -> void:
 	print("[camera] look_stick_response_curve npoints %s"%[look_stick_response_curve.get_point_count()])
 	
 
-
-
+func calculate_targe_tmargin_factor() -> float:
+	"""calculate a factor for when the camera's target (the player)
+	has entered the cameras "edge" margins, and an amplification to 
+	the lerping spring should be applied to track the camera faster
+	with its target
+	"""
+	var _tmf := 0.0
+	var unproject_target = self.unproject_position( target.transform.origin )
+	var ws = get_tree().get_root().size
+	var norm_uproject_target : Vector2 = unproject_target / ws
+	_tmf = max( Util.remap_clamp( norm_uproject_target.x,
+		track_horizontal_margin_min,
+		track_horizontal_margin_max,
+		0.0,
+		1.0 )
+		,
+		Util.remap_clamp( norm_uproject_target.x,
+		1.0-track_horizontal_margin_min,
+		1.0-track_horizontal_margin_max,
+		0.0,
+		1.0 )
+		)
+	_tmf = max(_tmf,
+		Util.remap_clamp(norm_uproject_target.y,
+			track_bottom_margin_min,
+			track_bottom_margin_max,
+			0.0,
+			1.0)
+		)
+	_tmf = max(_tmf,
+		Util.remap_clamp( (target_origin_track-target.transform.origin).length(),
+			track_distance_margin_min,
+			track_distance_margin_max,
+			0.0,
+			1.0
+			)
+	)
+	return _tmf
