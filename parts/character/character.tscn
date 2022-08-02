@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=2]
+[gd_scene load_steps=37 format=2]
 
 [ext_resource path="res://parts/character/mannequin.gltf" type="PackedScene" id=1]
 [ext_resource path="res://parts/character/character_controller.gd" type="Script" id=2]
@@ -37,6 +37,9 @@ animation = "Running-loop"
 [sub_resource type="AnimationNodeAnimation" id=7]
 animation = "Standard Run-loop"
 
+[sub_resource type="AnimationNodeAnimation" id=47]
+animation = "Standard Walk-loop"
+
 [sub_resource type="AnimationNodeAnimation" id=9]
 animation = "Start Walking-loop"
 
@@ -62,7 +65,7 @@ sync = true
 [sub_resource type="AnimationNodeTimeScale" id=46]
 
 [sub_resource type="AnimationNodeBlendTree" id=41]
-graph_offset = Vector2( 76, 113 )
+graph_offset = Vector2( 7, 157 )
 nodes/Animation/node = SubResource( 39 )
 nodes/Animation/position = Vector2( 180, 380 )
 "nodes/Animation 2/node" = SubResource( 37 )
@@ -70,15 +73,15 @@ nodes/Animation/position = Vector2( 180, 380 )
 "nodes/Animation 3/node" = SubResource( 38 )
 "nodes/Animation 3/position" = Vector2( 140, 140 )
 nodes/blend_walk_running/node = SubResource( 40 )
-nodes/blend_walk_running/position = Vector2( 640, 220 )
+nodes/blend_walk_running/position = Vector2( 640, 240 )
 nodes/fastrun_timescale/node = SubResource( 45 )
-nodes/fastrun_timescale/position = Vector2( 360, 380 )
+nodes/fastrun_timescale/position = Vector2( 380, 500 )
 nodes/output/position = Vector2( 1200, 220 )
 nodes/run_timescale/node = SubResource( 44 )
-nodes/run_timescale/position = Vector2( 360, 260 )
+nodes/run_timescale/position = Vector2( 380, 380 )
 nodes/walk_timescale/node = SubResource( 46 )
-nodes/walk_timescale/position = Vector2( 360, 140 )
-node_connections = [ "output", 0, "blend_walk_running", "run_timescale", 0, "Animation 2", "walk_timescale", 0, "Animation 3", "fastrun_timescale", 0, "Animation", "blend_walk_running", 0, "walk_timescale", "blend_walk_running", 1, "run_timescale", "blend_walk_running", 2, "fastrun_timescale" ]
+nodes/walk_timescale/position = Vector2( 380, 260 )
+node_connections = [ "output", 0, "blend_walk_running", "blend_walk_running", 0, "walk_timescale", "blend_walk_running", 1, "run_timescale", "blend_walk_running", 2, "fastrun_timescale", "run_timescale", 0, "Animation 2", "fastrun_timescale", 0, "Animation", "walk_timescale", 0, "Animation 3" ]
 
 [sub_resource type="AnimationNodeAnimation" id=8]
 animation = "Standard Walk-loop"
@@ -126,6 +129,8 @@ states/Running/node = SubResource( 6 )
 states/Running/position = Vector2( 999, 452 )
 "states/Standard Run-loop/node" = SubResource( 7 )
 "states/Standard Run-loop/position" = Vector2( 1051, 186 )
+"states/Standard Walk-loop/node" = SubResource( 47 )
+"states/Standard Walk-loop/position" = Vector2( 518, 570 )
 "states/Start Walking-loop/node" = SubResource( 9 )
 "states/Start Walking-loop/position" = Vector2( 625, 416 )
 "states/Stop Walking-loop/node" = SubResource( 34 )
@@ -136,7 +141,7 @@ states/Walking/node = SubResource( 8 )
 states/Walking/position = Vector2( 146, 846 )
 transitions = [ "Idle", "Running", SubResource( 16 ), "Running", "Idle", SubResource( 17 ), "Idle Action-loop", "Idle Standing-loop 2", SubResource( 31 ), "IdleAction", "Walking", SubResource( 35 ), "Walking", "IdleAction", SubResource( 36 ), "IdleAction", "WalkRun_blendspace", SubResource( 42 ), "WalkRun_blendspace", "IdleAction", SubResource( 43 ) ]
 start_node = "IdleFistsUp"
-graph_offset = Vector2( 30, 533 )
+graph_offset = Vector2( -117, 491 )
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=13]
 
@@ -154,6 +159,9 @@ animation_tree_path = NodePath("AnimationTree")
 [node name="Ch36" parent="mannequin/Armature/Skeleton" index="0"]
 material/0 = ExtResource( 3 )
 
+[node name="AnimationPlayer" parent="mannequin" index="1"]
+blend_times = [ "Standard Walk-loop", "Standard Walk-loop", 0.1 ]
+
 [node name="AnimationTree" type="AnimationTree" parent="."]
 tree_root = SubResource( 12 )
 anim_player = NodePath("../mannequin/AnimationPlayer")
@@ -161,8 +169,8 @@ process_mode = 0
 root_motion_track = NodePath("Armature/Skeleton:RootMotion")
 parameters/playback = SubResource( 13 )
 parameters/WalkRun_blendspace/blend_walk_running/blend_amount = -1.0
-parameters/WalkRun_blendspace/fastrun_timescale/scale = 0.47
-parameters/WalkRun_blendspace/run_timescale/scale = 0.72
+parameters/WalkRun_blendspace/fastrun_timescale/scale = 1.0
+parameters/WalkRun_blendspace/run_timescale/scale = 1.0
 parameters/WalkRun_blendspace/walk_timescale/scale = 1.0
 
 [node name="CollisionShape" type="CollisionShape" parent="."]

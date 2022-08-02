@@ -105,8 +105,11 @@ text = "c_is_sprinting"
 margin_left = 5.0
 margin_top = 165.0
 margin_right = 554.0
-margin_bottom = 255.0
+margin_bottom = 214.0
 color = Color( 0, 0, 0, 0.478431 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="c_camera_track_plots" type="Node2D" parent="."]
 position = Vector2( 150, 170 )

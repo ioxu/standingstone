@@ -30,10 +30,25 @@ var sprint_blend_hm = harmonic_motion_lib.new()
 
 func _ready():
 	pprint("camera reference: %s"%camera.get_path())
-	$AnimationTree.set_active(true)
+
+	pprint("animations:")
+	# normalise WalkRun blendspace animation lengths
+	var animation_player = self.find_node("AnimationPlayer")
+	var standardWalkLoop_length = animation_player.get_animation("Standard Walk-loop").length
+	pprint("  Standard Walk-loop length %s"%standardWalkLoop_length)
+	var runningLoop_length = animation_player.get_animation("Running-loop").length
+	pprint("  Running-loop length %s (timescale %s)"%[runningLoop_length, runningLoop_length/standardWalkLoop_length])
+	var fastRunLoop_length = animation_player.get_animation("Fast Run-loop").length
+	pprint("  Fast Run-loop length %s (timescale %s)"%[fastRunLoop_length,fastRunLoop_length/standardWalkLoop_length])
+
+	animation_tree.set("parameters/WalkRun_blendspace/walk_timescale/scale", 1.0)
+	animation_tree.set("parameters/WalkRun_blendspace/run_timescale/scale", runningLoop_length/standardWalkLoop_length)
+	animation_tree.set("parameters/WalkRun_blendspace/fastrun_timescale/scale", fastRunLoop_length/standardWalkLoop_length)
+
 	initial_timescale_walk = animation_tree.get("parameters/WalkRun_blendspace/walk_timescale/scale")
 	initial_timescale_run = animation_tree.get("parameters/WalkRun_blendspace/run_timescale/scale")
 	initial_timescale_fastrun = animation_tree.get("parameters/WalkRun_blendspace/fastrun_timescale/scale")
+	$AnimationTree.set_active(true)
 
 	sprint_blend_hm.initialise(0.95, 4.5)
 
@@ -42,7 +57,7 @@ func _physics_process(delta):
 	var root_motion : Transform = animation_tree.get_root_motion_transform()
 
 	var v = root_motion.origin / delta
-	
+
 	#--------------------------------------------------------------------------
 	# gravity
 	if is_on_floor():
