@@ -28,6 +28,15 @@ var is_sprinting := false
 var sprint_blend := 0.0
 var sprint_blend_hm = harmonic_motion_lib.new()
 
+
+#---------------------------------------------
+# TODO: footfall / foot call method trackm in AnimationPlyer is temporary
+onready var puff = preload( "res://parts/effects/footfalls/footfall_puff.tscn" )
+onready var skeleton = $mannequin/Armature/Skeleton
+onready var leftFootBone_index = skeleton.find_bone("LeftFoot")
+onready var rightFootBone_index = skeleton.find_bone("RightFoot")
+
+
 func _ready():
 	pprint("camera reference: %s"%camera.get_path())
 
@@ -143,9 +152,17 @@ func _physics_process(delta):
 	ms_collision_vel = move_and_slide(v, Vector3.UP)
 
 
-func foot_fall(strength:float=1.0, side:= "left") -> void:
+func foot_fall(strength:float=1.0, side:= "left", source:="undefined") -> void:
 	"""callable for footfall effects, driven by animations"""
-	pprint("[foot_fall] %s (%s)"%[strength,side])
+	pprint("[foot_fall] %s (%s) %s"%[strength, side, source])
+	var ft = null
+	if side == "left":
+		ft = skeleton.get_bone_global_pose( leftFootBone_index )
+	elif side == "right":
+		ft = skeleton.get_bone_global_pose( rightFootBone_index )
+	var p = puff.instance()
+	self.get_parent().add_child(p)
+	p.transform.origin = skeleton.global_transform * ft.origin
 
 
 func pprint(thing) -> void:
