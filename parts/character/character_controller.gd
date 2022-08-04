@@ -143,5 +143,10 @@ func _physics_process(delta):
 	ms_collision_vel = move_and_slide(v, Vector3.UP)
 
 
+func foot_fall(strength:float=1.0, side:= "left") -> void:
+	"""callable for footfall effects, driven by animations"""
+	pprint("[foot_fall] %s (%s)"%[strength,side])
+
+
 func pprint(thing) -> void:
 	print("[character] %s"%thing)
