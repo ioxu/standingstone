@@ -2,8 +2,9 @@ exports/
 setup/
 screenshots/
 logs/
+export_presets.cfg
 
-# gotdot
+# godot
 # *.import # it is recommended to track .import files
 
 # blobs of imported data
