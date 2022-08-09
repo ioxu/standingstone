@@ -22,5 +22,5 @@ material/0 = SubResource( 2 )
 
 [node name="StaticBody" type="StaticBody" parent="landscape-01" index="0"]
 
-[node name="CollisionShape" type="CollisionShape" parent="landscape-01/StaticBody" index="0"]
+[node name="CollisionShape" type="CollisionShape" parent="landscape-01/StaticBody" index="0" groups=["collision_shapes"]]
 shape = SubResource( 1 )

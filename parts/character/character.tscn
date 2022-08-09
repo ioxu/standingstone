@@ -173,7 +173,7 @@ parameters/WalkRun_blendspace/fastrun_timescale/scale = 1.0
 parameters/WalkRun_blendspace/run_timescale/scale = 1.0
 parameters/WalkRun_blendspace/walk_timescale/scale = 1.0
 
-[node name="CollisionShape" type="CollisionShape" parent="."]
+[node name="CollisionShape" type="CollisionShape" parent="." groups=["collision_shapes"]]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.894, 0 )
 shape = SubResource( 20 )
 

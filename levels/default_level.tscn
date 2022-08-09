@@ -91,10 +91,12 @@ shape = SubResource( 6 )
 
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
 transform = Transform( 0.6903, 0.506636, -0.516532, 0.564385, 0.069652, 0.822568, 0.45272, -0.859342, -0.237857, 0, 4.10351, 0 )
+light_specular = 1.0
 shadow_enabled = true
-shadow_bias = 0.005
-directional_shadow_split_1 = 0.102
+shadow_bias = 0.0
 directional_shadow_blend_splits = true
+directional_shadow_normal_bias = 0.464
+directional_shadow_bias_split_scale = 0.347
 
 [node name="landscape-01" parent="." instance=ExtResource( 4 )]
 transform = Transform( 0.869141, 0, -0.494564, 0, 1, 0, 0.494564, 0, 0.869141, 2.23007, -0.0132594, -10.5995 )

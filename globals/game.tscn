@@ -118,3 +118,20 @@ title = "camera margin track"
 title_color = Color( 0.968627, 0.439216, 0.972549, 0.470588 )
 height = 20
 view_scale = Vector2( 2, 2 )
+
+[node name="persistent-ui" type="Node2D" parent="."]
+
+[node name="persistent-hint-bg" type="ColorRect" parent="persistent-ui"]
+margin_top = 588.0
+margin_right = 159.0
+margin_bottom = 600.0
+color = Color( 0, 0, 0, 0.270588 )
+
+[node name="persistent-hint" type="Label" parent="persistent-ui/persistent-hint-bg"]
+modulate = Color( 1, 1, 1, 0.54902 )
+margin_left = 1.0
+margin_top = 1.0
+margin_right = 207.0
+margin_bottom = 15.0
+rect_scale = Vector2( 0.75, 0.75 )
+text = "Ctrl-ALt-B : toggle debug overlay"
