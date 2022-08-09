@@ -1,8 +1,8 @@
 [gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://parts/defaults/default_env.tres" type="Environment" id=1]
-[ext_resource path="res://parts/defaults/texture_01.png" type="Texture" id=2]
-[ext_resource path="res://parts/defaults/texture_02.png" type="Texture" id=3]
+[ext_resource path="res://parts/defaults/texture_grid_01.png" type="Texture" id=2]
+[ext_resource path="res://parts/defaults/texture_grid_02.png" type="Texture" id=3]
 [ext_resource path="res://parts/props/environment/terrain/landscape-01.tscn" type="PackedScene" id=4]
 
 [sub_resource type="CubeMesh" id=1]
@@ -93,7 +93,6 @@ shape = SubResource( 6 )
 transform = Transform( 0.6903, 0.506636, -0.516532, 0.564385, 0.069652, 0.822568, 0.45272, -0.859342, -0.237857, 0, 4.10351, 0 )
 shadow_enabled = true
 shadow_bias = 0.005
-shadow_contact = 0.341
 directional_shadow_split_1 = 0.102
 directional_shadow_blend_splits = true
 
