@@ -11,8 +11,8 @@ func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 	print("[game] player: %s"%player.get_path())
-
-
+	
+	
 func _input(_event):
 	if Input.is_action_pressed("ui_cancel"):
 		get_tree().quit()
@@ -64,7 +64,7 @@ func update_debug_display() -> void:
 	# Debug > Visible Collision Shapes menu
 	print("[game] update_debug_display: %s"%debug_display)
 	for c in self.get_children():
-		if c.name != "ViewportContainer" and c.name != "persistent-ui":
+		if c.name != "ViewportContainer" and c.name != "ui_persistent":
 			c.visible = debug_display
 	if !debug_display:
 		yield(get_tree().create_timer(0.02), "timeout")

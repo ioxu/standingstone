@@ -130,7 +130,7 @@ func get_all_children(node):
 
 
 func _gac_r(node, acc):
-	# get_all_children recursoin
+	# get_all_children recursion
 	for c in node.get_children():
 		acc.append(c)
 		if c.get_child_count() > 0 :
@@ -155,3 +155,16 @@ func debug_stack(text):
 	st.remove(0)
 	for frame in st:
 		print( "%30s:%-4d %s()" % [frame.source.get_file(), frame.line, frame.function] )
+
+
+# ------------------------------------------------------------------------------
+# strings
+# ------------------------------------------------------------------------------
+
+
+func format_thousands(number : String) -> String:
+	var i : int = number.length() - 3
+	while i > 0:
+		number = number.insert(i, ",")
+		i = i - 3
+	return number
