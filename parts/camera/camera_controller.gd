@@ -97,7 +97,6 @@ func _unhandled_input(event):
 		var _mrel = event.get_relative()*0.005
 		target_rotation.y -= _mrel.x
 		target_rotation.x -= _mrel.y
-	
 	target_rotation.x = clamp( target_rotation.x, pitch_limit.x, pitch_limit.y)
 
 

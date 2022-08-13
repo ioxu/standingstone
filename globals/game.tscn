@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://globals/game.gd" type="Script" id=1]
 [ext_resource path="res://levels/default_level.tscn" type="PackedScene" id=2]
@@ -7,6 +7,8 @@
 [ext_resource path="res://parts/camera/camera_data.gd" type="Script" id=5]
 [ext_resource path="res://scripts/Plot2D.gd" type="Script" id=6]
 [ext_resource path="res://globals/ui_render_info.gd" type="Script" id=7]
+[ext_resource path="res://globals/ui_fps_panel.gd" type="Script" id=8]
+[ext_resource path="res://parts/fonts/RobotoCondensed-Regular_dynamicfont.tres" type="DynamicFont" id=9]
 
 [sub_resource type="Resource" id=1]
 script = ExtResource( 5 )
@@ -19,8 +21,35 @@ look_target = Vector3( 0, 0, 0 )
 [sub_resource type="Curve" id=2]
 _data = [ Vector2( 0, 0 ), 0.0, 5.42416, 0, 1, Vector2( 0.147806, 0.801724 ), 5.42416, -1.78815, 1, 1, Vector2( 0.533487, 0.112069 ), -1.78815, 1.90334, 1, 1, Vector2( 1, 1 ), 1.90334, 0.0, 1, 0 ]
 
-[sub_resource type="StyleBoxFlat" id=3]
-bg_color = Color( 0, 0, 0, 0.258824 )
+[sub_resource type="StyleBoxFlat" id=7]
+content_margin_left = 3.0
+content_margin_right = 3.0
+bg_color = Color( 0, 0, 0, 0.360784 )
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id=4]
+bg_color = Color( 0.192157, 0.533333, 0.894118, 0.490196 )
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id=5]
+bg_color = Color( 0, 0, 0, 0.317647 )
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id=6]
+bg_color = Color( 0.894118, 0.341176, 0.192157, 0.490196 )
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
 
 [node name="game" type="Node2D"]
 script = ExtResource( 1 )
@@ -45,6 +74,7 @@ look_stick_response_curve = SubResource( 2 )
 look_stick_response_regions = [ Vector2( 0, 0 ), Vector2( 0.5, 0.1 ), Vector2( 0.85, 0.65 ), Vector2( 1, 1 ) ]
 
 [node name="ColorRect" type="ColorRect" parent="."]
+visible = false
 margin_left = 972.0
 margin_top = 5.0
 margin_right = 1020.0
@@ -52,6 +82,7 @@ margin_bottom = 23.0
 color = Color( 0, 0, 0, 0.258824 )
 
 [node name="fps_label" type="Label" parent="."]
+visible = false
 margin_left = 975.0
 margin_top = 7.0
 margin_right = 1015.0
@@ -123,100 +154,199 @@ title_color = Color( 0.968627, 0.439216, 0.972549, 0.470588 )
 height = 20
 view_scale = Vector2( 2, 2 )
 
-[node name="ui_persistent" type="Node2D" parent="."]
+[node name="ui" type="Node" parent="."]
 
-[node name="persistent-hint-bg" type="ColorRect" parent="ui_persistent"]
-margin_top = 588.0
-margin_right = 159.0
-margin_bottom = 600.0
-color = Color( 0, 0, 0, 0.270588 )
-
-[node name="persistent-hint" type="Label" parent="ui_persistent/persistent-hint-bg"]
-modulate = Color( 1, 1, 1, 0.54902 )
-margin_left = 1.0
-margin_top = 1.0
-margin_right = 207.0
-margin_bottom = 15.0
-rect_scale = Vector2( 0.75, 0.75 )
-text = "Ctrl-ALt-B : toggle debug overlay"
-
-[node name="ui_render_info" type="Node2D" parent="."]
-position = Vector2( 848, 27 )
-script = ExtResource( 7 )
-
-[node name="PanelContainer" type="PanelContainer" parent="ui_render_info"]
-margin_right = 172.0
-margin_bottom = 146.0
-custom_styles/panel = SubResource( 3 )
-
-[node name="MarginContainer" type="MarginContainer" parent="ui_render_info/PanelContainer"]
-margin_right = 172.0
-margin_bottom = 146.0
+[node name="MarginContainer" type="MarginContainer" parent="ui"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
 custom_constants/margin_right = 3
 custom_constants/margin_top = 3
 custom_constants/margin_left = 3
 custom_constants/margin_bottom = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ui_render_info/PanelContainer/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="ui/MarginContainer"]
 margin_left = 3.0
 margin_top = 3.0
-margin_right = 169.0
-margin_bottom = 143.0
-custom_constants/separation = 4
+margin_right = 1021.0
+margin_bottom = 597.0
+mouse_filter = 2
 
-[node name="objects_in_frame" type="Label" parent="ui_render_info/PanelContainer/MarginContainer/VBoxContainer"]
-modulate = Color( 1, 1, 1, 0.509804 )
+[node name="VBoxContainer2" type="VBoxContainer" parent="ui/MarginContainer/HBoxContainer"]
+margin_right = 714.0
+margin_bottom = 594.0
+size_flags_horizontal = 3
+
+[node name="Control" type="Control" parent="ui/MarginContainer/HBoxContainer/VBoxContainer2"]
+margin_right = 714.0
+margin_bottom = 575.0
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ui/MarginContainer/HBoxContainer/VBoxContainer2"]
+margin_top = 579.0
+margin_right = 714.0
+margin_bottom = 594.0
+
+[node name="persistant_ui_hint_panel" type="PanelContainer" parent="ui/MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer"]
 margin_right = 166.0
-margin_bottom = 14.0
+margin_bottom = 15.0
+custom_styles/panel = SubResource( 7 )
+
+[node name="Label" type="Label" parent="ui/MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer/persistant_ui_hint_panel"]
+margin_left = 3.0
+margin_right = 163.0
+margin_bottom = 15.0
+custom_fonts/font = ExtResource( 9 )
+text = "Ctrl-Alt-B : Toggle Debug Overlay"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ui/MarginContainer/HBoxContainer"]
+margin_left = 718.0
+margin_right = 1018.0
+margin_bottom = 594.0
+mouse_filter = 2
+custom_constants/separation = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ui/MarginContainer/HBoxContainer/VBoxContainer"]
+margin_right = 300.0
+margin_bottom = 21.0
+
+[node name="Control" type="Control" parent="ui/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+margin_right = 251.0
+margin_bottom = 21.0
+size_flags_horizontal = 3
+
+[node name="fps_panel" type="PanelContainer" parent="ui/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+margin_left = 255.0
+margin_right = 300.0
+margin_bottom = 21.0
+rect_min_size = Vector2( 45, 20 )
+mouse_filter = 2
+custom_styles/panel = SubResource( 4 )
+script = ExtResource( 8 )
+
+[node name="MarginContainer" type="MarginContainer" parent="ui/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/fps_panel"]
+margin_right = 45.0
+margin_bottom = 21.0
+custom_constants/margin_right = 3
+custom_constants/margin_top = 3
+custom_constants/margin_left = 3
+custom_constants/margin_bottom = 3
+
+[node name="fps_label" type="Label" parent="ui/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/fps_panel/MarginContainer"]
+modulate = Color( 1, 1, 1, 0.431373 )
+margin_left = 3.0
+margin_top = 3.0
+margin_right = 42.0
+margin_bottom = 18.0
+custom_fonts/font = ExtResource( 9 )
+text = "fps"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="ui/MarginContainer/HBoxContainer/VBoxContainer"]
+margin_top = 24.0
+margin_right = 300.0
+margin_bottom = 150.0
+
+[node name="Control" type="Control" parent="ui/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+margin_right = 161.0
+margin_bottom = 126.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+
+[node name="render_info_panel" type="PanelContainer" parent="ui/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+margin_left = 165.0
+margin_right = 300.0
+margin_bottom = 126.0
+grow_vertical = 2
+mouse_filter = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 1.1
+custom_styles/panel = SubResource( 5 )
+script = ExtResource( 7 )
+
+[node name="MarginContainer" type="MarginContainer" parent="ui/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/render_info_panel"]
+margin_right = 135.0
+margin_bottom = 126.0
+custom_constants/margin_right = 3
+custom_constants/margin_top = 3
+custom_constants/margin_left = 3
+custom_constants/margin_bottom = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ui/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/render_info_panel/MarginContainer"]
+margin_left = 3.0
+margin_top = 3.0
+margin_right = 132.0
+margin_bottom = 123.0
+rect_min_size = Vector2( 0, -0.036 )
+custom_constants/separation = 0
+
+[node name="objects_in_frame" type="Label" parent="ui/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/render_info_panel/MarginContainer/VBoxContainer"]
+modulate = Color( 1, 1, 1, 0.509804 )
+margin_right = 129.0
+margin_bottom = 15.0
+custom_fonts/font = ExtResource( 9 )
 text = "objects in frame"
 
-[node name="vertices_in_frame" type="Label" parent="ui_render_info/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="vertices_in_frame" type="Label" parent="ui/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/render_info_panel/MarginContainer/VBoxContainer"]
 modulate = Color( 1, 1, 1, 0.509804 )
-margin_top = 18.0
-margin_right = 166.0
-margin_bottom = 32.0
+margin_top = 15.0
+margin_right = 129.0
+margin_bottom = 30.0
+custom_fonts/font = ExtResource( 9 )
 text = "vertices in frame"
 
-[node name="material_changes_in_frame" type="Label" parent="ui_render_info/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="material_changes_in_frame" type="Label" parent="ui/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/render_info_panel/MarginContainer/VBoxContainer"]
 modulate = Color( 1, 1, 1, 0.509804 )
-margin_top = 36.0
-margin_right = 166.0
-margin_bottom = 50.0
+margin_top = 30.0
+margin_right = 129.0
+margin_bottom = 45.0
+custom_fonts/font = ExtResource( 9 )
 text = "material changes in frame"
 
-[node name="shader_changes_in_frame" type="Label" parent="ui_render_info/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="shader_changes_in_frame" type="Label" parent="ui/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/render_info_panel/MarginContainer/VBoxContainer"]
 modulate = Color( 1, 1, 1, 0.509804 )
-margin_top = 54.0
-margin_right = 166.0
-margin_bottom = 68.0
+margin_top = 45.0
+margin_right = 129.0
+margin_bottom = 60.0
+custom_fonts/font = ExtResource( 9 )
 text = "shader changes in frame"
 
-[node name="surface_changes_in_frame" type="Label" parent="ui_render_info/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="surface_changes_in_frame" type="Label" parent="ui/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/render_info_panel/MarginContainer/VBoxContainer"]
 modulate = Color( 1, 1, 1, 0.509804 )
-margin_top = 72.0
-margin_right = 166.0
-margin_bottom = 86.0
+margin_top = 60.0
+margin_right = 129.0
+margin_bottom = 75.0
+custom_fonts/font = ExtResource( 9 )
 text = "surface changes in frame"
 
-[node name="draw_calls_in_frame" type="Label" parent="ui_render_info/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="draw_calls_in_frame" type="Label" parent="ui/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/render_info_panel/MarginContainer/VBoxContainer"]
 modulate = Color( 1, 1, 1, 0.509804 )
-margin_top = 90.0
-margin_right = 166.0
-margin_bottom = 104.0
+margin_top = 75.0
+margin_right = 129.0
+margin_bottom = 90.0
+custom_fonts/font = ExtResource( 9 )
 text = "draw calls in frame"
 
-[node name="twod_items_in_frame" type="Label" parent="ui_render_info/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="twod_items_in_frame" type="Label" parent="ui/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/render_info_panel/MarginContainer/VBoxContainer"]
 modulate = Color( 1, 1, 1, 0.509804 )
-margin_top = 108.0
-margin_right = 166.0
-margin_bottom = 122.0
+margin_top = 90.0
+margin_right = 129.0
+margin_bottom = 105.0
+custom_fonts/font = ExtResource( 9 )
 text = "2d items in frame"
 
-[node name="twod_draw_calls_in_frame" type="Label" parent="ui_render_info/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="twod_draw_calls_in_frame" type="Label" parent="ui/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/render_info_panel/MarginContainer/VBoxContainer"]
 modulate = Color( 1, 1, 1, 0.509804 )
-margin_top = 126.0
-margin_right = 166.0
-margin_bottom = 140.0
+margin_top = 105.0
+margin_right = 129.0
+margin_bottom = 120.0
+custom_fonts/font = ExtResource( 9 )
 text = "2d draw calls in frame"
 
-[connection signal="visibility_changed" from="ui_render_info" to="ui_render_info" method="_on_ui_render_info_visibility_changed"]
+[node name="Panel3" type="Panel" parent="ui/MarginContainer/HBoxContainer/VBoxContainer"]
+margin_top = 153.0
+margin_right = 300.0
+margin_bottom = 203.0
+rect_min_size = Vector2( 300, 50 )
+mouse_filter = 2
+custom_styles/panel = SubResource( 6 )

@@ -44,7 +44,7 @@ func _process(_delta):
 		var dl = player.dir.length()
 		var dls = player.dir_length_smoothed
 		
-		$fps_label.text = str(Engine.get_frames_per_second())
+		#$fps_label.text = str(Engine.get_frames_per_second())
 		$c_blend.text= "c_blend: %0.2f"%player.movement_walk_run_blend#TODO: temp
 		$c_dir_length.text = "dl: %0.2f"%dl
 		$c_dir_length_smoothed.text = "dl smoothed: %0.2f"%dls # TODO: temp
@@ -64,8 +64,12 @@ func update_debug_display() -> void:
 	# Debug > Visible Collision Shapes menu
 	print("[game] update_debug_display: %s"%debug_display)
 	for c in self.get_children():
-		if c.name != "ViewportContainer" and c.name != "ui_persistent":
-			c.visible = debug_display
+		if c.name != "ViewportContainer" and c.name != "ui_persistent": # TODO: ui_persistant has moved location and is now under a tree which gets hidden here.
+			if c.get_class() == "Node": # TODO: UGH.
+				for cc in c.get_children():
+					cc.visible = debug_display
+			else:
+				c.visible = debug_display
 	if !debug_display:
 		yield(get_tree().create_timer(0.02), "timeout")
 		update()
