@@ -12,7 +12,16 @@ func _ready():
 
 	print("[game] player: %s"%player.get_path())
 	
-	
+	# disable all mouse input for ui layer
+	var uic = Util.get_all_children(self.get_node("ui_debug"))
+	uic += Util.get_all_children(self.get_node("ui_persistent")) 
+	print("[game] ui heirarchy: set to .MOUSE_FILTER_IGNORE")
+	for c in uic:
+		print("[game]   %s"%c.get_path())
+		if c is Control:
+			c.set_mouse_filter( Control.MOUSE_FILTER_IGNORE )
+
+
 func _input(_event):
 	if Input.is_action_pressed("ui_cancel"):
 		get_tree().quit()

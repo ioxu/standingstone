@@ -31,7 +31,7 @@ corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 
 [sub_resource type="StyleBoxFlat" id=4]
-bg_color = Color( 0.192157, 0.533333, 0.894118, 0.490196 )
+bg_color = Color( 0.0901961, 0.27451, 0.470588, 0.490196 )
 corner_radius_top_left = 5
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5
@@ -135,9 +135,51 @@ title_color = Color( 0.968627, 0.439216, 0.972549, 0.470588 )
 height = 20
 view_scale = Vector2( 2, 2 )
 
-[node name="ui" type="Node" parent="."]
+[node name="ui_persistent" type="Node" parent="."]
 
-[node name="MarginContainer" type="MarginContainer" parent="ui"]
+[node name="MarginContainer" type="MarginContainer" parent="ui_persistent"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 3
+custom_constants/margin_top = 3
+custom_constants/margin_left = 3
+custom_constants/margin_bottom = 3
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="ui_persistent/MarginContainer"]
+margin_left = 3.0
+margin_top = 3.0
+margin_right = 1021.0
+margin_bottom = 597.0
+mouse_filter = 2
+size_flags_horizontal = 3
+
+[node name="Control" type="Control" parent="ui_persistent/MarginContainer/VBoxContainer2"]
+margin_right = 1018.0
+margin_bottom = 575.0
+mouse_filter = 1
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ui_persistent/MarginContainer/VBoxContainer2"]
+margin_top = 579.0
+margin_right = 1018.0
+margin_bottom = 594.0
+
+[node name="persistant_ui_hint_panel" type="PanelContainer" parent="ui_persistent/MarginContainer/VBoxContainer2/HBoxContainer"]
+margin_right = 166.0
+margin_bottom = 15.0
+mouse_filter = 1
+custom_styles/panel = SubResource( 7 )
+
+[node name="Label" type="Label" parent="ui_persistent/MarginContainer/VBoxContainer2/HBoxContainer/persistant_ui_hint_panel"]
+margin_left = 3.0
+margin_right = 163.0
+margin_bottom = 15.0
+custom_fonts/font = ExtResource( 9 )
+text = "Ctrl-Alt-B : Toggle Debug Overlay"
+
+[node name="ui_debug" type="Node" parent="."]
+
+[node name="MarginContainer" type="MarginContainer" parent="ui_debug"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
@@ -146,57 +188,36 @@ custom_constants/margin_top = 3
 custom_constants/margin_left = 3
 custom_constants/margin_bottom = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="ui/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="ui_debug/MarginContainer"]
 margin_left = 3.0
 margin_top = 3.0
 margin_right = 1021.0
 margin_bottom = 597.0
 mouse_filter = 2
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="ui/MarginContainer/HBoxContainer"]
+[node name="Control" type="Control" parent="ui_debug/MarginContainer/HBoxContainer"]
 margin_right = 714.0
 margin_bottom = 594.0
 size_flags_horizontal = 3
 
-[node name="Control" type="Control" parent="ui/MarginContainer/HBoxContainer/VBoxContainer2"]
-margin_right = 714.0
-margin_bottom = 575.0
-size_flags_vertical = 3
-
-[node name="HBoxContainer" type="HBoxContainer" parent="ui/MarginContainer/HBoxContainer/VBoxContainer2"]
-margin_top = 579.0
-margin_right = 714.0
-margin_bottom = 594.0
-
-[node name="persistant_ui_hint_panel" type="PanelContainer" parent="ui/MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer"]
-margin_right = 166.0
-margin_bottom = 15.0
-custom_styles/panel = SubResource( 7 )
-
-[node name="Label" type="Label" parent="ui/MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer/persistant_ui_hint_panel"]
-margin_left = 3.0
-margin_right = 163.0
-margin_bottom = 15.0
-custom_fonts/font = ExtResource( 9 )
-text = "Ctrl-Alt-B : Toggle Debug Overlay"
-
-[node name="VBoxContainer" type="VBoxContainer" parent="ui/MarginContainer/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="ui_debug/MarginContainer/HBoxContainer"]
 margin_left = 718.0
 margin_right = 1018.0
 margin_bottom = 594.0
 mouse_filter = 2
 custom_constants/separation = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="ui/MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="ui_debug/MarginContainer/HBoxContainer/VBoxContainer"]
 margin_right = 300.0
 margin_bottom = 21.0
 
-[node name="Control" type="Control" parent="ui/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="Control" type="Control" parent="ui_debug/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
 margin_right = 251.0
 margin_bottom = 21.0
+mouse_filter = 1
 size_flags_horizontal = 3
 
-[node name="fps_panel" type="PanelContainer" parent="ui/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="fps_panel" type="PanelContainer" parent="ui_debug/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
 margin_left = 255.0
 margin_right = 300.0
 margin_bottom = 21.0
@@ -205,16 +226,17 @@ mouse_filter = 2
 custom_styles/panel = SubResource( 4 )
 script = ExtResource( 8 )
 
-[node name="MarginContainer" type="MarginContainer" parent="ui/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/fps_panel"]
+[node name="MarginContainer" type="MarginContainer" parent="ui_debug/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/fps_panel"]
 margin_right = 45.0
 margin_bottom = 21.0
+mouse_filter = 1
 custom_constants/margin_right = 3
 custom_constants/margin_top = 3
 custom_constants/margin_left = 3
 custom_constants/margin_bottom = 3
 
-[node name="fps_label" type="Label" parent="ui/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/fps_panel/MarginContainer"]
-modulate = Color( 1, 1, 1, 0.431373 )
+[node name="fps_label" type="Label" parent="ui_debug/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/fps_panel/MarginContainer"]
+modulate = Color( 1, 1, 1, 0.870588 )
 margin_left = 3.0
 margin_top = 3.0
 margin_right = 42.0
@@ -222,18 +244,19 @@ margin_bottom = 18.0
 custom_fonts/font = ExtResource( 9 )
 text = "fps"
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="ui/MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="ui_debug/MarginContainer/HBoxContainer/VBoxContainer"]
 margin_top = 24.0
 margin_right = 300.0
 margin_bottom = 150.0
 
-[node name="Control" type="Control" parent="ui/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+[node name="Control" type="Control" parent="ui_debug/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
 margin_right = 161.0
 margin_bottom = 126.0
+mouse_filter = 1
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 
-[node name="render_info_panel" type="PanelContainer" parent="ui/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+[node name="render_info_panel" type="PanelContainer" parent="ui_debug/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
 margin_left = 165.0
 margin_right = 300.0
 margin_bottom = 126.0
@@ -245,15 +268,16 @@ size_flags_stretch_ratio = 1.1
 custom_styles/panel = SubResource( 5 )
 script = ExtResource( 7 )
 
-[node name="MarginContainer" type="MarginContainer" parent="ui/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/render_info_panel"]
+[node name="MarginContainer" type="MarginContainer" parent="ui_debug/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/render_info_panel"]
 margin_right = 135.0
 margin_bottom = 126.0
+mouse_filter = 2
 custom_constants/margin_right = 3
 custom_constants/margin_top = 3
 custom_constants/margin_left = 3
 custom_constants/margin_bottom = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ui/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/render_info_panel/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="ui_debug/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/render_info_panel/MarginContainer"]
 margin_left = 3.0
 margin_top = 3.0
 margin_right = 132.0
@@ -261,14 +285,14 @@ margin_bottom = 123.0
 rect_min_size = Vector2( 0, -0.036 )
 custom_constants/separation = 0
 
-[node name="objects_in_frame" type="Label" parent="ui/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/render_info_panel/MarginContainer/VBoxContainer"]
+[node name="objects_in_frame" type="Label" parent="ui_debug/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/render_info_panel/MarginContainer/VBoxContainer"]
 modulate = Color( 1, 1, 1, 0.509804 )
 margin_right = 129.0
 margin_bottom = 15.0
 custom_fonts/font = ExtResource( 9 )
 text = "objects in frame"
 
-[node name="vertices_in_frame" type="Label" parent="ui/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/render_info_panel/MarginContainer/VBoxContainer"]
+[node name="vertices_in_frame" type="Label" parent="ui_debug/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/render_info_panel/MarginContainer/VBoxContainer"]
 modulate = Color( 1, 1, 1, 0.509804 )
 margin_top = 15.0
 margin_right = 129.0
@@ -276,7 +300,7 @@ margin_bottom = 30.0
 custom_fonts/font = ExtResource( 9 )
 text = "vertices in frame"
 
-[node name="material_changes_in_frame" type="Label" parent="ui/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/render_info_panel/MarginContainer/VBoxContainer"]
+[node name="material_changes_in_frame" type="Label" parent="ui_debug/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/render_info_panel/MarginContainer/VBoxContainer"]
 modulate = Color( 1, 1, 1, 0.509804 )
 margin_top = 30.0
 margin_right = 129.0
@@ -284,7 +308,7 @@ margin_bottom = 45.0
 custom_fonts/font = ExtResource( 9 )
 text = "material changes in frame"
 
-[node name="shader_changes_in_frame" type="Label" parent="ui/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/render_info_panel/MarginContainer/VBoxContainer"]
+[node name="shader_changes_in_frame" type="Label" parent="ui_debug/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/render_info_panel/MarginContainer/VBoxContainer"]
 modulate = Color( 1, 1, 1, 0.509804 )
 margin_top = 45.0
 margin_right = 129.0
@@ -292,7 +316,7 @@ margin_bottom = 60.0
 custom_fonts/font = ExtResource( 9 )
 text = "shader changes in frame"
 
-[node name="surface_changes_in_frame" type="Label" parent="ui/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/render_info_panel/MarginContainer/VBoxContainer"]
+[node name="surface_changes_in_frame" type="Label" parent="ui_debug/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/render_info_panel/MarginContainer/VBoxContainer"]
 modulate = Color( 1, 1, 1, 0.509804 )
 margin_top = 60.0
 margin_right = 129.0
@@ -300,7 +324,7 @@ margin_bottom = 75.0
 custom_fonts/font = ExtResource( 9 )
 text = "surface changes in frame"
 
-[node name="draw_calls_in_frame" type="Label" parent="ui/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/render_info_panel/MarginContainer/VBoxContainer"]
+[node name="draw_calls_in_frame" type="Label" parent="ui_debug/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/render_info_panel/MarginContainer/VBoxContainer"]
 modulate = Color( 1, 1, 1, 0.509804 )
 margin_top = 75.0
 margin_right = 129.0
@@ -308,7 +332,7 @@ margin_bottom = 90.0
 custom_fonts/font = ExtResource( 9 )
 text = "draw calls in frame"
 
-[node name="twod_items_in_frame" type="Label" parent="ui/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/render_info_panel/MarginContainer/VBoxContainer"]
+[node name="twod_items_in_frame" type="Label" parent="ui_debug/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/render_info_panel/MarginContainer/VBoxContainer"]
 modulate = Color( 1, 1, 1, 0.509804 )
 margin_top = 90.0
 margin_right = 129.0
@@ -316,7 +340,7 @@ margin_bottom = 105.0
 custom_fonts/font = ExtResource( 9 )
 text = "2d items in frame"
 
-[node name="twod_draw_calls_in_frame" type="Label" parent="ui/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/render_info_panel/MarginContainer/VBoxContainer"]
+[node name="twod_draw_calls_in_frame" type="Label" parent="ui_debug/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/render_info_panel/MarginContainer/VBoxContainer"]
 modulate = Color( 1, 1, 1, 0.509804 )
 margin_top = 105.0
 margin_right = 129.0
@@ -324,7 +348,7 @@ margin_bottom = 120.0
 custom_fonts/font = ExtResource( 9 )
 text = "2d draw calls in frame"
 
-[node name="Panel3" type="Panel" parent="ui/MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="Panel3" type="Panel" parent="ui_debug/MarginContainer/HBoxContainer/VBoxContainer"]
 margin_top = 153.0
 margin_right = 300.0
 margin_bottom = 203.0

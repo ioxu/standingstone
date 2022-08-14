@@ -94,6 +94,7 @@ func _process(delta):
 
 func _unhandled_input(event):
 	if event is InputEventMouseMotion:
+		#print("[camera] _unhandled_input, event.get_relative %s"%event.get_relative() )
 		var _mrel = event.get_relative()*0.005
 		target_rotation.y -= _mrel.x
 		target_rotation.x -= _mrel.y

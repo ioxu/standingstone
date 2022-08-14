@@ -152,9 +152,11 @@ func _physics_process(delta):
 	ms_collision_vel = move_and_slide(v, Vector3.UP)
 
 
+# warning-ignore:unused_argument
+# warning-ignore:unused_argument
 func foot_fall(strength:float=1.0, side:= "left", source:="undefined") -> void:
 	"""callable for footfall effects, driven by animations"""
-	pprint("[foot_fall] %s (%s) %s"%[strength, side, source])
+	#pprint("[foot_fall] %s (%s) %s"%[strength, side, source])
 	var ft = null
 	if side == "left":
 		ft = skeleton.get_bone_global_pose( leftFootBone_index )
