@@ -7,7 +7,7 @@ var debug_display := true
 
 func _ready():
 	print("[game] starting %s"%self.get_path())
-	print("[game] level %s"% $ViewportContainer/default_level.get_path())
+	print("[game] level %s"% $ViewportContainer/Viewport/default_level.get_path())
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 	print("[game] player: %s"%player.get_path())
@@ -32,18 +32,18 @@ func _input(_event):
 
 func _draw() -> void:
 	if debug_display:
-		var unproject_target = $ViewportContainer/Camera.unproject_position( $ViewportContainer/Camera.target.transform.origin )
+		var unproject_target = $ViewportContainer/Viewport/Camera.unproject_position( $ViewportContainer/Viewport/Camera.target.transform.origin )
 		draw_arc( unproject_target, 12, 0, PI*2, 24, Color(0.933594, 0.481384, 0.862936, 0.803922), true)
 
 		# draw camera track margins
 		var ws = get_tree().get_root().size
 		var _xminc = Color(1, 0.384314, 0.917647, 0.25)
-		var _xmin1 = Vector2(ws.x * $ViewportContainer/Camera.track_horizontal_margin_min, ws.y)
-		var _xmin2 = Vector2(ws.x * (1-$ViewportContainer/Camera.track_horizontal_margin_min), ws.y)
+		var _xmin1 = Vector2(ws.x * $ViewportContainer/Viewport/Camera.track_horizontal_margin_min, ws.y)
+		var _xmin2 = Vector2(ws.x * (1-$ViewportContainer/Viewport/Camera.track_horizontal_margin_min), ws.y)
 		draw_line( _xmin1 * Vector2(1.0,0.0), _xmin1, _xminc, 3 )
 		draw_line( _xmin2 * Vector2(1.0,0.0), _xmin2, _xminc, 3 )
-		_xmin1 = Vector2(ws.x * $ViewportContainer/Camera.track_horizontal_margin_max, ws.y)
-		_xmin2 = Vector2(ws.x * (1-$ViewportContainer/Camera.track_horizontal_margin_max), ws.y)
+		_xmin1 = Vector2(ws.x * $ViewportContainer/Viewport/Camera.track_horizontal_margin_max, ws.y)
+		_xmin2 = Vector2(ws.x * (1-$ViewportContainer/Viewport/Camera.track_horizontal_margin_max), ws.y)
 		draw_line( _xmin1 * Vector2(1.0,0.0), _xmin1, _xminc, 1 )
 		draw_line( _xmin2 * Vector2(1.0,0.0), _xmin2, _xminc, 1 )
 
@@ -63,7 +63,7 @@ func _process(_delta):
 		$c_is_sprinting.text = "is_sprinting %s"%[player.is_sprinting]
 		$c_dir_length_plots.push_point( player.sprint_blend, Color(0.286275, 0.827451, 0.211765, 0.5) )
 		
-		$c_camera_track_plots.push_point( $ViewportContainer/Camera.target_margin_factor, Color(1, 0.570313, 0.942526, 0.407843) )
+		$c_camera_track_plots.push_point( $ViewportContainer/Viewport/Camera.target_margin_factor, Color(1, 0.570313, 0.942526, 0.407843) )
 		update()
 
 

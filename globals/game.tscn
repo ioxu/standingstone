@@ -53,19 +53,29 @@ corner_radius_bottom_left = 5
 
 [node name="game" type="Node2D"]
 script = ExtResource( 1 )
-player = NodePath("ViewportContainer/character")
+player = NodePath("ViewportContainer/Viewport/character")
 
 [node name="ViewportContainer" type="ViewportContainer" parent="."]
-margin_right = 40.0
-margin_bottom = 40.0
+margin_right = 1024.0
+margin_bottom = 600.0
+stretch = true
+stretch_shrink = 4
 
-[node name="default_level" parent="ViewportContainer" instance=ExtResource( 2 )]
+[node name="Viewport" type="Viewport" parent="ViewportContainer"]
+size = Vector2( 256, 150 )
+msaa = 3
+fxaa = true
+sharpen_intensity = 0.756
+use_32_bpc_depth = true
+shadow_atlas_size = 2048
 
-[node name="character" parent="ViewportContainer" instance=ExtResource( 3 )]
+[node name="default_level" parent="ViewportContainer/Viewport" instance=ExtResource( 2 )]
+
+[node name="character" parent="ViewportContainer/Viewport" instance=ExtResource( 3 )]
 transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 2.644, 0, -0.939 )
 camera = NodePath("../Camera")
 
-[node name="Camera" type="Camera" parent="ViewportContainer"]
+[node name="Camera" type="Camera" parent="ViewportContainer/Viewport"]
 transform = Transform( 0.999857, 0.00316881, -0.0165942, 0, 0.982251, 0.18757, 0.016894, -0.187543, 0.982111, 3.21423, 1.24633, 1.34832 )
 script = ExtResource( 4 )
 target = NodePath("../character")
