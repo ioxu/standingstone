@@ -17,7 +17,7 @@ func _ready():
 	uic += Util.get_all_children(self.get_node("ui_persistent")) 
 	print("[game] ui heirarchy: set to .MOUSE_FILTER_IGNORE")
 	for c in uic:
-		print("[game]   %s"%c.get_path())
+		#print("[game]   %s"%c.get_path())
 		if c is Control:
 			c.set_mouse_filter( Control.MOUSE_FILTER_IGNORE )
 
