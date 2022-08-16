@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://globals/game.gd" type="Script" id=1]
 [ext_resource path="res://levels/default_level.tscn" type="PackedScene" id=2]
@@ -20,6 +20,10 @@ look_target = Vector3( 0, 0, 0 )
 
 [sub_resource type="Curve" id=2]
 _data = [ Vector2( 0, 0 ), 0.0, 5.42416, 0, 1, Vector2( 0.147806, 0.801724 ), 5.42416, -1.78815, 1, 1, Vector2( 0.533487, 0.112069 ), -1.78815, 1.90334, 1, 1, Vector2( 1, 1 ), 1.90334, 0.0, 1, 0 ]
+
+[sub_resource type="ViewportTexture" id=8]
+flags = 4
+viewport_path = NodePath("ViewportContainer/Viewport")
 
 [sub_resource type="StyleBoxFlat" id=7]
 content_margin_left = 3.0
@@ -58,15 +62,16 @@ player = NodePath("ViewportContainer/Viewport/character")
 [node name="ViewportContainer" type="ViewportContainer" parent="."]
 margin_right = 1024.0
 margin_bottom = 600.0
+mouse_filter = 2
 stretch = true
 stretch_shrink = 4
 
 [node name="Viewport" type="Viewport" parent="ViewportContainer"]
 size = Vector2( 256, 150 )
-msaa = 3
-fxaa = true
-sharpen_intensity = 0.756
+msaa = 4
+sharpen_intensity = 0.15
 use_32_bpc_depth = true
+render_target_v_flip = true
 shadow_atlas_size = 2048
 
 [node name="default_level" parent="ViewportContainer/Viewport" instance=ExtResource( 2 )]
@@ -82,6 +87,12 @@ target = NodePath("../character")
 camera_data = SubResource( 1 )
 look_stick_response_curve = SubResource( 2 )
 look_stick_response_regions = [ Vector2( 0, 0 ), Vector2( 0.5, 0.1 ), Vector2( 0.85, 0.65 ), Vector2( 1, 1 ) ]
+
+[node name="TextureRect" type="TextureRect" parent="."]
+margin_right = 1024.0
+margin_bottom = 600.0
+texture = SubResource( 8 )
+expand = true
 
 [node name="ColorRect2" type="ColorRect" parent="."]
 margin_left = 5.0
@@ -277,6 +288,7 @@ size_flags_vertical = 3
 size_flags_stretch_ratio = 1.1
 custom_styles/panel = SubResource( 5 )
 script = ExtResource( 7 )
+viewport = NodePath("../../../../../../ViewportContainer/Viewport")
 
 [node name="MarginContainer" type="MarginContainer" parent="ui_debug/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/render_info_panel"]
 margin_right = 135.0

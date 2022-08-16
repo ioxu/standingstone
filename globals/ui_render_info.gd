@@ -1,6 +1,7 @@
 extends PanelContainer
 
-var viewport:Viewport
+export(NodePath) var viewport
+
 var _timer:Timer
 
 var objects:int
@@ -22,8 +23,9 @@ var twod_draw_calls_label:Label
 
 
 func _ready() -> void:
-	viewport=get_viewport()
-
+	viewport=get_node(viewport)#get_viewport()
+	print("[render_info_panel] viewport: %s"%viewport.get_path())
+	
 	# fetch labels
 	objects_label = self.find_node("objects_in_frame")
 	vertices_label = self.find_node("vertices_in_frame")
