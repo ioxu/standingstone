@@ -1,5 +1,7 @@
 extends Node2D
 
+# default viewport resolution: 1024x600
+
 export(NodePath) onready var player = get_node(player)
 
 var debug_display := true
@@ -54,16 +56,16 @@ func _process(_delta):
 		var dls = player.dir_length_smoothed
 		
 		#$fps_label.text = str(Engine.get_frames_per_second())
-		$c_blend.text= "c_blend: %0.2f"%player.movement_walk_run_blend#TODO: temp
-		$c_dir_length.text = "dl: %0.2f"%dl
-		$c_dir_length_smoothed.text = "dl smoothed: %0.2f"%dls # TODO: temp
-		$c_dir_length_plots.push_column(dl, Color(1, 1, 1, 0.098039))
-		$c_dir_length_plots.push_point_blend(min(0.975, dls), Color(0.949219, 0.60583, 0.163147, 0.709804))
+		$ui_debug/c_blend.text= "c_blend: %0.2f"%player.movement_walk_run_blend#TODO: temp
+		$ui_debug/c_dir_length.text = "dl: %0.2f"%dl
+		$ui_debug/c_dir_length_smoothed.text = "dl smoothed: %0.2f"%dls # TODO: temp
+		$ui_debug/c_dir_length_plots.push_column(dl, Color(1, 1, 1, 0.098039))
+		$ui_debug/c_dir_length_plots.push_point_blend(min(0.975, dls), Color(0.949219, 0.60583, 0.163147, 0.709804))
 
-		$c_is_sprinting.text = "is_sprinting %s"%[player.is_sprinting]
-		$c_dir_length_plots.push_point( player.sprint_blend, Color(0.286275, 0.827451, 0.211765, 0.5) )
+		$ui_debug/c_is_sprinting.text = "is_sprinting %s"%[player.is_sprinting]
+		$ui_debug/c_dir_length_plots.push_point( player.sprint_blend, Color(0.286275, 0.827451, 0.211765, 0.5) )
 		
-		$c_camera_track_plots.push_point( $ViewportContainer/Viewport/Camera.target_margin_factor, Color(1, 0.570313, 0.942526, 0.407843) )
+		$ui_debug/c_camera_track_plots.push_point( $ViewportContainer/Viewport/Camera.target_margin_factor, Color(1, 0.570313, 0.942526, 0.407843) )
 		update()
 
 
@@ -73,8 +75,8 @@ func update_debug_display() -> void:
 	# Debug > Visible Collision Shapes menu
 	print("[game] update_debug_display: %s"%debug_display)
 	for c in self.get_children():
-		if c.name != "ViewportContainer" and c.name != "ui_persistent": # TODO: ui_persistant has moved location and is now under a tree which gets hidden here.
-			if c.get_class() == "Node": # TODO: UGH.
+		if not c.name in ["ViewportDisplay", "ViewportContainer", "ui_persistent"]:
+			if c.get_class() == "Node":
 				for cc in c.get_children():
 					cc.visible = debug_display
 			else:
