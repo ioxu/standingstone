@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://globals/game.gd" type="Script" id=1]
 [ext_resource path="res://levels/default_level.tscn" type="PackedScene" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://globals/ui_render_info.gd" type="Script" id=7]
 [ext_resource path="res://globals/ui_fps_panel.gd" type="Script" id=8]
 [ext_resource path="res://parts/fonts/RobotoCondensed-Regular_dynamicfont.tres" type="DynamicFont" id=9]
+[ext_resource path="res://globals/ViewportDisplay.gd" type="Script" id=10]
 
 [sub_resource type="CubeMesh" id=9]
 size = Vector3( 0.3, 0.3, 0.3 )
@@ -68,6 +69,7 @@ corner_radius_bottom_left = 5
 [node name="game" type="Node2D"]
 script = ExtResource( 1 )
 player = NodePath("ViewportContainer/Viewport/character")
+viewport_display_texture_rect = NodePath("ViewportDisplay/ViewportDisplayTextureRect")
 
 [node name="ViewportContainer" type="ViewportContainer" parent="."]
 margin_right = 320.0
@@ -77,7 +79,6 @@ stretch = true
 
 [node name="Viewport" type="Viewport" parent="ViewportContainer"]
 size = Vector2( 320, 180 )
-transparent_bg = true
 handle_input_locally = false
 msaa = 2
 render_target_v_flip = true
@@ -114,6 +115,8 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 texture = SubResource( 8 )
 expand = true
+script = ExtResource( 10 )
+camera = NodePath("../../ViewportContainer/Viewport/Camera")
 
 [node name="ui_persistent" type="Node" parent="."]
 

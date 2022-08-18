@@ -3,6 +3,7 @@ extends Node2D
 # default viewport resolution: 1024x600
 
 export(NodePath) onready var player = get_node(player)
+export(NodePath) onready var viewport_display_texture_rect = get_node(viewport_display_texture_rect)
 
 var debug_display := true
 
