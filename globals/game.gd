@@ -34,21 +34,22 @@ func _input(_event):
 
 
 func _draw() -> void:
-	if debug_display:
-		var unproject_target = $ViewportContainer/Viewport/Camera.unproject_position( $ViewportContainer/Viewport/Camera.target.transform.origin )
-		draw_arc( unproject_target, 12, 0, PI*2, 24, Color(0.933594, 0.481384, 0.862936, 0.803922), true)
-
-		# draw camera track margins
-		var ws = get_tree().get_root().size
-		var _xminc = Color(1, 0.384314, 0.917647, 0.25)
-		var _xmin1 = Vector2(ws.x * $ViewportContainer/Viewport/Camera.track_horizontal_margin_min, ws.y)
-		var _xmin2 = Vector2(ws.x * (1-$ViewportContainer/Viewport/Camera.track_horizontal_margin_min), ws.y)
-		draw_line( _xmin1 * Vector2(1.0,0.0), _xmin1, _xminc, 3 )
-		draw_line( _xmin2 * Vector2(1.0,0.0), _xmin2, _xminc, 3 )
-		_xmin1 = Vector2(ws.x * $ViewportContainer/Viewport/Camera.track_horizontal_margin_max, ws.y)
-		_xmin2 = Vector2(ws.x * (1-$ViewportContainer/Viewport/Camera.track_horizontal_margin_max), ws.y)
-		draw_line( _xmin1 * Vector2(1.0,0.0), _xmin1, _xminc, 1 )
-		draw_line( _xmin2 * Vector2(1.0,0.0), _xmin2, _xminc, 1 )
+	pass
+#	if debug_display:
+#		var unproject_target = $ViewportContainer/Viewport/Camera.unproject_position( $ViewportContainer/Viewport/Camera.target.transform.origin )
+#		draw_arc( unproject_target, 12, 0, PI*2, 24, Color(0.933594, 0.481384, 0.862936, 0.803922), true)
+#
+#		# draw camera track margins
+#		var ws = get_tree().get_root().size
+#		var _xminc = Color(1, 0.384314, 0.917647, 0.25)
+#		var _xmin1 = Vector2(ws.x * $ViewportContainer/Viewport/Camera.track_horizontal_margin_min, ws.y)
+#		var _xmin2 = Vector2(ws.x * (1-$ViewportContainer/Viewport/Camera.track_horizontal_margin_min), ws.y)
+#		draw_line( _xmin1 * Vector2(1.0,0.0), _xmin1, _xminc, 3 )
+#		draw_line( _xmin2 * Vector2(1.0,0.0), _xmin2, _xminc, 3 )
+#		_xmin1 = Vector2(ws.x * $ViewportContainer/Viewport/Camera.track_horizontal_margin_max, ws.y)
+#		_xmin2 = Vector2(ws.x * (1-$ViewportContainer/Viewport/Camera.track_horizontal_margin_max), ws.y)
+#		draw_line( _xmin1 * Vector2(1.0,0.0), _xmin1, _xminc, 1 )
+#		draw_line( _xmin2 * Vector2(1.0,0.0), _xmin2, _xminc, 1 )
 
 
 func _process(_delta):
@@ -85,4 +86,6 @@ func update_debug_display() -> void:
 	if !debug_display:
 		yield(get_tree().create_timer(0.02), "timeout")
 		update()
+	
+	viewport_display_texture_rect.debug_display = debug_display
 
