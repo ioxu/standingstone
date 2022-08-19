@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://globals/game.gd" type="Script" id=1]
 [ext_resource path="res://levels/default_level.tscn" type="PackedScene" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://globals/ui_fps_panel.gd" type="Script" id=8]
 [ext_resource path="res://parts/fonts/RobotoCondensed-Regular_dynamicfont.tres" type="DynamicFont" id=9]
 [ext_resource path="res://globals/ViewportDisplay.gd" type="Script" id=10]
+[ext_resource path="res://globals/menu.gd" type="Script" id=11]
 
 [sub_resource type="CubeMesh" id=9]
 size = Vector3( 0.3, 0.3, 0.3 )
@@ -66,8 +67,16 @@ corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 
+[sub_resource type="StyleBoxFlat" id=11]
+bg_color = Color( 0.0823529, 0.0823529, 0.0823529, 0.835294 )
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
 [node name="game" type="Node2D"]
 script = ExtResource( 1 )
+main_menu = NodePath("ui_menu/menu_container")
 player = NodePath("ViewportContainer/Viewport/character")
 viewport_display_texture_rect = NodePath("ViewportDisplay/ViewportDisplayTextureRect")
 
@@ -401,3 +410,23 @@ margin_bottom = 203.0
 rect_min_size = Vector2( 300, 50 )
 mouse_filter = 2
 custom_styles/panel = SubResource( 6 )
+
+[node name="ui_menu" type="Node" parent="."]
+
+[node name="menu_container" type="MarginContainer" parent="ui_menu"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/margin_right = 10
+custom_constants/margin_top = 10
+custom_constants/margin_left = 10
+custom_constants/margin_bottom = 10
+script = ExtResource( 11 )
+
+[node name="Panel" type="Panel" parent="ui_menu/menu_container"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 1014.0
+margin_bottom = 590.0
+custom_styles/panel = SubResource( 11 )

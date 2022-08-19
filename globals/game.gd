@@ -2,6 +2,7 @@ extends Node2D
 
 # default viewport resolution: 1024x600
 
+export(NodePath) onready var main_menu = get_node(main_menu)
 export(NodePath) onready var player = get_node(player)
 export(NodePath) onready var viewport_display_texture_rect = get_node(viewport_display_texture_rect)
 
@@ -20,44 +21,26 @@ func _ready():
 	uic += Util.get_all_children(self.get_node("ui_persistent")) 
 	print("[game] ui heirarchy: set to .MOUSE_FILTER_IGNORE")
 	for c in uic:
-		#print("[game]   %s"%c.get_path())
 		if c is Control:
 			c.set_mouse_filter( Control.MOUSE_FILTER_IGNORE )
 
 
-func _input(_event):
-	if Input.is_action_pressed("ui_cancel"):
-		get_tree().quit()
+func _input(event):
+	if event.is_action("ui_cancel") and event.is_pressed() and not event.is_echo():
+		print("[game] show menu")
+		get_tree().set_input_as_handled()
+		main_menu.activate()
+
+
+func _process(_delta):
 	if Input.is_action_just_pressed("debug_display_toggle"):
 		debug_display = !debug_display
 		update_debug_display()
 
-
-func _draw() -> void:
-	pass
-#	if debug_display:
-#		var unproject_target = $ViewportContainer/Viewport/Camera.unproject_position( $ViewportContainer/Viewport/Camera.target.transform.origin )
-#		draw_arc( unproject_target, 12, 0, PI*2, 24, Color(0.933594, 0.481384, 0.862936, 0.803922), true)
-#
-#		# draw camera track margins
-#		var ws = get_tree().get_root().size
-#		var _xminc = Color(1, 0.384314, 0.917647, 0.25)
-#		var _xmin1 = Vector2(ws.x * $ViewportContainer/Viewport/Camera.track_horizontal_margin_min, ws.y)
-#		var _xmin2 = Vector2(ws.x * (1-$ViewportContainer/Viewport/Camera.track_horizontal_margin_min), ws.y)
-#		draw_line( _xmin1 * Vector2(1.0,0.0), _xmin1, _xminc, 3 )
-#		draw_line( _xmin2 * Vector2(1.0,0.0), _xmin2, _xminc, 3 )
-#		_xmin1 = Vector2(ws.x * $ViewportContainer/Viewport/Camera.track_horizontal_margin_max, ws.y)
-#		_xmin2 = Vector2(ws.x * (1-$ViewportContainer/Viewport/Camera.track_horizontal_margin_max), ws.y)
-#		draw_line( _xmin1 * Vector2(1.0,0.0), _xmin1, _xminc, 1 )
-#		draw_line( _xmin2 * Vector2(1.0,0.0), _xmin2, _xminc, 1 )
-
-
-func _process(_delta):
 	if debug_display:
 		var dl = player.dir.length()
 		var dls = player.dir_length_smoothed
 		
-		#$fps_label.text = str(Engine.get_frames_per_second())
 		$ui_debug/c_blend.text= "c_blend: %0.2f"%player.movement_walk_run_blend#TODO: temp
 		$ui_debug/c_dir_length.text = "dl: %0.2f"%dl
 		$ui_debug/c_dir_length_smoothed.text = "dl smoothed: %0.2f"%dls # TODO: temp
@@ -68,7 +51,6 @@ func _process(_delta):
 		$ui_debug/c_dir_length_plots.push_point( player.sprint_blend, Color(0.286275, 0.827451, 0.211765, 0.5) )
 		
 		$ui_debug/c_camera_track_plots.push_point( $ViewportContainer/Viewport/Camera.target_margin_factor, Color(1, 0.570313, 0.942526, 0.407843) )
-		update()
 
 
 func update_debug_display() -> void:
@@ -89,3 +71,7 @@ func update_debug_display() -> void:
 	
 	viewport_display_texture_rect.debug_display = debug_display
 
+
+func quit_game() -> void:
+	print("[game] quit.")
+	get_tree().quit()
