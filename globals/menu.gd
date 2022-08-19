@@ -16,6 +16,7 @@ func deactivate() -> void:
 	self.hide()
 	self.set_process_input(false)
 	self.set_process(false)
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 
 func activate()->void:
@@ -24,6 +25,7 @@ func activate()->void:
 		self.show()
 		self.set_process_input(true)
 		self.set_process(true)
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
 
 func pprint(thing) -> void:

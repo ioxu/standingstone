@@ -59,7 +59,7 @@ func update_debug_display() -> void:
 	# Debug > Visible Collision Shapes menu
 	print("[game] update_debug_display: %s"%debug_display)
 	for c in self.get_children():
-		if not c.name in ["ViewportDisplay", "ViewportContainer", "ui_persistent"]:
+		if not c.name in ["ViewportDisplay", "ViewportContainer", "ui_persistent", "ui_menu"]:
 			if c.get_class() == "Node":
 				for cc in c.get_children():
 					cc.visible = debug_display
@@ -75,3 +75,7 @@ func update_debug_display() -> void:
 func quit_game() -> void:
 	print("[game] quit.")
 	get_tree().quit()
+
+
+func _on_quit_button_pressed() -> void:
+	self.quit_game()
