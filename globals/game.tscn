@@ -442,17 +442,17 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_constants/margin_right = 10
-custom_constants/margin_top = 10
-custom_constants/margin_left = 10
-custom_constants/margin_bottom = 10
+custom_constants/margin_right = 5
+custom_constants/margin_top = 5
+custom_constants/margin_left = 5
+custom_constants/margin_bottom = 27
 script = ExtResource( 11 )
 
 [node name="Panel" type="Panel" parent="ui_menu/menu_container"]
-margin_left = 10.0
-margin_top = 10.0
-margin_right = 1014.0
-margin_bottom = 590.0
+margin_left = 5.0
+margin_top = 5.0
+margin_right = 1019.0
+margin_bottom = 573.0
 custom_styles/panel = SubResource( 11 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="ui_menu/menu_container/Panel"]
@@ -460,17 +460,17 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer"]
-margin_right = 1004.0
+margin_right = 1014.0
 margin_bottom = 58.0
 
 [node name="Control" type="Control" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer"]
-margin_right = 873.0
+margin_right = 883.0
 margin_bottom = 58.0
 size_flags_horizontal = 3
 
 [node name="MarginContainer" type="MarginContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer"]
-margin_left = 877.0
-margin_right = 1004.0
+margin_left = 887.0
+margin_right = 1014.0
 margin_bottom = 58.0
 custom_constants/margin_right = 20
 custom_constants/margin_top = 5
@@ -487,56 +487,56 @@ text = "menu"
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer"]
 margin_top = 62.0
-margin_right = 1004.0
-margin_bottom = 580.0
+margin_right = 1014.0
+margin_bottom = 568.0
 size_flags_vertical = 3
 
 [node name="VBoxContainer" type="VBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3"]
-margin_right = 155.0
-margin_bottom = 518.0
+margin_right = 99.0
+margin_bottom = 506.0
 
 [node name="Control" type="Control" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/VBoxContainer"]
-margin_right = 155.0
-margin_bottom = 362.0
+margin_right = 99.0
+margin_bottom = 413.0
 size_flags_vertical = 3
 
 [node name="MarginContainer" type="MarginContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/VBoxContainer"]
-margin_top = 366.0
-margin_right = 155.0
-margin_bottom = 518.0
+margin_top = 417.0
+margin_right = 99.0
+margin_bottom = 506.0
 size_flags_horizontal = 3
-custom_constants/margin_right = 20
-custom_constants/margin_top = 20
-custom_constants/margin_left = 20
-custom_constants/margin_bottom = 20
+custom_constants/margin_right = 10
+custom_constants/margin_top = 10
+custom_constants/margin_left = 10
+custom_constants/margin_bottom = 10
 
 [node name="VBoxContainer" type="VBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/VBoxContainer/MarginContainer"]
-margin_left = 20.0
-margin_top = 20.0
-margin_right = 135.0
-margin_bottom = 132.0
-custom_constants/separation = 20
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 89.0
+margin_bottom = 79.0
+custom_constants/separation = 5
 
-[node name="settings_button" type="Button" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/VBoxContainer/MarginContainer/VBoxContainer"]
-margin_right = 115.0
-margin_bottom = 46.0
+[node name="graphics_settings_button" type="Button" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/VBoxContainer/MarginContainer/VBoxContainer"]
+margin_right = 79.0
+margin_bottom = 32.0
 theme = ExtResource( 14 )
 custom_fonts/font = ExtResource( 13 )
 toggle_mode = true
-text = " settings "
+text = " graphics "
 
 [node name="quit_button" type="Button" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/VBoxContainer/MarginContainer/VBoxContainer"]
-margin_top = 66.0
-margin_right = 115.0
-margin_bottom = 112.0
+margin_top = 37.0
+margin_right = 79.0
+margin_bottom = 69.0
 theme = ExtResource( 14 )
 custom_fonts/font = ExtResource( 13 )
 text = "quit"
 
 [node name="MarginContainer" type="MarginContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3"]
-margin_left = 159.0
-margin_right = 1004.0
-margin_bottom = 518.0
+margin_left = 103.0
+margin_right = 1014.0
+margin_bottom = 506.0
 size_flags_horizontal = 3
 custom_constants/margin_right = 10
 custom_constants/margin_top = 10
@@ -546,8 +546,8 @@ custom_constants/margin_bottom = 10
 [node name="PanelContainer" type="PanelContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/MarginContainer"]
 margin_left = 10.0
 margin_top = 10.0
-margin_right = 835.0
-margin_bottom = 508.0
+margin_right = 901.0
+margin_bottom = 496.0
 custom_styles/panel = SubResource( 13 )
 
 [connection signal="pressed" from="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/VBoxContainer/MarginContainer/VBoxContainer/quit_button" to="." method="_on_quit_button_pressed"]
