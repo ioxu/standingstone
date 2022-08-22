@@ -81,7 +81,7 @@ nodes/run_timescale/node = SubResource( 44 )
 nodes/run_timescale/position = Vector2( 380, 380 )
 nodes/walk_timescale/node = SubResource( 46 )
 nodes/walk_timescale/position = Vector2( 380, 260 )
-node_connections = [ "run_timescale", 0, "Animation 2", "fastrun_timescale", 0, "Animation", "walk_timescale", 0, "Animation 3", "blend_walk_running", 0, "walk_timescale", "blend_walk_running", 1, "run_timescale", "blend_walk_running", 2, "fastrun_timescale", "output", 0, "blend_walk_running" ]
+node_connections = [ "run_timescale", 0, "Animation 2", "fastrun_timescale", 0, "Animation", "blend_walk_running", 0, "walk_timescale", "blend_walk_running", 1, "run_timescale", "blend_walk_running", 2, "fastrun_timescale", "walk_timescale", 0, "Animation 3", "output", 0, "blend_walk_running" ]
 
 [sub_resource type="AnimationNodeAnimation" id=8]
 animation = "Standard Walk-loop"
