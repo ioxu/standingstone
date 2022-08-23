@@ -30,7 +30,7 @@ func _input(event):
 	if event.is_action_pressed("ui_cancel"):
 		get_tree().quit()
 	elif event.is_action_pressed("ui_fullscreen"):
-		_go_fullscreen()
+		go_fullscreen()
 		get_tree().set_input_as_handled()
 
 
@@ -40,7 +40,7 @@ func resize():
 	pprint("resolution: %s"%resolution)
 
 
-func _go_fullscreen():
+func go_fullscreen():
 	if not BORDERLESS_FULLSCREEN:
 		OS.window_fullscreen = !OS.window_fullscreen
 		fullscreen = !fullscreen
