@@ -12,7 +12,7 @@ var MSAA_ENUM_STRINGS = ["Viewport.MSAA_DISABLED",
 
 
 var original_render_viewport_resolution :Vector2
-
+var fullscreen_value := false
 
 func _ready() -> void:
 	self.graphics_settings_menu.set_visible( false )
@@ -28,6 +28,9 @@ func _ready() -> void:
 	msaa_options.add_item("16 x")
 
 	msaa_options.select( render_viewport.get_msaa() )
+
+	# warning-ignore:return_value_discarded
+	Window.connect( "fullscreen", self, "react_to_window_fullscreen", [fullscreen_value] )
 
 
 func _input(event: InputEvent) -> void:
@@ -55,6 +58,13 @@ func activate()->void:
 
 func pprint(thing) -> void:
 	print("[menu] %s"%str(thing))
+
+
+# warning-ignore:shadowed_variable
+# warning-ignore:unused_argument
+func react_to_window_fullscreen( fullscreen_value, ignored )->void:
+	# keep option in graphics settings synced with fullscreen after hot-key fullscreen
+	self.find_node("fullscreen_checkbox").set_pressed_no_signal(fullscreen_value)
 
 
 #-------------------------------------------------------------------------------
