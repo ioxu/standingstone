@@ -70,6 +70,9 @@ func _process(delta):
 	camera_data.rotation.y = lerp(camera_data.rotation.y, target_rotation.y, delta*10.0)
 	camera_data.rotation.x = lerp(camera_data.rotation.x, target_rotation.x, delta*10.0)
 
+	# clamp here, too
+	target_rotation.x = clamp( target_rotation.x, pitch_limit.x, pitch_limit.y)
+
 	# set camera rig
 	target_margin_factor = calculate_target_margin_factor()
 	if target_margin_factor > 0.0:

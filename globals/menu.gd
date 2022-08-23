@@ -60,11 +60,9 @@ func pprint(thing) -> void:
 	print("[menu] %s"%str(thing))
 
 
-# warning-ignore:shadowed_variable
-# warning-ignore:unused_argument
-func react_to_window_fullscreen( fullscreen_value, ignored )->void:
+func react_to_window_fullscreen( _fullscreen_value, _ignored )->void:
 	# keep option in graphics settings synced with fullscreen after hot-key fullscreen
-	self.find_node("fullscreen_checkbox").set_pressed_no_signal(fullscreen_value)
+	self.find_node("fullscreen_checkbox").set_pressed_no_signal(_fullscreen_value)
 
 
 #-------------------------------------------------------------------------------

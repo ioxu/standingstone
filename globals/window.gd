@@ -40,11 +40,10 @@ func _input(event):
 func resize():
 	var root = get_node("/root")
 	var resolution = root.get_visible_rect() #root.get_rect()
-	pprint("resolution: %s"%resolution)
+	pprint("resized. resolution: %s"%resolution)
 
 
 func go_fullscreen():
-	pprint("go_fullscreen")
 	if not BORDERLESS_FULLSCREEN:
 		OS.window_fullscreen = !OS.window_fullscreen
 		fullscreen = !fullscreen
@@ -63,7 +62,6 @@ func go_fullscreen():
 			OS.set_borderless_window(false)
 			OS.set_window_size(minimum_size)
 			OS.set_window_position(window_position)
-	pprint("emitting 'fullscreen' signal")
 	emit_signal("fullscreen", fullscreen)
 
 
