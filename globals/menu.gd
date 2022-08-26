@@ -88,7 +88,7 @@ func _on_fxaa_checkbox_toggled(button_pressed: bool) -> void:
 
 
 func _on_msaa_options_item_selected(index: int) -> void:
-	pprint("msaa selected : %s"%MSAA_ENUM_STRINGS[index])
+	pprint("msaa selected %s"%MSAA_ENUM_STRINGS[index])
 	render_viewport.msaa = index
 
 
