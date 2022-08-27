@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=2]
+[gd_scene load_steps=40 format=2]
 
 [ext_resource path="res://globals/game.gd" type="Script" id=1]
 [ext_resource path="res://levels/default_level.tscn" type="PackedScene" id=2]
@@ -18,6 +18,7 @@
 [ext_resource path="res://parts/icons/settings.png" type="Texture" id=16]
 [ext_resource path="res://parts/icons/pulse.png" type="Texture" id=17]
 [ext_resource path="res://parts/textures/stripe_tile_a_inv.png" type="Texture" id=18]
+[ext_resource path="res://parts/icons/game-controller.png" type="Texture" id=19]
 
 [sub_resource type="CubeMesh" id=9]
 size = Vector3( 0.3, 0.3, 0.3 )
@@ -124,6 +125,18 @@ border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
 border_color = Color( 0.145098, 0.505882, 0.92549, 1 )
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id=25]
+bg_color = Color( 0.6, 0.6, 0.6, 0 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 0.690196, 0.690196, 0.690196, 1 )
 corner_radius_top_left = 3
 corner_radius_top_right = 3
 corner_radius_bottom_right = 3
@@ -584,17 +597,18 @@ size_flags_vertical = 3
 custom_constants/separation = 0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3"]
-margin_right = 89.0
+margin_right = 90.0
 margin_bottom = 568.0
+rect_min_size = Vector2( 90, 0 )
 
 [node name="Control" type="Control" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/VBoxContainer"]
-margin_right = 89.0
+margin_right = 90.0
 margin_bottom = 485.0
 size_flags_vertical = 3
 
 [node name="MarginContainer" type="MarginContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/VBoxContainer"]
 margin_top = 489.0
-margin_right = 89.0
+margin_right = 90.0
 margin_bottom = 568.0
 size_flags_horizontal = 3
 custom_constants/margin_right = 5
@@ -605,28 +619,37 @@ custom_constants/margin_bottom = 5
 [node name="VBoxContainer" type="VBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/VBoxContainer/MarginContainer"]
 margin_left = 5.0
 margin_top = 5.0
-margin_right = 84.0
+margin_right = 85.0
 margin_bottom = 74.0
 custom_constants/separation = 5
 
-[node name="graphics_settings_button" type="Button" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/VBoxContainer/MarginContainer/VBoxContainer"]
-margin_right = 79.0
+[node name="return_button" type="Button" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/VBoxContainer/MarginContainer/VBoxContainer"]
+margin_right = 80.0
 margin_bottom = 32.0
 theme = ExtResource( 14 )
 custom_fonts/font = ExtResource( 13 )
+text = "return"
+
+[node name="settings_button" type="Button" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/VBoxContainer/MarginContainer/VBoxContainer"]
+visible = false
+margin_top = 37.0
+margin_right = 79.0
+margin_bottom = 69.0
+theme = ExtResource( 14 )
+custom_fonts/font = ExtResource( 13 )
 toggle_mode = true
-text = " graphics "
+text = "  settings "
 
 [node name="quit_button" type="Button" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/VBoxContainer/MarginContainer/VBoxContainer"]
 margin_top = 37.0
-margin_right = 79.0
+margin_right = 80.0
 margin_bottom = 69.0
 theme = ExtResource( 14 )
 custom_fonts/font = ExtResource( 13 )
 text = "quit"
 
 [node name="graphics_settings_menu" type="MarginContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3"]
-margin_left = 89.0
+margin_left = 90.0
 margin_right = 1014.0
 margin_bottom = 568.0
 size_flags_horizontal = 3
@@ -639,12 +662,12 @@ custom_constants/margin_bottom = 5
 [node name="PanelContainer" type="PanelContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu"]
 margin_left = 5.0
 margin_top = 5.0
-margin_right = 920.0
+margin_right = 919.0
 margin_bottom = 563.0
 custom_styles/panel = SubResource( 13 )
 
 [node name="MarginContainer" type="MarginContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer"]
-margin_right = 915.0
+margin_right = 914.0
 margin_bottom = 558.0
 custom_constants/margin_right = 3
 custom_constants/margin_top = 3
@@ -654,7 +677,7 @@ custom_constants/margin_bottom = 3
 [node name="HBoxContainer" type="HBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer"]
 margin_left = 3.0
 margin_top = 3.0
-margin_right = 912.0
+margin_right = 911.0
 margin_bottom = 555.0
 
 [node name="graphics_settings_panel_container" type="PanelContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer"]
@@ -711,14 +734,14 @@ text = "GRAPHICS"
 [node name="PanelContainer" type="PanelContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer"]
 margin_top = 78.0
 margin_right = 174.0
-margin_bottom = 208.0
+margin_bottom = 192.0
 custom_styles/panel = SubResource( 17 )
 
 [node name="MarginContainer" type="MarginContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer"]
 margin_left = 2.0
 margin_top = 2.0
 margin_right = 172.0
-margin_bottom = 128.0
+margin_bottom = 112.0
 custom_constants/margin_right = 2
 custom_constants/margin_top = 2
 custom_constants/margin_left = 2
@@ -728,7 +751,8 @@ custom_constants/margin_bottom = 2
 margin_left = 2.0
 margin_top = 2.0
 margin_right = 168.0
-margin_bottom = 124.0
+margin_bottom = 108.0
+custom_constants/separation = 0
 
 [node name="resolution_label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
 margin_right = 166.0
@@ -738,9 +762,9 @@ custom_fonts/font = SubResource( 18 )
 text = "resolution"
 
 [node name="fullscreen_checkbox_container" type="HBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
-margin_top = 17.0
+margin_top = 13.0
 margin_right = 166.0
-margin_bottom = 41.0
+margin_bottom = 37.0
 
 [node name="fullscreen_checkbox_label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/fullscreen_checkbox_container"]
 margin_top = 4.0
@@ -759,9 +783,9 @@ custom_fonts/font = ExtResource( 9 )
 text = "on"
 
 [node name="resolution_scale_container" type="HBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
-margin_top = 45.0
+margin_top = 37.0
 margin_right = 166.0
-margin_bottom = 69.0
+margin_bottom = 61.0
 
 [node name="resolution_scale_label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/resolution_scale_container"]
 margin_top = 4.0
@@ -782,9 +806,9 @@ align = 2
 suffix = "x"
 
 [node name="msaa_container" type="HBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
-margin_top = 73.0
+margin_top = 61.0
 margin_right = 166.0
-margin_bottom = 94.0
+margin_bottom = 82.0
 
 [node name="Label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/msaa_container"]
 margin_top = 3.0
@@ -804,9 +828,9 @@ text = "Disabled"
 align = 2
 
 [node name="fxaa_container" type="HBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
-margin_top = 98.0
+margin_top = 82.0
 margin_right = 166.0
-margin_bottom = 122.0
+margin_bottom = 106.0
 
 [node name="fxaa_label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/fxaa_container"]
 margin_top = 4.0
@@ -825,16 +849,16 @@ custom_fonts/font = ExtResource( 9 )
 text = "on"
 
 [node name="PanelContainer2" type="PanelContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer"]
-margin_top = 212.0
+margin_top = 196.0
 margin_right = 174.0
-margin_bottom = 281.0
+margin_bottom = 257.0
 custom_styles/panel = SubResource( 19 )
 
 [node name="MarginContainer" type="MarginContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2"]
 margin_left = 2.0
 margin_top = 2.0
 margin_right = 172.0
-margin_bottom = 67.0
+margin_bottom = 59.0
 custom_constants/margin_right = 2
 custom_constants/margin_top = 2
 custom_constants/margin_left = 2
@@ -844,7 +868,8 @@ custom_constants/margin_bottom = 2
 margin_left = 2.0
 margin_top = 2.0
 margin_right = 168.0
-margin_bottom = 63.0
+margin_bottom = 55.0
+custom_constants/separation = 0
 
 [node name="resolution_label2" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer"]
 margin_right = 166.0
@@ -854,9 +879,9 @@ custom_fonts/font = SubResource( 18 )
 text = "display"
 
 [node name="filter_display_container" type="HBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer"]
-margin_top = 17.0
+margin_top = 13.0
 margin_right = 166.0
-margin_bottom = 41.0
+margin_bottom = 37.0
 
 [node name="filter_display_label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/filter_display_container"]
 margin_top = 4.0
@@ -876,9 +901,9 @@ pressed = true
 text = "on"
 
 [node name="sharpen_intensity_container" type="HBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer"]
-margin_top = 45.0
+margin_top = 37.0
 margin_right = 166.0
-margin_bottom = 61.0
+margin_bottom = 53.0
 
 [node name="sharpen_intensity_label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/sharpen_intensity_container"]
 margin_right = 84.0
@@ -897,9 +922,204 @@ step = 0.001
 tick_count = 5
 ticks_on_borders = true
 
-[node name="debug_settings_panel_container" type="PanelContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer"]
+[node name="controls_settings_panel_container" type="PanelContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer"]
 margin_left = 184.0
 margin_right = 364.0
+margin_bottom = 552.0
+rect_min_size = Vector2( 180, 0 )
+custom_styles/panel = SubResource( 15 )
+
+[node name="MarginContainer" type="MarginContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container"]
+margin_right = 180.0
+margin_bottom = 552.0
+custom_constants/margin_right = 3
+custom_constants/margin_top = 3
+custom_constants/margin_left = 3
+custom_constants/margin_bottom = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer"]
+margin_left = 3.0
+margin_top = 3.0
+margin_right = 177.0
+margin_bottom = 549.0
+
+[node name="MarginContainer" type="MarginContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer"]
+margin_right = 174.0
+margin_bottom = 42.0
+custom_constants/margin_right = 5
+custom_constants/margin_top = 5
+custom_constants/margin_left = 5
+custom_constants/margin_bottom = 5
+
+[node name="TextureRect" type="TextureRect" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/MarginContainer"]
+margin_left = 5.0
+margin_top = 5.0
+margin_right = 169.0
+margin_bottom = 37.0
+rect_min_size = Vector2( 32, 32 )
+texture = ExtResource( 19 )
+expand = true
+stretch_mode = 5
+
+[node name="MarginContainer3" type="MarginContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer"]
+margin_top = 46.0
+margin_right = 174.0
+margin_bottom = 74.0
+
+[node name="Label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/MarginContainer3"]
+margin_right = 174.0
+margin_bottom = 28.0
+custom_colors/font_color = Color( 0.898039, 0.592157, 0.113725, 1 )
+custom_fonts/font = SubResource( 20 )
+text = "CONTROLS"
+
+[node name="PanelContainer" type="PanelContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer"]
+margin_top = 78.0
+margin_right = 174.0
+margin_bottom = 140.0
+custom_styles/panel = SubResource( 25 )
+
+[node name="MarginContainer" type="MarginContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer"]
+margin_left = 2.0
+margin_top = 2.0
+margin_right = 172.0
+margin_bottom = 60.0
+custom_constants/margin_right = 2
+custom_constants/margin_top = 2
+custom_constants/margin_left = 2
+custom_constants/margin_bottom = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer"]
+margin_left = 2.0
+margin_top = 2.0
+margin_right = 168.0
+margin_bottom = 56.0
+custom_constants/separation = -8
+
+[node name="look_label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+margin_right = 166.0
+margin_bottom = 13.0
+custom_fonts/font = SubResource( 18 )
+text = "look"
+
+[node name="invert_y_look_checkbox_container" type="HBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+margin_top = 5.0
+margin_right = 166.0
+margin_bottom = 29.0
+
+[node name="invert_y_look_checkbox_label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/invert_y_look_checkbox_container"]
+margin_top = 4.0
+margin_right = 81.0
+margin_bottom = 19.0
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 9 )
+text = "invert Y"
+
+[node name="invert_y_look_checkbox" type="CheckBox" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/invert_y_look_checkbox_container"]
+margin_left = 85.0
+margin_right = 166.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 9 )
+pressed = true
+text = "on"
+
+[node name="invert_x_look_checkbox_container" type="HBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+margin_top = 21.0
+margin_right = 166.0
+margin_bottom = 54.0
+
+[node name="invert_x_look_checkbox_label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/invert_x_look_checkbox_container"]
+margin_right = 81.0
+margin_bottom = 33.0
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 9 )
+text = "invert X
+"
+
+[node name="invert_x_look_checkbox" type="CheckBox" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/invert_x_look_checkbox_container"]
+margin_left = 85.0
+margin_right = 166.0
+margin_bottom = 33.0
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 9 )
+text = "on"
+
+[node name="PanelContainer2" type="PanelContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer"]
+margin_top = 144.0
+margin_right = 174.0
+margin_bottom = 206.0
+custom_styles/panel = SubResource( 25 )
+
+[node name="MarginContainer" type="MarginContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2"]
+margin_left = 2.0
+margin_top = 2.0
+margin_right = 172.0
+margin_bottom = 60.0
+custom_constants/margin_right = 2
+custom_constants/margin_top = 2
+custom_constants/margin_left = 2
+custom_constants/margin_bottom = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer"]
+margin_left = 2.0
+margin_top = 2.0
+margin_right = 168.0
+margin_bottom = 56.0
+custom_constants/separation = -8
+
+[node name="aim_label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer"]
+margin_right = 166.0
+margin_bottom = 13.0
+custom_fonts/font = SubResource( 18 )
+text = "aim"
+
+[node name="invert_y_aim_checkbox_container" type="HBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer"]
+margin_top = 5.0
+margin_right = 166.0
+margin_bottom = 29.0
+
+[node name="invert_y_aim_checkbox_label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/invert_y_aim_checkbox_container"]
+margin_top = 4.0
+margin_right = 81.0
+margin_bottom = 19.0
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 9 )
+text = "invert Y"
+
+[node name="invert_y_aim_checkbox" type="CheckBox" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/invert_y_aim_checkbox_container"]
+margin_left = 85.0
+margin_right = 166.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 9 )
+pressed = true
+text = "on"
+
+[node name="invert_x_aim_checkbox_container" type="HBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer"]
+margin_top = 21.0
+margin_right = 166.0
+margin_bottom = 54.0
+
+[node name="invert_x_aim_checkbox_label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/invert_x_aim_checkbox_container"]
+margin_right = 81.0
+margin_bottom = 33.0
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 9 )
+text = "invert X
+"
+
+[node name="invert_x_aim_checkbox" type="CheckBox" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/invert_x_aim_checkbox_container"]
+margin_left = 85.0
+margin_right = 166.0
+margin_bottom = 33.0
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 9 )
+text = "on"
+
+[node name="debug_settings_panel_container" type="PanelContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer"]
+margin_left = 368.0
+margin_right = 548.0
 margin_bottom = 552.0
 custom_styles/panel = SubResource( 15 )
 
@@ -1097,14 +1317,15 @@ pressed = true
 text = "on"
 
 [node name="Control" type="Control" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer"]
-margin_left = 368.0
-margin_right = 909.0
+margin_left = 552.0
+margin_right = 908.0
 margin_bottom = 552.0
 size_flags_horizontal = 3
 
 [connection signal="size_changed" from="ViewportContainer/Viewport" to="ui_debug/MarginContainer/HBoxContainer/VBoxContainer/resolutions_info_container/resolutions_info_panel" method="_on_Viewport_size_changed"]
 [connection signal="resized" from="ViewportDisplay/ViewportDisplayTextureRect" to="ui_debug/MarginContainer/HBoxContainer/VBoxContainer/resolutions_info_container/resolutions_info_panel" method="_on_ViewportDisplayTextureRect_resized"]
-[connection signal="toggled" from="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/VBoxContainer/MarginContainer/VBoxContainer/graphics_settings_button" to="ui_menu/menu_container" method="_on_graphics_settings_button_toggled"]
+[connection signal="pressed" from="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/VBoxContainer/MarginContainer/VBoxContainer/return_button" to="ui_menu/menu_container" method="_on_return_button_pressed"]
+[connection signal="toggled" from="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/VBoxContainer/MarginContainer/VBoxContainer/settings_button" to="ui_menu/menu_container" method="_on_graphics_settings_button_toggled"]
 [connection signal="pressed" from="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/VBoxContainer/MarginContainer/VBoxContainer/quit_button" to="." method="_on_quit_button_pressed"]
 [connection signal="toggled" from="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/fullscreen_checkbox_container/fullscreen_checkbox" to="ui_menu/menu_container" method="_on_fullscreen_checkbox_toggled"]
 [connection signal="value_changed" from="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/resolution_scale_container/resolution_scale" to="ui_menu/menu_container" method="_on_resolution_scale_value_changed"]

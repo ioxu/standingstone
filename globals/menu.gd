@@ -21,7 +21,7 @@ var debug_overlay_checkbox_node : CheckBox
 func _ready() -> void:
 	# graphics settings menu set to on by default
 	self.graphics_settings_menu.set_visible( true )
-	self.find_node("graphics_settings_button").set_pressed(true)
+	self.find_node("settings_button").set_pressed(true)
 	
 	self.deactivate()
 
@@ -120,3 +120,6 @@ func _on_remote_toggle_debug_display(value) -> void:
 	# gets fired when debug overlay is toggled, usually from input
 	debug_overlay_checkbox_node.set_pressed_no_signal(value)
 
+
+func _on_return_button_pressed() -> void:
+	self.deactivate()
