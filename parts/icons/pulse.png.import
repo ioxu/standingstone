@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/settings.png-6ad910ceac3772bbd9eefa11ea840845.stex"
+path="res://.import/pulse.png-3c4f23aea5b56d9da5b33a93f711987f.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://parts/icons/settings.png"
-dest_files=[ "res://.import/settings.png-6ad910ceac3772bbd9eefa11ea840845.stex" ]
+source_file="res://parts/icons/pulse.png"
+dest_files=[ "res://.import/pulse.png-3c4f23aea5b56d9da5b33a93f711987f.stex" ]
 
 [params]
 

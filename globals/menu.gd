@@ -1,5 +1,6 @@
 extends MarginContainer
 
+export(NodePath) onready var game_node = get_node(game_node)
 export(NodePath) onready var graphics_settings_menu = get_node(graphics_settings_menu)
 export(NodePath) onready var render_viewport = get_node(render_viewport)
 export(NodePath) onready var display_texture = get_node(display_texture)
@@ -14,8 +15,14 @@ var MSAA_ENUM_STRINGS = ["Viewport.MSAA_DISABLED",
 var original_render_viewport_resolution :Vector2
 var fullscreen_value := false
 
+var debug_overlay_checkbox_node : CheckBox
+
+
 func _ready() -> void:
-	self.graphics_settings_menu.set_visible( false )
+	# graphics settings menu set to on by default
+	self.graphics_settings_menu.set_visible( true )
+	self.find_node("graphics_settings_button").set_pressed(true)
+	
 	self.deactivate()
 
 	original_render_viewport_resolution = render_viewport.get_size()
@@ -31,6 +38,9 @@ func _ready() -> void:
 
 	# warning-ignore:return_value_discarded
 	Window.connect( "fullscreen", self, "react_to_window_fullscreen", [fullscreen_value] )
+
+	game_node.connect("toggle_debug_display", self, "_on_remote_toggle_debug_display")
+	debug_overlay_checkbox_node = self.find_node("debug_overlay_checkbox")
 
 
 func _input(event: InputEvent) -> void:
@@ -104,3 +114,9 @@ func _on_fullscreen_checkbox_toggled(button_pressed: bool) -> void:
 func _on_resolution_scale_value_changed(value: float) -> void:
 	pprint("resolution scale %s (%s)"%[value, original_render_viewport_resolution * value] )
 	render_viewport.set_size( original_render_viewport_resolution * value )
+
+
+func _on_remote_toggle_debug_display(value) -> void:
+	# gets fired when debug overlay is toggled, usually from input
+	debug_overlay_checkbox_node.set_pressed_no_signal(value)
+

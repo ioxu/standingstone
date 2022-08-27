@@ -7,6 +7,7 @@ export(NodePath) onready var player = get_node(player)
 export(NodePath) onready var viewport_display_texture_rect = get_node(viewport_display_texture_rect)
 
 var debug_display := true
+signal toggle_debug_display(value)
 
 
 func _ready():
@@ -68,8 +69,8 @@ func update_debug_display() -> void:
 	if !debug_display:
 		yield(get_tree().create_timer(0.02), "timeout")
 		update()
-	
 	viewport_display_texture_rect.debug_display = debug_display
+	emit_signal("toggle_debug_display", debug_display)
 
 
 func quit_game() -> void:
@@ -79,3 +80,8 @@ func quit_game() -> void:
 
 func _on_quit_button_pressed() -> void:
 	self.quit_game()
+
+
+func _on_debug_overlay_checkbox_toggled(button_pressed: bool) -> void:
+	debug_display = button_pressed
+	update_debug_display()
