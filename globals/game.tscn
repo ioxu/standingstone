@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=2]
+[gd_scene load_steps=47 format=2]
 
 [ext_resource path="res://globals/game.gd" type="Script" id=1]
 [ext_resource path="res://levels/default_level.tscn" type="PackedScene" id=2]
@@ -137,6 +137,18 @@ border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
 border_color = Color( 0.145098, 0.505882, 0.92549, 1 )
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id=31]
+bg_color = Color( 0.6, 0.6, 0.6, 0 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 0.968627, 0.376471, 0.87451, 1 )
 corner_radius_top_left = 3
 corner_radius_top_right = 3
 corner_radius_bottom_right = 3
@@ -297,14 +309,14 @@ margin_right = 1018.0
 margin_bottom = 594.0
 
 [node name="persistant_ui_hint_panel" type="PanelContainer" parent="ui_persistent/MarginContainer/VBoxContainer2/HBoxContainer"]
-margin_right = 247.0
+margin_right = 402.0
 margin_bottom = 19.0
 mouse_filter = 1
 custom_styles/panel = SubResource( 7 )
 
 [node name="MarginContainer" type="MarginContainer" parent="ui_persistent/MarginContainer/VBoxContainer2/HBoxContainer/persistant_ui_hint_panel"]
 margin_left = 3.0
-margin_right = 244.0
+margin_right = 399.0
 margin_bottom = 19.0
 custom_constants/margin_right = 2
 custom_constants/margin_top = 2
@@ -314,10 +326,10 @@ custom_constants/margin_bottom = 2
 [node name="hint_label" type="Label" parent="ui_persistent/MarginContainer/VBoxContainer2/HBoxContainer/persistant_ui_hint_panel/MarginContainer"]
 margin_left = 2.0
 margin_top = 2.0
-margin_right = 239.0
+margin_right = 394.0
 margin_bottom = 17.0
 custom_fonts/font = ExtResource( 9 )
-text = "Esc : menu        Ctrl-Alt-B : Toggle Debug Overlay"
+text = "Esc : menu        Ctrl-Alt-B : toggle debug overlay       Alt-Enter : toggle full-screen"
 
 [node name="ui_debug" type="Node" parent="."]
 
@@ -620,6 +632,7 @@ graphics_settings_menu = NodePath("Panel/VBoxContainer/HBoxContainer3/graphics_s
 render_viewport = NodePath("../../ViewportContainer/Viewport")
 display_texture = NodePath("../../ViewportDisplay/ViewportDisplayTextureRect")
 ui_debug_root = NodePath("../../ui_debug")
+camera = NodePath("../../ViewportContainer/Viewport/Camera")
 
 [node name="Panel" type="Panel" parent="ui_menu/menu_container"]
 margin_left = 5.0
@@ -963,6 +976,131 @@ max_value = 1.0
 step = 0.001
 tick_count = 5
 ticks_on_borders = true
+
+[node name="PanelContainer3" type="PanelContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer"]
+margin_top = 261.0
+margin_right = 174.0
+margin_bottom = 367.0
+custom_styles/panel = SubResource( 31 )
+
+[node name="MarginContainer" type="MarginContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3"]
+margin_left = 2.0
+margin_top = 2.0
+margin_right = 172.0
+margin_bottom = 104.0
+custom_constants/margin_right = 2
+custom_constants/margin_top = 2
+custom_constants/margin_left = 2
+custom_constants/margin_bottom = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer"]
+margin_left = 2.0
+margin_top = 2.0
+margin_right = 168.0
+margin_bottom = 100.0
+
+[node name="effects_label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer"]
+margin_right = 166.0
+margin_bottom = 13.0
+custom_colors/font_color = Color( 0.968627, 0.376471, 0.87451, 1 )
+custom_fonts/font = SubResource( 18 )
+text = "effects"
+
+[node name="PanelContainer" type="PanelContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer"]
+margin_top = 17.0
+margin_right = 166.0
+margin_bottom = 98.0
+custom_styles/panel = SubResource( 31 )
+
+[node name="MarginContainer" type="MarginContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/PanelContainer"]
+margin_left = 2.0
+margin_top = 2.0
+margin_right = 164.0
+margin_bottom = 79.0
+custom_constants/margin_right = 2
+custom_constants/margin_top = 2
+custom_constants/margin_left = 2
+custom_constants/margin_bottom = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/PanelContainer/MarginContainer"]
+margin_left = 2.0
+margin_top = 2.0
+margin_right = 160.0
+margin_bottom = 75.0
+custom_constants/separation = -4
+
+[node name="motionblur_label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+margin_right = 158.0
+margin_bottom = 13.0
+custom_colors/font_color = Color( 0.968627, 0.376471, 0.87451, 1 )
+custom_fonts/font = SubResource( 18 )
+text = "motion blur"
+
+[node name="motionblur_enable_container" type="HBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+margin_top = 9.0
+margin_right = 158.0
+margin_bottom = 33.0
+
+[node name="motionblur_enable_label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/motionblur_enable_container"]
+margin_top = 4.0
+margin_right = 77.0
+margin_bottom = 19.0
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 9 )
+text = "enable"
+
+[node name="motionblur_enable_checkbox" type="CheckBox" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/motionblur_enable_container"]
+margin_left = 81.0
+margin_right = 158.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 9 )
+pressed = true
+text = "on"
+
+[node name="motionblur_iterations_container" type="HBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+margin_top = 29.0
+margin_right = 158.0
+margin_bottom = 53.0
+
+[node name="motionblur_iterations_label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/motionblur_iterations_container"]
+margin_top = 4.0
+margin_right = 80.0
+margin_bottom = 19.0
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 9 )
+text = "iterations"
+
+[node name="motionblur_iterations" type="SpinBox" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/motionblur_iterations_container"]
+margin_left = 84.0
+margin_right = 158.0
+margin_bottom = 24.0
+min_value = 2.0
+max_value = 32.0
+value = 10.0
+align = 2
+
+[node name="motionblur_intensity_container" type="HBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+margin_top = 49.0
+margin_right = 158.0
+margin_bottom = 73.0
+
+[node name="motionblur_intensity_label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/motionblur_intensity_container"]
+margin_top = 4.0
+margin_right = 80.0
+margin_bottom = 19.0
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 9 )
+text = "intensity"
+
+[node name="motionblur_intensity" type="SpinBox" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/motionblur_intensity_container"]
+margin_left = 84.0
+margin_right = 158.0
+margin_bottom = 24.0
+max_value = 1.0
+step = 0.001
+value = 0.4
+align = 2
 
 [node name="controls_settings_panel_container" type="PanelContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer"]
 margin_left = 184.0
@@ -1514,6 +1652,7 @@ size_flags_horizontal = 3
 [connection signal="toggled" from="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/fxaa_container/fxaa_checkbox" to="ui_menu/menu_container" method="_on_fxaa_checkbox_toggled"]
 [connection signal="toggled" from="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/filter_display_container/filter_display_checkbox" to="ui_menu/menu_container" method="_on_filter_display_checkbox_toggled"]
 [connection signal="value_changed" from="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/sharpen_intensity_container/sharpen_intensity_slider" to="ui_menu/menu_container" method="_on_sharpen_intensity_slider_value_changed"]
+[connection signal="toggled" from="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/motionblur_enable_container/motionblur_enable_checkbox" to="ui_menu/menu_container" method="_on_motionblur_enable_checkbox_toggled"]
 [connection signal="toggled" from="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/debug_overlay_checkbox_container/debug_overlay_checkbox" to="." method="_on_debug_overlay_checkbox_toggled"]
 [connection signal="toggled" from="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/fps_checkbox_container/fps_checkbox" to="ui_menu/menu_container" method="_on_fps_checkbox_toggled"]
 [connection signal="toggled" from="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/debug_render_info_checkbox_container/debug_render_info_checkbox" to="ui_menu/menu_container" method="_on_debug_render_info_checkbox_toggled"]
