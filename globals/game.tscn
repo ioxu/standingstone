@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=2]
+[gd_scene load_steps=46 format=2]
 
 [ext_resource path="res://globals/game.gd" type="Script" id=1]
 [ext_resource path="res://levels/default_level.tscn" type="PackedScene" id=2]
@@ -19,6 +19,8 @@
 [ext_resource path="res://parts/icons/pulse.png" type="Texture" id=17]
 [ext_resource path="res://parts/textures/stripe_tile_a_inv.png" type="Texture" id=18]
 [ext_resource path="res://parts/icons/game-controller.png" type="Texture" id=19]
+[ext_resource path="res://parts/camera/motion_blur.gd" type="Script" id=20]
+[ext_resource path="res://parts/shaders/motion_blur.shader" type="Shader" id=21]
 
 [sub_resource type="CubeMesh" id=9]
 size = Vector3( 0.3, 0.3, 0.3 )
@@ -40,6 +42,16 @@ look_target = Vector3( 0, 0, 0 )
 
 [sub_resource type="Curve" id=2]
 _data = [ Vector2( 0, 0 ), 0.0, 5.42416, 0, 1, Vector2( 0.147806, 0.801724 ), 5.42416, -1.78815, 1, 1, Vector2( 0.533487, 0.112069 ), -1.78815, 1.90334, 1, 1, Vector2( 1, 1 ), 1.90334, 0.0, 1, 0 ]
+
+[sub_resource type="QuadMesh" id=29]
+size = Vector2( 3, 2 )
+
+[sub_resource type="ShaderMaterial" id=30]
+shader = ExtResource( 21 )
+shader_param/linear_velocity = null
+shader_param/angular_velocity = null
+shader_param/iteration_count = 15
+shader_param/intensity = 0.4
 
 [sub_resource type="ViewportTexture" id=8]
 flags = 4
@@ -220,9 +232,8 @@ shadow_atlas_size = 2048
 [node name="default_level" parent="ViewportContainer/Viewport" instance=ExtResource( 2 )]
 
 [node name="MeshInstance5" type="MeshInstance" parent="ViewportContainer/Viewport/default_level"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7.78995, 0.15462, -5.50613 )
+transform = Transform( 1.1803, 0, 0, 0, 1.1803, 0, 0, 0, 1.1803, 7.78995, 0.15462, -5.50613 )
 mesh = SubResource( 9 )
-skeleton = NodePath("../..")
 material/0 = SubResource( 10 )
 
 [node name="character" parent="ViewportContainer/Viewport" instance=ExtResource( 3 )]
@@ -236,6 +247,12 @@ target = NodePath("../character")
 camera_data = SubResource( 1 )
 look_stick_response_curve = SubResource( 2 )
 look_stick_response_regions = [ Vector2( 0, 0 ), Vector2( 0.5, 0.1 ), Vector2( 0.85, 0.65 ), Vector2( 1, 1 ) ]
+
+[node name="motion_blur" type="MeshInstance" parent="ViewportContainer/Viewport/Camera"]
+transform = Transform( 1, 0, -1.11759e-08, 4.65661e-10, 1, -8.9407e-08, -7.45058e-09, 0, 1, 0, -1.19209e-07, -1.16812 )
+mesh = SubResource( 29 )
+material/0 = SubResource( 30 )
+script = ExtResource( 20 )
 
 [node name="ViewportDisplay" type="Node" parent="."]
 
