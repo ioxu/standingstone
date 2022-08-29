@@ -4,6 +4,7 @@ export(NodePath) onready var game_node = get_node(game_node)
 export(NodePath) onready var graphics_settings_menu = get_node(graphics_settings_menu)
 export(NodePath) onready var render_viewport = get_node(render_viewport)
 export(NodePath) onready var display_texture = get_node(display_texture)
+export(NodePath) onready var ui_debug_root = get_node(ui_debug_root)
 
 var MSAA_ENUM_STRINGS = ["Viewport.MSAA_DISABLED",
 	"Viewport.MSAA_2X",
@@ -123,3 +124,15 @@ func _on_remote_toggle_debug_display(value) -> void:
 
 func _on_return_button_pressed() -> void:
 	self.deactivate()
+
+
+func _on_fps_checkbox_toggled(button_pressed: bool) -> void:
+	ui_debug_root.find_node( "fps_display_container" ).set_visible( button_pressed )
+
+
+func _on_debug_render_info_checkbox_toggled(button_pressed: bool) -> void:
+	ui_debug_root.find_node( "render_info_container" ).set_visible( button_pressed )
+
+
+func _on_resolutions_info_checkbox_toggled(button_pressed: bool) -> void:
+	ui_debug_root.find_node( "resolutions_info_container" ).set_visible( button_pressed )

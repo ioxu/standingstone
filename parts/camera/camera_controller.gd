@@ -62,13 +62,14 @@ func _process(delta):
 	vertical = vsign * look_stick_response_curve.interpolate_baked( abs(vertical) )
 	
 	# times settings sensitivity and inverted-look
+	# TODO: gamepad camera look sensitivity is not time delta dependant
 	if horizontal != 0 or vertical != 0 :
 		target_rotation.y -= horizontal * GameSettings.gamepad_look_sensitivity
 		target_rotation.x -= vertical * GameSettings.gamepad_look_sensitivity * ( 1 if GameSettings.gamepad_look_invert_vertical else -1 )
 
 	# time smoothing
-	camera_data.rotation.y = lerp(camera_data.rotation.y, target_rotation.y, delta*10.0)
-	camera_data.rotation.x = lerp(camera_data.rotation.x, target_rotation.x, delta*10.0)
+	camera_data.rotation.y = lerp(camera_data.rotation.y, target_rotation.y, delta * GameSettings.gamepad_look_smoothing)
+	camera_data.rotation.x = lerp(camera_data.rotation.x, target_rotation.x, delta * GameSettings.gamepad_look_smoothing)
 
 	# clamp here, too
 	target_rotation.x = clamp( target_rotation.x, pitch_limit.x, pitch_limit.y)

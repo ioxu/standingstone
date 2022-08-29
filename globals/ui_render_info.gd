@@ -67,8 +67,17 @@ func refresh_stats() -> void:
 	twod_draw_calls_label.text = "2d draw calls:  %s"%twod_draw_calls
 
 
-func _on_ui_render_info_visibility_changed() -> void:
-	if self.visible:
+func _on_render_info_container_visibility_changed() -> void:
+	update_on_visibility_changed()
+
+
+func update_on_visibility_changed() -> void:
+	# TODO: vulgar display of find_parent(), cache these instead
+	if self.find_parent("render_info_container").visible and self.find_parent("ui_debug_root_container").visible:
 		self.set_process(true)
+		self._timer.set_paused(false)
 	else:
 		self.set_process(false)
+		self._timer.set_paused(true)
+
+
