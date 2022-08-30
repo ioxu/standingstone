@@ -48,10 +48,10 @@ size = Vector2( 3, 2 )
 
 [sub_resource type="ShaderMaterial" id=30]
 shader = ExtResource( 21 )
-shader_param/linear_velocity = null
-shader_param/angular_velocity = null
+shader_param/linear_velocity = Vector3( 0, 0, 0 )
+shader_param/angular_velocity = Vector3( 0, 0, 0 )
 shader_param/iteration_count = 15
-shader_param/intensity = 0.4
+shader_param/intensity = 0.3
 
 [sub_resource type="ViewportTexture" id=8]
 flags = 4
@@ -261,7 +261,7 @@ look_stick_response_curve = SubResource( 2 )
 look_stick_response_regions = [ Vector2( 0, 0 ), Vector2( 0.5, 0.1 ), Vector2( 0.85, 0.65 ), Vector2( 1, 1 ) ]
 
 [node name="motion_blur" type="MeshInstance" parent="ViewportContainer/Viewport/Camera"]
-transform = Transform( 1, 0, -1.11759e-08, 4.65661e-10, 1, -8.9407e-08, -7.45058e-09, 0, 1, 0, -1.19209e-07, -1.16812 )
+transform = Transform( 1, 0, -1.30385e-08, 4.65661e-10, 1, -1.04308e-07, -7.45058e-09, 0, 1, 0, -1.19209e-07, -1.16812 )
 mesh = SubResource( 29 )
 material/0 = SubResource( 30 )
 script = ExtResource( 20 )
@@ -1075,9 +1075,9 @@ text = "iterations"
 margin_left = 84.0
 margin_right = 158.0
 margin_bottom = 24.0
-min_value = 2.0
+min_value = 1.0
 max_value = 32.0
-value = 10.0
+value = 15.0
 align = 2
 
 [node name="motionblur_intensity_container" type="HBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
@@ -1099,7 +1099,7 @@ margin_right = 158.0
 margin_bottom = 24.0
 max_value = 1.0
 step = 0.001
-value = 0.4
+value = 0.3
 align = 2
 
 [node name="controls_settings_panel_container" type="PanelContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer"]
@@ -1653,6 +1653,8 @@ size_flags_horizontal = 3
 [connection signal="toggled" from="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/filter_display_container/filter_display_checkbox" to="ui_menu/menu_container" method="_on_filter_display_checkbox_toggled"]
 [connection signal="value_changed" from="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/sharpen_intensity_container/sharpen_intensity_slider" to="ui_menu/menu_container" method="_on_sharpen_intensity_slider_value_changed"]
 [connection signal="toggled" from="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/motionblur_enable_container/motionblur_enable_checkbox" to="ui_menu/menu_container" method="_on_motionblur_enable_checkbox_toggled"]
+[connection signal="value_changed" from="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/motionblur_iterations_container/motionblur_iterations" to="ui_menu/menu_container" method="_on_motionblur_iterations_value_changed"]
+[connection signal="value_changed" from="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/motionblur_intensity_container/motionblur_intensity" to="ui_menu/menu_container" method="_on_motionblur_intensity_value_changed"]
 [connection signal="toggled" from="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/debug_overlay_checkbox_container/debug_overlay_checkbox" to="." method="_on_debug_overlay_checkbox_toggled"]
 [connection signal="toggled" from="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/fps_checkbox_container/fps_checkbox" to="ui_menu/menu_container" method="_on_fps_checkbox_toggled"]
 [connection signal="toggled" from="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/debug_render_info_checkbox_container/debug_render_info_checkbox" to="ui_menu/menu_container" method="_on_debug_render_info_checkbox_toggled"]

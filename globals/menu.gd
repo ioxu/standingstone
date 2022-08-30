@@ -144,3 +144,11 @@ func _on_motionblur_enable_checkbox_toggled(button_pressed: bool) -> void:
 	camera.find_node("motion_blur").set_visible( button_pressed )
 	self.find_node("motionblur_iterations").set_editable( button_pressed )
 	self.find_node("motionblur_intensity").set_editable( button_pressed )
+
+
+func _on_motionblur_iterations_value_changed(value: float) -> void:
+	camera.find_node("motion_blur").get_surface_material(0).set_shader_param( "iteration_count", value )
+
+
+func _on_motionblur_intensity_value_changed(value: float) -> void:
+	camera.find_node("motion_blur").get_surface_material(0).set_shader_param( "intensity", value )

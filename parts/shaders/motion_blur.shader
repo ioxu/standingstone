@@ -7,6 +7,18 @@ uniform int iteration_count : hint_range(2, 50);
 uniform float intensity : hint_range(0, 1);
 
 
+float hash(float n)
+{
+    return fract(10004.3 * sin(n));
+}
+
+// 2d to 1d position
+float noise( vec2 vec, float s )
+{
+	float n = vec.x * 87.2 * s + vec.y * 36.21 * s;
+	return hash(n);
+}
+
 void fragment()
 { 
 	float depth = texture(DEPTH_TEXTURE, SCREEN_UV).r;
@@ -35,7 +47,9 @@ void fragment()
 	float counter = 0.0;
 	for (int i = 0; i < iteration_count; i++)
 	{
-		vec2 offset = pixel_diff_ndc * (float(i) / float(iteration_count) - 0.5) * intensity; 
+		//vec2 offset = pixel_diff_ndc * (float(i) / float(iteration_count) - 0.5) * intensity;
+		float nn = (float(i) / float(iteration_count) - 0.5) + (noise(SCREEN_UV, float(i)*0.1 )-0.5) * (float(1)/float(iteration_count));
+		vec2 offset = pixel_diff_ndc * nn * intensity;
 		col += textureLod(SCREEN_TEXTURE, SCREEN_UV + offset,0.0).rgb;
 		counter++;
 	}
