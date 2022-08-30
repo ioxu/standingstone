@@ -3,7 +3,7 @@ render_mode depth_test_disable, depth_draw_never, unshaded, cull_disabled;
 
 uniform vec3 linear_velocity; 
 uniform vec3 angular_velocity; //rads
-uniform int iteration_count : hint_range(2, 50);
+uniform int iteration_count : hint_range(2, 512);//(2, 50);
 uniform float intensity : hint_range(0, 1);
 
 
@@ -15,7 +15,7 @@ float hash(float n)
 // 2d to 1d position
 float noise( vec2 vec, float s )
 {
-	float n = vec.x * 87.2 * s + vec.y * 36.21 * s;
+	float n = vec.x * 87.2 + s + vec.y * 36.21 + s;
 	return hash(n);
 }
 
@@ -47,8 +47,15 @@ void fragment()
 	float counter = 0.0;
 	for (int i = 0; i < iteration_count; i++)
 	{
+		// ORIGINAL
 		//vec2 offset = pixel_diff_ndc * (float(i) / float(iteration_count) - 0.5) * intensity;
-		float nn = (float(i) / float(iteration_count) - 0.5) + (noise(SCREEN_UV, float(i)*0.1 )-0.5) * (float(1)/float(iteration_count));
+		
+		// JITTERED SEGMENT
+		float nn = (float(i) / float(iteration_count) - 0.5) + (noise(SCREEN_UV, float( i ) * 50.15 ) - 0.5) * ( float( 1 ) / float( iteration_count ) );
+		
+		// JITTERED WHOLE SHUTTER
+		//float nn = (noise(SCREEN_UV, float( i ) * 50.15 ) - 0.5);
+		
 		vec2 offset = pixel_diff_ndc * nn * intensity;
 		col += textureLod(SCREEN_TEXTURE, SCREEN_UV + offset,0.0).rgb;
 		counter++;

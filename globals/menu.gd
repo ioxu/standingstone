@@ -38,6 +38,12 @@ func _ready() -> void:
 
 	msaa_options.select( render_viewport.get_msaa() )
 
+	# set motionblur params from node
+	var mb_iter_count = camera.find_node("motion_blur").get_surface_material(0).get_shader_param( "iteration_count" )
+	var mb_intensity = camera.find_node("motion_blur").get_surface_material(0).get_shader_param( "intensity" )
+	self.find_node("motionblur_iterations").set_value( mb_iter_count )
+	self.find_node("motionblur_intensity").set_value( mb_intensity )
+
 	# warning-ignore:return_value_discarded
 	Window.connect( "fullscreen", self, "react_to_window_fullscreen", [fullscreen_value] )
 
