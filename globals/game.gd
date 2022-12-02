@@ -41,7 +41,7 @@ func _process(_delta):
 	if debug_display:
 		var dl = player.dir.length()
 		var dls = player.dir_length_smoothed
-		
+
 		$ui_debug/c_blend.text= "c_blend: %0.2f"%player.movement_walk_run_blend#TODO: temp
 		$ui_debug/c_dir_length.text = "dl: %0.2f"%dl
 		$ui_debug/c_dir_length_smoothed.text = "dl smoothed: %0.2f"%dls # TODO: temp
@@ -50,7 +50,7 @@ func _process(_delta):
 
 		$ui_debug/c_is_sprinting.text = "is_sprinting %s"%[player.is_sprinting]
 		$ui_debug/c_dir_length_plots.push_point( player.sprint_blend, Color(0.286275, 0.827451, 0.211765, 0.5) )
-		
+
 		$ui_debug/c_camera_track_plots.push_point( $ViewportContainer/Viewport/Camera.target_margin_factor, Color(1, 0.570313, 0.942526, 0.407843) )
 
 

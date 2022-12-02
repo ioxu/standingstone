@@ -54,7 +54,7 @@ void fragment()
 		float nn = (float(i) / float(iteration_count) - 0.5) + (noise(SCREEN_UV, float( i ) * 50.15 ) - 0.5) * ( float( 1 ) / float( iteration_count ) );
 		
 		// JITTERED WHOLE SHUTTER
-		//float nn = (noise(SCREEN_UV, float( i ) * 50.15 ) - 0.5);
+		//float nn = (noise(SCREEN_UV, float( i ) * 3.2 ) - 0.5);
 		
 		vec2 offset = pixel_diff_ndc * nn * intensity;
 		col += textureLod(SCREEN_TEXTURE, SCREEN_UV + offset,0.0).rgb;
