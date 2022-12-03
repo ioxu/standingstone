@@ -1,4 +1,4 @@
-[gd_scene load_steps=48 format=2]
+[gd_scene load_steps=50 format=2]
 
 [ext_resource path="res://globals/game.gd" type="Script" id=1]
 [ext_resource path="res://levels/default_level.tscn" type="PackedScene" id=2]
@@ -52,6 +52,44 @@ shader_param/linear_velocity = Vector3( 0, 0, 0 )
 shader_param/angular_velocity = Vector3( 0, 0, 0 )
 shader_param/iteration_count = 15
 shader_param/intensity = 0.35
+
+[sub_resource type="Shader" id=33]
+code = "shader_type canvas_item;
+
+uniform float saturation = 1.0;
+
+uniform float bayer_scale = 1.0;
+
+uniform sampler2D bayer_texture;
+
+uniform vec4 bright_c : hint_color;
+uniform vec4 dark_c : hint_color;
+
+void fragment() {
+    vec3 c = texture(TEXTURE, UV).rgb ;
+	
+	// saturation
+	c.rgb = mix(vec3(dot(vec3(1.0), c.rgb)*0.333333), c.rgb, saturation);
+	
+	// dither
+	float bayer_matrix_size = 4.0;
+	bayer_matrix_size *= bayer_matrix_size;
+	vec2 bayer_coords = fract( (UV / SCREEN_PIXEL_SIZE) * (1.0/bayer_matrix_size) * (1./bayer_scale) ) ;
+	float dither = texture( bayer_texture, bayer_coords ).r * 0.98 + 0.01;
+	
+	// greyscale: https://www.shadertoy.com/view/4tlyDN
+	float grey = dot(c, vec3(0.2126, 0.7152, 0.0722)) ;
+
+	// output
+	COLOR = vec4( mix( dark_c, bright_c, step( dither, grey ) ) );
+}"
+
+[sub_resource type="ShaderMaterial" id=34]
+shader = SubResource( 33 )
+shader_param/saturation = 1.0
+shader_param/bayer_scale = 1.0
+shader_param/bright_c = Color( 1, 1, 1, 1 )
+shader_param/dark_c = null
 
 [sub_resource type="ViewportTexture" id=8]
 flags = 4
@@ -235,8 +273,10 @@ player = NodePath("ViewportContainer/Viewport/character")
 viewport_display_texture_rect = NodePath("ViewportDisplay/ViewportDisplayTextureRect")
 
 [node name="ViewportContainer" type="ViewportContainer" parent="."]
-margin_right = 320.0
-margin_bottom = 180.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = 1024.0
+margin_bottom = 600.0
 mouse_filter = 2
 stretch = true
 
@@ -276,6 +316,7 @@ script = ExtResource( 20 )
 [node name="ViewportDisplay" type="Node" parent="."]
 
 [node name="ViewportDisplayTextureRect" type="TextureRect" parent="ViewportDisplay"]
+material = SubResource( 34 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2

@@ -66,4 +66,4 @@ func go_fullscreen():
 
 
 func pprint(thing) -> void:
-	print("[window] %s"%thing)
+	print("[window] %s"%str(thing))
