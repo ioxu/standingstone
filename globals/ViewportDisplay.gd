@@ -45,7 +45,7 @@ func prep_dither():
 	var bayer_m : Array = bayer_matrix(bm_size)
 
 	pprint("bayer_matrix:")
-	pprint(bayer_m)
+	#pprint(bayer_m)
 	pprint(bayer_m.size())
 
 	var texim = ImageTexture.new()
@@ -60,11 +60,13 @@ func prep_dither():
 	image.unlock()
 	texim.create_from_image(image, 0)
 	self.material.set_shader_param("bayer_texture", texim)
+	self.material.set_shader_param("bayer_matrix_size", bm_size)
 
 
 func bayer_matrix(size : int = 2) -> Array:
 	#https://gist.github.com/depp/f4dc0d50c22f28f3b6585725219d7eb8
 	var dim = 1 << size
+	pprint("[bayer_matrix] dim: %s"%dim)
 	var arr : Array = []
 	arr.resize( dim * dim )
 	arr.fill(0)

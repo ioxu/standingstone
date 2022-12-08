@@ -108,9 +108,6 @@ margin_top = 93.0
 margin_right = 105.0
 margin_bottom = 107.0
 text = "name"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="xl_label" type="Label" parent="."]
 margin_left = 67.0

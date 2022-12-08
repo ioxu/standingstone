@@ -1,4 +1,4 @@
-[gd_scene load_steps=50 format=2]
+[gd_scene load_steps=51 format=2]
 
 [ext_resource path="res://globals/game.gd" type="Script" id=1]
 [ext_resource path="res://levels/default_level.tscn" type="PackedScene" id=2]
@@ -21,6 +21,7 @@
 [ext_resource path="res://parts/icons/game-controller.png" type="Texture" id=19]
 [ext_resource path="res://parts/camera/motion_blur.gd" type="Script" id=20]
 [ext_resource path="res://parts/shaders/motion_blur.shader" type="Shader" id=21]
+[ext_resource path="res://parts/charts/diagnostic_charts.tscn" type="PackedScene" id=22]
 
 [sub_resource type="CubeMesh" id=9]
 size = Vector3( 0.3, 0.3, 0.3 )
@@ -56,9 +57,15 @@ shader_param/intensity = 0.35
 [sub_resource type="Shader" id=33]
 code = "shader_type canvas_item;
 
+uniform bool apply_bayer_filter = false;
+uniform float contrast = 1.0;
+uniform float exposure = 0.0;
 uniform float saturation = 1.0;
 
 uniform float bayer_scale = 1.0;
+uniform float bayer_matrix_size = 4.0;
+
+uniform float imix = 0.55;
 
 uniform sampler2D bayer_texture;
 
@@ -66,28 +73,50 @@ uniform vec4 bright_c : hint_color;
 uniform vec4 dark_c : hint_color;
 
 void fragment() {
-    vec3 c = texture(TEXTURE, UV).rgb ;
-	
-	// saturation
-	c.rgb = mix(vec3(dot(vec3(1.0), c.rgb)*0.333333), c.rgb, saturation);
-	
-	// dither
-	float bayer_matrix_size = 4.0;
-	bayer_matrix_size *= bayer_matrix_size;
-	vec2 bayer_coords = fract( (UV / SCREEN_PIXEL_SIZE) * (1.0/bayer_matrix_size) * (1./bayer_scale) ) ;
-	float dither = texture( bayer_texture, bayer_coords ).r * 0.98 + 0.01;
-	
-	// greyscale: https://www.shadertoy.com/view/4tlyDN
-	float grey = dot(c, vec3(0.2126, 0.7152, 0.0722)) ;
 
-	// output
-	COLOR = vec4( mix( dark_c, bright_c, step( dither, grey ) ) );
+	// bayer
+	if (apply_bayer_filter) {
+		// dither
+		float bayer_matrix_size_var = bayer_matrix_size;
+		bayer_matrix_size_var *= bayer_matrix_size_var;
+		vec2 bayer_coords = fract( (UV / SCREEN_PIXEL_SIZE) * (1.0/bayer_matrix_size_var) * (1./bayer_scale) ) ;
+		float dither = texture( bayer_texture, bayer_coords ).r * 0.98 + 0.01;
+
+		// get screen and colour-correct
+	    vec3 c = texture(TEXTURE, UV).rgb ;
+		
+		vec3 cc = c;
+		// contrast
+		cc.rgb = 0.5 + contrast * (cc.rgb - 0.5);
+		
+		// exposure
+		cc.rgb = (1.0 + exposure) * cc.rgb;
+
+		// saturation
+		cc.rgb = mix(vec3(dot(vec3(1.0), cc.rgb)*0.333333), cc.rgb, saturation);
+
+		// greyscale: https://www.shadertoy.com/view/4tlyDN
+		float grey = dot(cc, vec3(0.2126, 0.7152, 0.0722)) ;
+
+		// output
+		vec4 dither_c = vec4( mix( dark_c, bright_c, step( dither, grey ) ) );
+		//COLOR = vec4( mix( dark_c, bright_c, step( dither, grey ) ) );
+		COLOR.rgb = mix( dither_c.rgb, c.rgb, imix );
+	}
+	else {
+		COLOR = texture(TEXTURE, UV);
+	}
 }"
 
 [sub_resource type="ShaderMaterial" id=34]
 shader = SubResource( 33 )
+shader_param/apply_bayer_filter = true
+shader_param/contrast = 1.792
+shader_param/exposure = -0.257
 shader_param/saturation = 1.0
 shader_param/bayer_scale = 1.0
+shader_param/bayer_matrix_size = 4.0
+shader_param/imix = 0.714
 shader_param/bright_c = Color( 1, 1, 1, 1 )
 shader_param/dark_c = null
 
@@ -312,6 +341,9 @@ transform = Transform( 1, 0, -1.30385e-08, 4.65661e-10, 1, -1.04308e-07, -7.4505
 mesh = SubResource( 29 )
 material/0 = SubResource( 30 )
 script = ExtResource( 20 )
+
+[node name="diagnostic_charts" parent="ViewportContainer/Viewport/Camera" instance=ExtResource( 22 )]
+transform = Transform( 0.468553, 0.00282048, -0.1745, 0, 0.499935, 0.00808052, 0.174523, -0.0075723, 0.468492, 0.491, -0.408, -0.94 )
 
 [node name="ViewportDisplay" type="Node" parent="."]
 
