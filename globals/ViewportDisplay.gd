@@ -37,7 +37,7 @@ func _draw() -> void:
 #
 # dither stuff
 # https://github.com/ioxu/dithering
-
+# https://www.shadertoy.com/view/4ddGWr
 
 func prep_dither():
 	var bm_size = 4
@@ -46,7 +46,7 @@ func prep_dither():
 
 	pprint("bayer_matrix:")
 	#pprint(bayer_m)
-	pprint(bayer_m.size())
+	pprint("%s (%s)"%[bayer_m.size(), sqrt(bayer_m.size())])
 
 	var texim = ImageTexture.new()
 	var image = Image.new()
