@@ -144,7 +144,7 @@ shader_param/bayer_matrix_size = 4.0
 shader_param/imix = 0.714
 shader_param/bright_c = Color( 1, 1, 1, 1 )
 shader_param/dark_c = null
-shader_param/PaletteRGBSize = 16.0
+shader_param/PaletteRGBSize = 15.0
 
 [sub_resource type="ViewportTexture" id=8]
 flags = 4
@@ -349,6 +349,12 @@ shadow_atlas_size = 2048
 transform = Transform( 1.1803, 0, 0, 0, 1.1803, 0, 0, 0, 1.1803, 7.78995, 0.15462, -5.50613 )
 mesh = SubResource( 9 )
 material/0 = SubResource( 10 )
+
+[node name="OmniLight" type="OmniLight" parent="ViewportContainer/Viewport/default_level/MeshInstance5"]
+
+[node name="ReflectionProbe" type="ReflectionProbe" parent="ViewportContainer/Viewport/default_level/MeshInstance5"]
+transform = Transform( 0.847242, 0, 0, 0, 0.847242, 0, 0, 0, 0.847242, 0, 0.245207, 0 )
+extents = Vector3( 1.36449, 1, 1.37403 )
 
 [node name="character" parent="ViewportContainer/Viewport" instance=ExtResource( 3 )]
 transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 2.644, 0, -0.939 )

@@ -19,3 +19,7 @@ glow_strength = 0.75
 glow_blend_mode = 0
 glow_bicubic_upscale = true
 glow_high_quality = true
+adjustment_enabled = true
+adjustment_brightness = 1.15
+adjustment_contrast = 1.26
+adjustment_saturation = 1.1
