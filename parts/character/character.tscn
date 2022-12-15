@@ -81,7 +81,7 @@ nodes/run_timescale/node = SubResource( 44 )
 nodes/run_timescale/position = Vector2( 380, 380 )
 nodes/walk_timescale/node = SubResource( 46 )
 nodes/walk_timescale/position = Vector2( 380, 260 )
-node_connections = [ "blend_walk_running", 0, "walk_timescale", "blend_walk_running", 1, "run_timescale", "blend_walk_running", 2, "fastrun_timescale", "fastrun_timescale", 0, "Animation", "run_timescale", 0, "Animation 2", "walk_timescale", 0, "Animation 3", "output", 0, "blend_walk_running" ]
+node_connections = [ "fastrun_timescale", 0, "Animation", "run_timescale", 0, "Animation 2", "walk_timescale", 0, "Animation 3", "blend_walk_running", 0, "walk_timescale", "blend_walk_running", 1, "run_timescale", "blend_walk_running", 2, "fastrun_timescale", "output", 0, "blend_walk_running" ]
 
 [sub_resource type="AnimationNodeAnimation" id=8]
 animation = "Standard Walk-loop"
@@ -157,6 +157,7 @@ animation_tree_path = NodePath("AnimationTree")
 [node name="mannequin" parent="." instance=ExtResource( 1 )]
 
 [node name="Ch36" parent="mannequin/Armature/Skeleton" index="0"]
+layers = 513
 material/0 = ExtResource( 3 )
 
 [node name="AnimationPlayer" parent="mannequin" index="1"]

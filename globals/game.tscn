@@ -63,7 +63,7 @@ uniform float exposure = 0.0;
 uniform float saturation = 1.0;
 
 uniform float bayer_scale = 1.0;
-uniform float bayer_matrix_size = 4.0;
+uniform float bayer_matrix_dim_size = 4.0;
 
 uniform float imix = 0.55;
 
@@ -90,9 +90,7 @@ void fragment() {
     	vec3 quantizationPeriod = vec3(1./(PaletteRGBSize-1.));
 
 		// dither
-		float bayer_matrix_size_var = bayer_matrix_size;
-		bayer_matrix_size_var *= bayer_matrix_size_var;
-		vec2 bayer_coords = fract( (UV / SCREEN_PIXEL_SIZE) * (1.0/bayer_matrix_size_var) * (1./bayer_scale) ) ;
+		vec2 bayer_coords = fract( (UV / SCREEN_PIXEL_SIZE) * (1.0/bayer_matrix_dim_size) * (1./bayer_scale) ) ;
 		float dither = texture( bayer_texture, bayer_coords ).r * 0.98 + 0.01;
 
 		// get screen and colour-correct
@@ -126,7 +124,8 @@ void fragment() {
 			quantize(c.g, quantizationPeriod.g),
 			quantize(c.b, quantizationPeriod.b)
 				);
-		COLOR = vec4( c, 1.0);
+		//COLOR = vec4( c, 1.0);
+		COLOR = vec4( dither, dither, dither, 1.0);
 	}
 	else {
 		COLOR = texture(TEXTURE, UV);
@@ -140,11 +139,11 @@ shader_param/contrast = 1.792
 shader_param/exposure = -0.257
 shader_param/saturation = 1.0
 shader_param/bayer_scale = 2.0
-shader_param/bayer_matrix_size = 4.0
+shader_param/bayer_matrix_dim_size = 4.0
 shader_param/imix = 0.714
 shader_param/bright_c = Color( 1, 1, 1, 1 )
 shader_param/dark_c = null
-shader_param/PaletteRGBSize = 15.0
+shader_param/PaletteRGBSize = 5.0
 
 [sub_resource type="ViewportTexture" id=8]
 flags = 4
@@ -376,6 +375,10 @@ script = ExtResource( 20 )
 
 [node name="diagnostic_charts" parent="ViewportContainer/Viewport/Camera" instance=ExtResource( 22 )]
 transform = Transform( 0.468553, 0.00282048, -0.1745, 0, 0.499935, 0.00808052, 0.174523, -0.0075723, 0.468492, 0.491, -0.408, -0.94 )
+
+[node name="ReflectionProbe2" type="ReflectionProbe" parent="ViewportContainer/Viewport/Camera/diagnostic_charts"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.227407, -0.0197831, 0.481773 )
+extents = Vector3( 1.83615, 1.36797, 1.823 )
 
 [node name="ViewportDisplay" type="Node" parent="."]
 

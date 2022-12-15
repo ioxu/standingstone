@@ -40,7 +40,7 @@ func _draw() -> void:
 # https://www.shadertoy.com/view/4ddGWr
 
 func prep_dither():
-	var bm_size = 4
+	var bm_size = 5
 	var bm_size_dim = 1 << bm_size
 	var bayer_m : Array = bayer_matrix(bm_size)
 
@@ -60,7 +60,7 @@ func prep_dither():
 	image.unlock()
 	texim.create_from_image(image, 0)
 	self.material.set_shader_param("bayer_texture", texim)
-	self.material.set_shader_param("bayer_matrix_size", bm_size)
+	self.material.set_shader_param("bayer_matrix_dim_size", bm_size_dim)
 
 
 func bayer_matrix(size : int = 2) -> Array:
