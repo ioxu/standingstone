@@ -40,7 +40,7 @@ func _draw() -> void:
 # https://www.shadertoy.com/view/4ddGWr
 
 func prep_dither():
-	var bm_size = 5
+	var bm_size = 4
 	var bm_size_dim = 1 << bm_size
 	var bayer_m : Array = bayer_matrix(bm_size)
 

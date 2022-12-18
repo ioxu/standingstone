@@ -7,6 +7,8 @@ sky_horizon_color = Color( 0.8918, 0.94031, 0.98, 1 )
 [resource]
 background_mode = 2
 background_sky = SubResource( 1 )
+fog_enabled = true
+fog_depth_begin = 3.0
 ssao_enabled = true
 ssao_radius = 2.0
 ssao_radius2 = 0.1
