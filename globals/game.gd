@@ -25,6 +25,10 @@ func _ready():
 		if c is Control:
 			c.set_mouse_filter( Control.MOUSE_FILTER_IGNORE )
 
+	print("GAME: PRINT STRAY NODES:")
+	print_stray_nodes( )
+	print("------------------------")
+
 
 func _input(event):
 	if event.is_action("ui_cancel") and event.is_pressed() and not event.is_echo():

@@ -46,7 +46,7 @@ export var draw_border := true
 export var border_color := Color(1, 1, 1, 0.25) setget set_border_color
 export var border_thickness := 1.0 setget set_border_thickness
 
-var default_font = Control.new().get_font("font")
+#var default_font = Control.new().get_font("font")
 
 # y_rules are additional horizontal lines across the graph
 # add new horizontal rules with Plot2D.add_y_rule()

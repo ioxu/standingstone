@@ -154,6 +154,10 @@ func calculate_target_margin_factor() -> float:
 	return _tmf
 
 
+func _exit_tree() -> void:
+	target_origin_spring.queue_free()
+
+
 func unproject_position_in_viewport(pos:Vector3) -> Vector2:
 	# unproject_position, but normalised to viewport
 	return self.unproject_position( pos ) / get_viewport().size

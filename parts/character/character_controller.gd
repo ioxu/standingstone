@@ -167,5 +167,9 @@ func foot_fall(strength:float=1.0, side:= "left", source:="undefined") -> void:
 	p.transform.origin = skeleton.global_transform * ft.origin
 
 
+func _exit_tree() -> void:
+	sprint_blend_hm.queue_free()
+
+
 func pprint(thing) -> void:
 	print("[character] %s"%thing)
