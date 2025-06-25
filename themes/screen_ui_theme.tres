@@ -1,0 +1,19 @@
+[gd_resource type="Theme" load_steps=3 format=3 uid="uid://4fnx6in2n21k"]
+
+[ext_resource type="FontFile" uid="uid://cgwhd4mld6evy" path="res://parts/fonts/RobotoCondensed-Regular_dynamicfont.tres" id="1_g0r7p"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g0r7p"]
+bg_color = Color(0.05, 0.05, 0.05, 0.501961)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[resource]
+default_font = ExtResource("1_g0r7p")
+default_font_size = 12
+MarginContainer/constants/margin_bottom = 5
+MarginContainer/constants/margin_left = 5
+MarginContainer/constants/margin_right = 5
+MarginContainer/constants/margin_top = 5
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_g0r7p")

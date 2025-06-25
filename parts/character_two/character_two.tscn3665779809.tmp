@@ -1,0 +1,181 @@
+[gd_scene load_steps=21 format=3 uid="uid://dbcqcccuu1886"]
+
+[ext_resource type="Script" uid="uid://bx253wkst6td0" path="res://parts/character_two/character_controller_two_two.gd" id="1_5h5kc"]
+[ext_resource type="PackedScene" uid="uid://cnwbqxcbqu5a7" path="res://parts/character_two/animation_library_godot.tscn" id="1_dpqmh"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_dpqmh"]
+margin = 0.075
+radius = 0.31
+height = 1.74626
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_n1he0"]
+animation = &"Idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_7nunn"]
+animation = &"Idle_LookAround"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_pisth"]
+animation = &"Idle_Tired"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_hx0kl"]
+animation = &"Idle_Talking"
+
+[sub_resource type="AnimationNodeBlendSpace2D" id="AnimationNodeBlendSpace2D_61u5i"]
+blend_point_0/node = SubResource("AnimationNodeAnimation_n1he0")
+blend_point_0/pos = Vector2(-1, 0)
+blend_point_1/node = SubResource("AnimationNodeAnimation_7nunn")
+blend_point_1/pos = Vector2(0, 1)
+blend_point_2/node = SubResource("AnimationNodeAnimation_pisth")
+blend_point_2/pos = Vector2(1, 0)
+blend_point_3/node = SubResource("AnimationNodeAnimation_hx0kl")
+blend_point_3/pos = Vector2(0, -1)
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_5h5kc"]
+graph_offset = Vector2(-864.706, -87.0588)
+nodes/BlendSpace2D/node = SubResource("AnimationNodeBlendSpace2D_61u5i")
+nodes/BlendSpace2D/position = Vector2(-129.412, 148.588)
+node_connections = [&"output", 0, &"BlendSpace2D"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_5h5kc"]
+animation = &"Jog_Fwd_Root"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_q1pnq"]
+animation = &"Sprint_Root"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_txpjf"]
+animation = &"Walk_Root"
+
+[sub_resource type="AnimationNodeBlend3" id="AnimationNodeBlend3_5h5kc"]
+sync = true
+
+[sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_n1he0"]
+
+[sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_7nunn"]
+
+[sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_pisth"]
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_q1pnq"]
+graph_offset = Vector2(-183.529, 151.765)
+nodes/Animation/node = SubResource("AnimationNodeAnimation_txpjf")
+nodes/Animation/position = Vector2(47.0588, 47.0588)
+"nodes/Animation 2/node" = SubResource("AnimationNodeAnimation_5h5kc")
+"nodes/Animation 2/position" = Vector2(47.0588, 282.353)
+"nodes/Animation 3/node" = SubResource("AnimationNodeAnimation_q1pnq")
+"nodes/Animation 3/position" = Vector2(47.0588, 541.176)
+nodes/blend_walk_running/node = SubResource("AnimationNodeBlend3_5h5kc")
+nodes/blend_walk_running/position = Vector2(847.059, 211.765)
+nodes/jog_timescale/node = SubResource("AnimationNodeTimeScale_n1he0")
+nodes/jog_timescale/position = Vector2(541.176, 258.824)
+nodes/output/position = Vector2(1200, 211.765)
+nodes/sprint_timescale/node = SubResource("AnimationNodeTimeScale_7nunn")
+nodes/sprint_timescale/position = Vector2(541.176, 470.588)
+nodes/walk_timescale/node = SubResource("AnimationNodeTimeScale_pisth")
+nodes/walk_timescale/position = Vector2(541.176, 70.5882)
+node_connections = [&"blend_walk_running", 0, &"walk_timescale", &"blend_walk_running", 1, &"jog_timescale", &"blend_walk_running", 2, &"sprint_timescale", &"jog_timescale", 0, &"Animation 2", &"output", 0, &"blend_walk_running", &"sprint_timescale", 0, &"Animation 3", &"walk_timescale", 0, &"Animation"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_q1pnq"]
+xfade_time = 0.25
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_txpjf"]
+xfade_time = 0.25
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_5h5kc"]
+states/IdleAction/node = SubResource("AnimationNodeBlendTree_5h5kc")
+states/IdleAction/position = Vector2(562.668, 531.882)
+states/WalkRun_blendspace/node = SubResource("AnimationNodeBlendTree_q1pnq")
+states/WalkRun_blendspace/position = Vector2(562.118, 239.059)
+transitions = ["WalkRun_blendspace", "IdleAction", SubResource("AnimationNodeStateMachineTransition_q1pnq"), "IdleAction", "WalkRun_blendspace", SubResource("AnimationNodeStateMachineTransition_txpjf")]
+graph_offset = Vector2(-152, 133)
+
+[node name="Character_two" type="CharacterBody3D" node_paths=PackedStringArray("animation_tree", "animation_player")]
+script = ExtResource("1_5h5kc")
+animation_tree = NodePath("AnimationTree")
+animation_player = NodePath("AnimationLibrary_Godot/AnimationPlayer")
+
+[node name="CollisionShape" type="CollisionShape3D" parent="." groups=["collision_shapes"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.87612, 0)
+shape = SubResource("CapsuleShape3D_dpqmh")
+
+[node name="AnimationLibrary_Godot" parent="." instance=ExtResource("1_dpqmh")]
+
+[node name="Skeleton3D" parent="AnimationLibrary_Godot/Rig" index="0"]
+bones/0/rotation = Quaternion(-0.707107, 0, 0, 0.707107)
+bones/1/position = Vector3(0.0188445, 0.0742712, 0.867395)
+bones/1/rotation = Quaternion(0.894451, -0.0364934, 0.0315966, 0.444553)
+bones/3/rotation = Quaternion(-0.00688372, 0.0654388, -0.0257625, 0.9975)
+bones/4/rotation = Quaternion(0.201249, 0.202693, 0.0343199, 0.957725)
+bones/5/rotation = Quaternion(-0.0235381, -0.140687, -0.0151882, 0.989658)
+bones/6/rotation = Quaternion(-0.228612, -0.140875, -0.013334, 0.963179)
+bones/7/rotation = Quaternion(-0.617251, -0.320839, -0.331669, 0.637227)
+bones/8/rotation = Quaternion(-0.179325, 0.709296, -0.389814, 0.559273)
+bones/9/rotation = Quaternion(0.638226, 0.106349, -0.0290414, 0.761915)
+bones/10/rotation = Quaternion(0.116709, -0.0029166, -0.0447786, 0.992152)
+bones/11/rotation = Quaternion(0.445191, 0.549369, -0.445194, 0.549365)
+bones/12/rotation = Quaternion(0.623341, -1.05991e-07, 4.63123e-08, 0.78195)
+bones/13/rotation = Quaternion(0.623342, -6.16356e-08, -1.78655e-08, 0.781949)
+bones/14/rotation = Quaternion(0.43209, 0.5387, -0.458046, 0.559727)
+bones/15/rotation = Quaternion(0.623341, 0.000943349, 0.00118348, 0.781948)
+bones/16/rotation = Quaternion(0.623341, -0.000704237, -0.000883234, 0.78195)
+bones/17/rotation = Quaternion(0.504057, 0.511541, -0.435152, 0.543042)
+bones/18/rotation = Quaternion(0.623163, -0.0200614, 0.0149256, 0.781692)
+bones/19/rotation = Quaternion(0.623341, 0.000379746, 0.000476578, 0.78195)
+bones/20/rotation = Quaternion(0.43534, 0.541356, -0.454904, 0.557203)
+bones/21/rotation = Quaternion(0.623341, 7.59625e-06, 9.6397e-06, 0.78195)
+bones/22/rotation = Quaternion(0.623341, -0.000665256, -0.000834452, 0.781949)
+bones/23/rotation = Quaternion(0.290838, 0.949649, 0.114584, 0.0212171)
+bones/24/rotation = Quaternion(0.21939, 0.0238026, -0.00530492, 0.975332)
+bones/25/rotation = Quaternion(0.687388, -0.000309244, -0.000444612, 0.726291)
+bones/26/rotation = Quaternion(-0.604021, 0.345103, 0.356718, 0.623551)
+bones/27/rotation = Quaternion(0.00258977, -0.667571, 0.522493, 0.530418)
+bones/28/rotation = Quaternion(0.68987, 0.283302, -0.241027, 0.621068)
+bones/29/rotation = Quaternion(0.190622, -0.0391292, 0.0456102, 0.979822)
+bones/30/rotation = Quaternion(0.445191, -0.549369, 0.445194, 0.549364)
+bones/31/rotation = Quaternion(0.623341, 3.64014e-07, -2.65981e-07, 0.78195)
+bones/32/rotation = Quaternion(0.623342, 4.31747e-07, 6.52088e-08, 0.781949)
+bones/33/rotation = Quaternion(0.43209, -0.5387, 0.458047, 0.559727)
+bones/34/rotation = Quaternion(0.623341, -0.000943222, -0.00118367, 0.781949)
+bones/35/rotation = Quaternion(0.623341, 0.000704097, 0.000883691, 0.781949)
+bones/36/rotation = Quaternion(0.504057, -0.511541, 0.435152, 0.543042)
+bones/37/rotation = Quaternion(0.623163, 0.0200616, -0.0149257, 0.781692)
+bones/38/rotation = Quaternion(0.623342, -0.00037968, -0.000476488, 0.781949)
+bones/39/rotation = Quaternion(0.43534, -0.541356, 0.454904, 0.557203)
+bones/40/rotation = Quaternion(0.623341, -7.28623e-06, -9.43995e-06, 0.78195)
+bones/41/rotation = Quaternion(0.623341, 0.000665381, 0.000834147, 0.781949)
+bones/42/rotation = Quaternion(-0.290839, 0.949649, 0.114583, -0.0212169)
+bones/43/rotation = Quaternion(0.21939, -0.0238026, 0.00530547, 0.975332)
+bones/44/rotation = Quaternion(0.687388, 0.000308565, 0.000444695, 0.72629)
+bones/45/rotation = Quaternion(0.86009, -0.0468863, 0.00578096, 0.507951)
+bones/46/rotation = Quaternion(0.00264168, -0.00118617, -6.47228e-06, 0.999996)
+bones/47/rotation = Quaternion(-0.522581, 0.0242942, 0.0441198, 0.851101)
+bones/48/rotation = Quaternion(-0.000137113, 0.964307, -0.264787, -0.000499422)
+bones/49/rotation = Quaternion(0.969772, -0.0519804, 0.00640905, 0.238328)
+bones/50/rotation = Quaternion(0.587894, -0.0162071, 0.0117702, 0.80869)
+bones/51/rotation = Quaternion(-0.363272, 0.00529072, -0.0147667, 0.931551)
+bones/52/rotation = Quaternion(-0.000137093, 0.964307, -0.264787, -0.000499396)
+
+[node name="AnimationPlayer" parent="AnimationLibrary_Godot" index="1"]
+root_motion_track = NodePath("Rig/Skeleton3D:root")
+root_motion_local = false
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+root_node = NodePath("../AnimationLibrary_Godot")
+root_motion_track = NodePath("Rig/Skeleton3D:root")
+root_motion_local = false
+tree_root = SubResource("AnimationNodeStateMachine_5h5kc")
+anim_player = NodePath("../AnimationLibrary_Godot/AnimationPlayer")
+parameters/IdleAction/BlendSpace2D/blend_position = Vector2(-0.88451, 0.000812769)
+parameters/WalkRun_blendspace/blend_walk_running/blend_amount = -1.0
+parameters/WalkRun_blendspace/jog_timescale/scale = 1.0
+parameters/WalkRun_blendspace/sprint_timescale/scale = 1.0
+parameters/WalkRun_blendspace/walk_timescale/scale = 1.0
+
+[node name="RootMotionView" type="RootMotionView" parent="."]
+animation_path = NodePath("../AnimationTree")
+
+[node name="idle_loop_timeout" type="Timer" parent="."]
+wait_time = 5.0
+autostart = true
+
+[connection signal="timeout" from="idle_loop_timeout" to="." method="_on_idle_loop_timeout_timeout"]
+
+[editable path="AnimationLibrary_Godot"]

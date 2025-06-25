@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=2 format=3 uid="uid://oxpne8rykd6y"]
 
-[sub_resource type="GDScript" id=1]
+[sub_resource type="GDScript" id="1"]
 script/source = "extends Node2D
 
 onready var window_res = get_viewport().size
@@ -99,4 +99,4 @@ func map_to_circle( p_array: Array ) -> Array:
 "
 
 [node name="Node2D" type="Node2D"]
-script = SubResource( 1 )
+script = SubResource("1")

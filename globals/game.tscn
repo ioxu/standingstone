@@ -1,1692 +1,1068 @@
-[gd_scene load_steps=51 format=2]
+[gd_scene load_steps=39 format=3 uid="uid://bgkrawuhak6u7"]
 
-[ext_resource path="res://globals/game.gd" type="Script" id=1]
-[ext_resource path="res://levels/default_level.tscn" type="PackedScene" id=2]
-[ext_resource path="res://parts/character/character.tscn" type="PackedScene" id=3]
-[ext_resource path="res://parts/camera/camera_controller.gd" type="Script" id=4]
-[ext_resource path="res://parts/camera/camera_data.gd" type="Script" id=5]
-[ext_resource path="res://scripts/Plot2D.gd" type="Script" id=6]
-[ext_resource path="res://globals/ui_render_info.gd" type="Script" id=7]
-[ext_resource path="res://globals/ui_fps_panel.gd" type="Script" id=8]
-[ext_resource path="res://parts/fonts/RobotoCondensed-Regular_dynamicfont.tres" type="DynamicFont" id=9]
-[ext_resource path="res://globals/ViewportDisplay.gd" type="Script" id=10]
-[ext_resource path="res://globals/menu.gd" type="Script" id=11]
-[ext_resource path="res://parts/fonts/RobotoCondensed-Regular.ttf" type="DynamicFontData" id=12]
-[ext_resource path="res://parts/fonts/main_menu_text_font.tres" type="DynamicFont" id=13]
-[ext_resource path="res://themes/menu/menu_button_theme.tres" type="Theme" id=14]
-[ext_resource path="res://globals/ui_resolutions_info.gd" type="Script" id=15]
-[ext_resource path="res://parts/icons/settings.png" type="Texture" id=16]
-[ext_resource path="res://parts/icons/pulse.png" type="Texture" id=17]
-[ext_resource path="res://parts/textures/stripe_tile_a_inv.png" type="Texture" id=18]
-[ext_resource path="res://parts/icons/game-controller.png" type="Texture" id=19]
-[ext_resource path="res://parts/camera/motion_blur.gd" type="Script" id=20]
-[ext_resource path="res://parts/shaders/motion_blur.shader" type="Shader" id=21]
-[ext_resource path="res://parts/charts/diagnostic_charts.tscn" type="PackedScene" id=22]
-[ext_resource path="res://parts/shaders/viewport_display_postprocess.shader" type="Shader" id=23]
+[ext_resource type="Script" uid="uid://bcaapaemnq65k" path="res://globals/game.gd" id="1"]
+[ext_resource type="PackedScene" uid="uid://b33gk8gjn74fs" path="res://levels/default_level.tscn" id="2"]
+[ext_resource type="PackedScene" uid="uid://iyg3hk6wfxm0" path="res://parts/character/character.tscn" id="3"]
+[ext_resource type="Script" uid="uid://gsevldt54mg3" path="res://parts/camera/camera_controller.gd" id="4"]
+[ext_resource type="PackedScene" uid="uid://dbcqcccuu1886" path="res://parts/character_two/character_two.tscn" id="4_o5518"]
+[ext_resource type="Resource" uid="uid://dcfoxpqk48faf" path="res://parts/camera/camera_data.tres" id="5_enq2u"]
+[ext_resource type="Script" uid="uid://wyk0ho4ew0wk" path="res://scripts/Plot2D.gd" id="6"]
+[ext_resource type="Shader" uid="uid://sk27eyfibawj" path="res://parts/shaders/motion_blur.gdshader" id="6_j14w1"]
+[ext_resource type="Script" uid="uid://dqj6biu3r0vyt" path="res://globals/ui_render_info.gd" id="7"]
+[ext_resource type="Script" uid="uid://dqt7d4fwq6ip0" path="res://globals/ui_fps_panel.gd" id="8"]
+[ext_resource type="Material" uid="uid://bultktk7pal7q" path="res://parts/shaders/viewport_display_postprocess.material" id="8_p3gs4"]
+[ext_resource type="Script" uid="uid://cwdh4m2njq80p" path="res://globals/ViewportDisplay.gd" id="10"]
+[ext_resource type="Script" uid="uid://flfxc1o4sib" path="res://globals/menu.gd" id="11"]
+[ext_resource type="Script" uid="uid://8hp2ddugwvud" path="res://globals/ViewportDebugDraw.gd" id="11_ihh82"]
+[ext_resource type="Theme" uid="uid://4fnx6in2n21k" path="res://themes/screen_ui_theme.tres" id="13_1fxad"]
+[ext_resource type="Theme" uid="uid://ds7x1qytjx337" path="res://themes/menu/menu_button_theme.tres" id="14"]
+[ext_resource type="Script" uid="uid://dq4wo3cfxntsk" path="res://globals/ui_resolutions_info.gd" id="15"]
+[ext_resource type="Texture2D" uid="uid://b02batdw8n3dq" path="res://parts/icons/settings.png" id="16"]
+[ext_resource type="Texture2D" uid="uid://bub0h0t8nyouk" path="res://parts/icons/pulse.png" id="17"]
+[ext_resource type="Texture2D" uid="uid://cicnadqowe60t" path="res://parts/icons/game-controller.png" id="19"]
+[ext_resource type="Script" uid="uid://ds6yl75sft0os" path="res://parts/camera/motion_blur.gd" id="20"]
+[ext_resource type="PackedScene" uid="uid://sfl30axxnwbp" path="res://parts/charts/diagnostic_charts.tscn" id="22"]
+[ext_resource type="Texture2D" uid="uid://c2kot4och48ks" path="res://parts/textures/stripe_tile_a_inv.png" id="22_v5wsg"]
 
-[sub_resource type="CubeMesh" id=9]
-size = Vector3( 0.3, 0.3, 0.3 )
+[sub_resource type="BoxMesh" id="9"]
+size = Vector3(0.3, 0.3, 0.3)
 
-[sub_resource type="SpatialMaterial" id=10]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wcsbp"]
 emission_enabled = true
-emission = Color( 0.482353, 0.670588, 0.917647, 1 )
-emission_energy = 3.0
-emission_operator = 0
-emission_on_uv2 = false
+emission = Color(0.497577, 0.756011, 0.849412, 1)
+emission_energy_multiplier = 2.0
 
-[sub_resource type="Resource" id=1]
-script = ExtResource( 5 )
-anchor_offset = Vector3( 0, 1.2, 0 )
-target_offset = Vector3( 0, 0, 0 )
-rotation = Vector3( 0, 0, 0 )
-pitch_limit = Vector2( -70, 70 )
-look_target = Vector3( 0, 0, 0 )
+[sub_resource type="CameraAttributesPhysical" id="CameraAttributesPhysical_7l36b"]
+auto_exposure_enabled = true
+auto_exposure_speed = 1.0
+frustum_focal_length = 20.78
+auto_exposure_min_exposure_value = 1.83
+auto_exposure_max_exposure_value = 8.0
 
-[sub_resource type="Curve" id=2]
-_data = [ Vector2( 0, 0 ), 0.0, 5.42416, 0, 1, Vector2( 0.147806, 0.801724 ), 5.42416, -1.78815, 1, 1, Vector2( 0.533487, 0.112069 ), -1.78815, 1.90334, 1, 1, Vector2( 1, 1 ), 1.90334, 0.0, 1, 0 ]
+[sub_resource type="Curve" id="2"]
+_data = [Vector2(0, 0), 0.0, 5.42416, 0, 1, Vector2(0.147806, 0.801724), 5.42416, -1.78815, 1, 1, Vector2(0.533487, 0.112069), -1.78815, 1.90334, 1, 1, Vector2(1, 1), 1.90334, 0.0, 1, 0]
+point_count = 4
 
-[sub_resource type="QuadMesh" id=29]
-size = Vector2( 3, 2 )
+[sub_resource type="QuadMesh" id="29"]
+size = Vector2(3, 2)
 
-[sub_resource type="ShaderMaterial" id=30]
-shader = ExtResource( 21 )
-shader_param/linear_velocity = Vector3( 0, 0, 0 )
-shader_param/angular_velocity = Vector3( 0, 0, 0 )
-shader_param/iteration_count = 15
-shader_param/intensity = 0.35
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ccggj"]
+render_priority = 0
+shader = ExtResource("6_j14w1")
+shader_parameter/linear_velocity = Vector3(0, 0, 0)
+shader_parameter/angular_velocity = Vector3(0, 0, 0)
+shader_parameter/iteration_count = 16
+shader_parameter/intensity = 0.5
 
-[sub_resource type="ShaderMaterial" id=34]
-shader = ExtResource( 23 )
-shader_param/contrast = 1.792
-shader_param/exposure = -0.257
-shader_param/saturation = 1.0
-shader_param/apply_bayer_filter = true
-shader_param/bayer_scale = 2.0
-shader_param/bayer_matrix_dim_size = 4.0
-shader_param/bayerQuantizeRGBSize = 16.0
-
-[sub_resource type="ViewportTexture" id=8]
-flags = 4
+[sub_resource type="ViewportTexture" id="8"]
 viewport_path = NodePath("ViewportContainer/Viewport")
 
-[sub_resource type="StyleBoxFlat" id=7]
-content_margin_left = 3.0
-content_margin_right = 3.0
-bg_color = Color( 0, 0, 0, 0.360784 )
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
+[sub_resource type="GDScript" id="GDScript_o5518"]
+script/source = "extends Label
 
-[sub_resource type="StyleBoxFlat" id=4]
-bg_color = Color( 0.0901961, 0.27451, 0.470588, 0.490196 )
+@export var character : CharacterBody3D
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	var speed = character.velocity.length() * (60 * 60 ) / 1000#3.6 # (character.velocity.length() / 60 / 60) * 1000
+	text = \"%0.1f km/h\"%speed
+"
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1fxad"]
+bg_color = Color(0.552783, 0.0327855, 0.193596, 0.333333)
 corner_radius_top_left = 5
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 
-[sub_resource type="StyleBoxFlat" id=5]
-bg_color = Color( 0, 0, 0, 0.317647 )
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_v5wsg"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_o5518"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v5wsg"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.935458, 0.590858, 0.2606, 1)
 corner_radius_top_left = 5
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
+corner_detail = 3
 
-[sub_resource type="StyleBoxFlat" id=16]
-bg_color = Color( 0.866667, 0.2, 0.2, 0.360784 )
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
-
-[sub_resource type="StyleBoxFlat" id=11]
-bg_color = Color( 0.0823529, 0.0823529, 0.0823529, 0 )
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
-
-[sub_resource type="StyleBoxFlat" id=32]
-bg_color = Color( 0.121569, 0.121569, 0.121569, 0.839216 )
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
-
-[sub_resource type="StyleBoxFlat" id=13]
-bg_color = Color( 0.513726, 0.705882, 0.513726, 0 )
-corner_radius_top_left = 7
-corner_radius_top_right = 7
-corner_radius_bottom_right = 7
-corner_radius_bottom_left = 7
-corner_detail = 5
-
-[sub_resource type="StyleBoxFlat" id=15]
-bg_color = Color( 0.121569, 0.121569, 0.121569, 0.839216 )
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
-
-[sub_resource type="DynamicFont" id=20]
-size = 23
-font_data = ExtResource( 12 )
-
-[sub_resource type="StyleBoxFlat" id=17]
-bg_color = Color( 0.921569, 0.705882, 0.333333, 0 )
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color( 0.945098, 0.627451, 0.133333, 1 )
-border_blend = true
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
-
-[sub_resource type="DynamicFont" id=18]
-size = 10
-font_data = ExtResource( 12 )
-
-[sub_resource type="StyleBoxFlat" id=19]
-bg_color = Color( 0.6, 0.6, 0.6, 0 )
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color( 0.145098, 0.505882, 0.92549, 1 )
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
-
-[sub_resource type="StyleBoxFlat" id=31]
-bg_color = Color( 0.6, 0.6, 0.6, 0 )
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color( 0.968627, 0.376471, 0.87451, 1 )
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
-
-[sub_resource type="StyleBoxFlat" id=26]
-bg_color = Color( 0.6, 0.6, 0.6, 0 )
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color( 0.352941, 0.352941, 0.352941, 1 )
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
-
-[sub_resource type="StyleBoxFlat" id=28]
-bg_color = Color( 0.6, 0.6, 0.6, 0 )
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color( 0.352941, 0.352941, 0.352941, 1 )
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
-
-[sub_resource type="StyleBoxFlat" id=27]
-bg_color = Color( 0.6, 0.6, 0.6, 0 )
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color( 0.352941, 0.352941, 0.352941, 1 )
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
-
-[sub_resource type="StyleBoxTexture" id=23]
-texture = ExtResource( 18 )
-region_rect = Rect2( 0, 0, 35, 35 )
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_o5518"]
+texture = ExtResource("22_v5wsg")
 axis_stretch_horizontal = 1
-axis_stretch_vertical = 1
-modulate_color = Color( 0.741176, 0.282353, 0.282353, 0.2 )
+modulate_color = Color(1, 0.32, 0.32, 0.156863)
 
-[sub_resource type="StyleBoxFlat" id=24]
-bg_color = Color( 0.952941, 0.372549, 0.372549, 0 )
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wcsbp"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color( 0.945098, 0.282353, 0.282353, 1 )
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
+border_color = Color(0.713864, 0.153056, 0.076925, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+corner_detail = 3
 
-[sub_resource type="StyleBoxFlat" id=22]
-bg_color = Color( 0.6, 0.6, 0.6, 0 )
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color( 0.396078, 0.619608, 0.341176, 1 )
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7riqa"]
+bg_color = Color(0.356707, 0.62, 0.2976, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.357094, 0.619915, 0.296472, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+corner_detail = 3
 
-[node name="game" type="Node2D"]
-script = ExtResource( 1 )
+[node name="game" type="Node2D" node_paths=PackedStringArray("main_menu", "player", "viewport_display_texture_rect")]
+script = ExtResource("1")
 main_menu = NodePath("ui_menu/menu_container")
-player = NodePath("ViewportContainer/Viewport/character")
+player = NodePath("ViewportContainer/Viewport/Character_two")
 viewport_display_texture_rect = NodePath("ViewportDisplay/ViewportDisplayTextureRect")
 
-[node name="ViewportContainer" type="ViewportContainer" parent="."]
+[node name="ViewportContainer" type="SubViewportContainer" parent="."]
+custom_minimum_size = Vector2(1024, 600)
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_right = 1024.0
-margin_bottom = 600.0
-mouse_filter = 2
-stretch = true
 
-[node name="Viewport" type="Viewport" parent="ViewportContainer"]
-size = Vector2( 1024, 600 )
+[node name="Viewport" type="SubViewport" parent="ViewportContainer"]
 handle_input_locally = false
-msaa = 3
-render_target_v_flip = true
-render_target_update_mode = 3
-shadow_atlas_size = 2048
+msaa_3d = 2
+size = Vector2i(1024, 600)
+size_2d_override = Vector2i(1024, 600)
+size_2d_override_stretch = true
+render_target_update_mode = 4
 
-[node name="default_level" parent="ViewportContainer/Viewport" instance=ExtResource( 2 )]
+[node name="default_level" parent="ViewportContainer/Viewport" instance=ExtResource("2")]
 
-[node name="MeshInstance5" type="MeshInstance" parent="ViewportContainer/Viewport/default_level"]
-transform = Transform( 1.1803, 0, 0, 0, 1.1803, 0, 0, 0, 1.1803, 7.78995, 0.15462, -5.50613 )
-mesh = SubResource( 9 )
-material/0 = SubResource( 10 )
+[node name="MeshInstance5" type="MeshInstance3D" parent="ViewportContainer/Viewport/default_level"]
+transform = Transform3D(1.1803, 0, 0, 0, 1.1803, 0, 0, 0, 1.1803, 7.78995, 0.15462, -5.50613)
+cast_shadow = 0
+mesh = SubResource("9")
+surface_material_override/0 = SubResource("StandardMaterial3D_wcsbp")
 
-[node name="OmniLight" type="OmniLight" parent="ViewportContainer/Viewport/default_level/MeshInstance5"]
+[node name="OmniLight" type="OmniLight3D" parent="ViewportContainer/Viewport/default_level/MeshInstance5"]
+omni_range = 1.57088
 
 [node name="ReflectionProbe" type="ReflectionProbe" parent="ViewportContainer/Viewport/default_level/MeshInstance5"]
-transform = Transform( 0.847242, 0, 0, 0, 0.847242, 0, 0, 0, 0.847242, 0, 0.245207, 0 )
-extents = Vector3( 1.36449, 1, 1.37403 )
+transform = Transform3D(0.847242, 0, 0, 0, 0.847242, 0, 0, 0, 0.847242, 0, 0.245207, 0)
+size = Vector3(2.72898, 2, 2.74806)
 
-[node name="character" parent="ViewportContainer/Viewport" instance=ExtResource( 3 )]
-transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 2.644, 0, -0.939 )
+[node name="character" parent="ViewportContainer/Viewport" node_paths=PackedStringArray("camera") instance=ExtResource("3")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 2.644, 0, -0.939)
 camera = NodePath("../Camera")
 
-[node name="Camera" type="Camera" parent="ViewportContainer/Viewport"]
-transform = Transform( 0.999857, 0.00316881, -0.0165942, 0, 0.982251, 0.18757, 0.016894, -0.187543, 0.982111, 3.21423, 1.24633, 1.34832 )
-script = ExtResource( 4 )
-target = NodePath("../character")
-camera_data = SubResource( 1 )
-look_stick_response_curve = SubResource( 2 )
-look_stick_response_regions = [ Vector2( 0, 0 ), Vector2( 0.5, 0.1 ), Vector2( 0.85, 0.65 ), Vector2( 1, 1 ) ]
+[node name="Character_two" parent="ViewportContainer/Viewport" node_paths=PackedStringArray("camera") instance=ExtResource("4_o5518")]
+transform = Transform3D(0.904648, 0, -0.426158, 0, 1, 0, 0.426158, 0, 0.904648, 10.7907, 0, -9.66234)
+camera = NodePath("../Camera")
 
-[node name="motion_blur" type="MeshInstance" parent="ViewportContainer/Viewport/Camera"]
-transform = Transform( 1, 0, -1.30385e-08, 4.65661e-10, 1, -1.04308e-07, -7.45058e-09, 0, 1, 0, -1.19209e-07, -1.16812 )
-mesh = SubResource( 29 )
-material/0 = SubResource( 30 )
-script = ExtResource( 20 )
+[node name="Camera" type="Camera3D" parent="ViewportContainer/Viewport" node_paths=PackedStringArray("target")]
+transform = Transform3D(0.999857, 0.00316881, -0.0165942, 0, 0.982251, 0.18757, 0.016894, -0.187543, 0.982111, 3.21423, 1.24633, 1.34832)
+attributes = SubResource("CameraAttributesPhysical_7l36b")
+script = ExtResource("4")
+target = NodePath("../Character_two")
+camera_data = ExtResource("5_enq2u")
+look_stick_response_curve = SubResource("2")
+look_stick_response_regions = Array[Vector2]([Vector2(0, 0), Vector2(0.5, 0.1), Vector2(0.85, 0.65), Vector2(1, 1)])
 
-[node name="diagnostic_charts" parent="ViewportContainer/Viewport/Camera" instance=ExtResource( 22 )]
-transform = Transform( 0.468553, 0.00282048, -0.1745, 0, 0.499935, 0.00808052, 0.174523, -0.0075723, 0.468492, 0.491, -0.408, -0.94 )
+[node name="motion_blur" type="MeshInstance3D" parent="ViewportContainer/Viewport/Camera"]
+transform = Transform3D(1, 0, -1.30385e-08, 4.65661e-10, 1, -1.04308e-07, -7.45058e-09, 0, 1, 0, -1.19209e-07, -1.16812)
+visible = false
+mesh = SubResource("29")
+surface_material_override/0 = SubResource("ShaderMaterial_ccggj")
+script = ExtResource("20")
+
+[node name="diagnostic_charts" parent="ViewportContainer/Viewport/Camera" instance=ExtResource("22")]
+transform = Transform3D(0.468553, 0.00282048, -0.1745, 0, 0.499935, 0.00808052, 0.174523, -0.0075723, 0.468492, 0.491, -0.408, -0.94)
+visible = false
 
 [node name="ReflectionProbe2" type="ReflectionProbe" parent="ViewportContainer/Viewport/Camera/diagnostic_charts"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.227407, -0.0197831, 0.481773 )
-extents = Vector3( 1.83615, 1.36797, 1.823 )
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.227407, -0.0197831, 0.481773)
+size = Vector3(3.6723, 2.73594, 3.646)
 
 [node name="ViewportDisplay" type="Node" parent="."]
 
 [node name="ViewportDisplayTextureRect" type="TextureRect" parent="ViewportDisplay"]
-material = SubResource( 34 )
+modulate = Color(1, 0, 0, 1)
+self_modulate = Color(1, 0, 0, 1)
+material = ExtResource("8_p3gs4")
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-mouse_filter = 2
+grow_horizontal = 2
+grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-texture = SubResource( 8 )
-expand = true
-script = ExtResource( 10 )
-camera = NodePath("../../ViewportContainer/Viewport/Camera")
+mouse_filter = 2
+texture = SubResource("8")
+expand_mode = 1
+script = ExtResource("10")
+
+[node name="ViewportDebugDraw" type="TextureRect" parent="ViewportDisplay/ViewportDisplayTextureRect" node_paths=PackedStringArray("camera")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("11_ihh82")
+camera = NodePath("../../../ViewportContainer/Viewport/Camera")
+
+[node name="bayer_matrix" type="TextureRect" parent="ViewportDisplay/ViewportDisplayTextureRect"]
+visible = false
+texture_filter = 1
+layout_mode = 0
+offset_left = 546.0
+offset_top = 25.0
+offset_right = 586.0
+offset_bottom = 65.0
+scale = Vector2(5.98988, 5.98988)
 
 [node name="ui_persistent" type="Node" parent="."]
 
 [node name="MarginContainer" type="MarginContainer" parent="ui_persistent"]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_constants/margin_right = 3
-custom_constants/margin_top = 3
-custom_constants/margin_left = 3
-custom_constants/margin_bottom = 3
+theme = ExtResource("13_1fxad")
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 2
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="ui_persistent/MarginContainer"]
-margin_left = 3.0
-margin_top = 3.0
-margin_right = 1021.0
-margin_bottom = 597.0
-mouse_filter = 2
+layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 2
 
 [node name="Control" type="Control" parent="ui_persistent/MarginContainer/VBoxContainer2"]
-margin_right = 1018.0
-margin_bottom = 571.0
-mouse_filter = 1
+layout_mode = 2
 size_flags_vertical = 3
+mouse_filter = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="ui_persistent/MarginContainer/VBoxContainer2"]
-margin_top = 575.0
-margin_right = 1018.0
-margin_bottom = 594.0
+layout_mode = 2
 
 [node name="persistant_ui_hint_panel" type="PanelContainer" parent="ui_persistent/MarginContainer/VBoxContainer2/HBoxContainer"]
-margin_right = 402.0
-margin_bottom = 19.0
+layout_mode = 2
 mouse_filter = 1
-custom_styles/panel = SubResource( 7 )
 
 [node name="MarginContainer" type="MarginContainer" parent="ui_persistent/MarginContainer/VBoxContainer2/HBoxContainer/persistant_ui_hint_panel"]
-margin_left = 3.0
-margin_right = 399.0
-margin_bottom = 19.0
-custom_constants/margin_right = 2
-custom_constants/margin_top = 2
-custom_constants/margin_left = 2
-custom_constants/margin_bottom = 2
+layout_mode = 2
 
 [node name="hint_label" type="Label" parent="ui_persistent/MarginContainer/VBoxContainer2/HBoxContainer/persistant_ui_hint_panel/MarginContainer"]
-margin_left = 2.0
-margin_top = 2.0
-margin_right = 394.0
-margin_bottom = 17.0
-custom_fonts/font = ExtResource( 9 )
+layout_mode = 2
 text = "Esc : menu        Ctrl-Alt-B : toggle debug overlay       Alt-Enter : toggle full-screen"
 
 [node name="ui_debug" type="Node" parent="."]
 
 [node name="ColorRect2" type="ColorRect" parent="ui_debug"]
-margin_left = 5.0
-margin_top = 70.0
-margin_right = 554.0
-margin_bottom = 160.0
-color = Color( 0, 0, 0, 0.478431 )
+offset_left = 48.0
+offset_top = 64.0
+offset_right = 360.0
+offset_bottom = 233.0
+mouse_filter = 1
+color = Color(0, 0, 0, 0.478431)
+
+[node name="c_dir_length_plots" type="Node2D" parent="ui_debug"]
+position = Vector2(150, 75)
+script = ExtResource("6")
+color_clear = Color(0, 0, 0, 0.345098)
 
 [node name="c_blend" type="Label" parent="ui_debug"]
-margin_left = 11.0
-margin_top = 74.0
-margin_right = 60.0
-margin_bottom = 88.0
+offset_left = 53.0
+offset_top = 104.0
+offset_right = 112.0
+offset_bottom = 130.0
+theme = ExtResource("13_1fxad")
+theme_override_font_sizes/font_size = 10
 text = "c_blend"
 
 [node name="c_dir_length" type="Label" parent="ui_debug"]
-modulate = Color( 0.619608, 0.619608, 0.619608, 1 )
-margin_left = 11.0
-margin_top = 88.0
-margin_right = 87.0
-margin_bottom = 102.0
+modulate = Color(0.619608, 0.619608, 0.619608, 1)
+offset_left = 54.0
+offset_top = 65.0
+offset_right = 147.0
+offset_bottom = 91.0
+theme = ExtResource("13_1fxad")
+theme_override_font_sizes/font_size = 10
 text = "c_dir_length"
 
 [node name="c_dir_length_smoothed" type="Label" parent="ui_debug"]
-modulate = Color( 0.921569, 0.686275, 0.192157, 1 )
-margin_left = 11.0
-margin_top = 103.0
-margin_right = 145.0
-margin_bottom = 117.0
+modulate = Color(0.921569, 0.686275, 0.192157, 1)
+offset_left = 54.0
+offset_top = 85.0
+offset_right = 217.0
+offset_bottom = 111.0
+theme = ExtResource("13_1fxad")
+theme_override_font_sizes/font_size = 10
 text = "dir_length_smoothed"
 
-[node name="c_dir_length_plots" type="Node2D" parent="ui_debug"]
-position = Vector2( 150, 75 )
-script = ExtResource( 6 )
-height = 40
-view_scale = Vector2( 2, 2 )
-
 [node name="c_is_sprinting" type="Label" parent="ui_debug"]
-modulate = Color( 0.286275, 0.827451, 0.211765, 1 )
-margin_left = 10.0
-margin_top = 119.0
-margin_right = 96.0
-margin_bottom = 133.0
+modulate = Color(0.286275, 0.827451, 0.211765, 1)
+offset_left = 55.0
+offset_top = 128.0
+offset_right = 159.0
+offset_bottom = 154.0
+theme = ExtResource("13_1fxad")
+theme_override_font_sizes/font_size = 10
 text = "c_is_sprinting"
 
-[node name="ColorRect3" type="ColorRect" parent="ui_debug"]
-margin_left = 5.0
-margin_top = 165.0
-margin_right = 554.0
-margin_bottom = 214.0
-color = Color( 0, 0, 0, 0.478431 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="c_speed" type="Label" parent="ui_debug" node_paths=PackedStringArray("character")]
+modulate = Color(0.908163, 0.907234, 0.906835, 1)
+offset_left = 53.0
+offset_top = 191.0
+offset_right = 157.0
+offset_bottom = 227.0
+theme = ExtResource("13_1fxad")
+theme_override_font_sizes/font_size = 30
+text = "c_speed"
+script = SubResource("GDScript_o5518")
+character = NodePath("../../ViewportContainer/Viewport/Character_two")
 
 [node name="c_camera_track_plots" type="Node2D" parent="ui_debug"]
-position = Vector2( 150, 170 )
-script = ExtResource( 6 )
-title = "camera margin track"
-title_color = Color( 0.968627, 0.439216, 0.972549, 0.470588 )
-height = 20
-view_scale = Vector2( 2, 2 )
+position = Vector2(150, 170)
+script = ExtResource("6")
+theme = ExtResource("13_1fxad")
+title = "camera margin plot"
+color_clear = Color(0, 0, 0, 0.313726)
 
 [node name="ui_debug_root_container" type="MarginContainer" parent="ui_debug"]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-custom_constants/margin_right = 3
-custom_constants/margin_top = 3
-custom_constants/margin_left = 3
-custom_constants/margin_bottom = 3
+theme = ExtResource("13_1fxad")
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
 
 [node name="HBoxContainer" type="HBoxContainer" parent="ui_debug/ui_debug_root_container"]
-margin_left = 3.0
-margin_top = 3.0
-margin_right = 1021.0
-margin_bottom = 597.0
+layout_mode = 2
 mouse_filter = 2
 
 [node name="Control" type="Control" parent="ui_debug/ui_debug_root_container/HBoxContainer"]
-margin_right = 875.0
-margin_bottom = 594.0
+layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="ui_debug/ui_debug_root_container/HBoxContainer"]
-margin_left = 879.0
-margin_right = 1018.0
-margin_bottom = 594.0
+layout_mode = 2
 mouse_filter = 2
-custom_constants/separation = 3
 
 [node name="fps_display_container" type="HBoxContainer" parent="ui_debug/ui_debug_root_container/HBoxContainer/VBoxContainer"]
-margin_right = 139.0
-margin_bottom = 21.0
+layout_mode = 2
 
 [node name="Control" type="Control" parent="ui_debug/ui_debug_root_container/HBoxContainer/VBoxContainer/fps_display_container"]
-margin_right = 90.0
-margin_bottom = 21.0
-mouse_filter = 1
+layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 1
 
 [node name="fps_panel" type="PanelContainer" parent="ui_debug/ui_debug_root_container/HBoxContainer/VBoxContainer/fps_display_container"]
-margin_left = 94.0
-margin_right = 139.0
-margin_bottom = 21.0
-rect_min_size = Vector2( 45, 20 )
+layout_mode = 2
 mouse_filter = 2
-custom_styles/panel = SubResource( 4 )
-script = ExtResource( 8 )
+script = ExtResource("8")
 
 [node name="MarginContainer" type="MarginContainer" parent="ui_debug/ui_debug_root_container/HBoxContainer/VBoxContainer/fps_display_container/fps_panel"]
-margin_right = 45.0
-margin_bottom = 21.0
-mouse_filter = 1
-custom_constants/margin_right = 3
-custom_constants/margin_top = 3
-custom_constants/margin_left = 3
-custom_constants/margin_bottom = 3
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
 
 [node name="fps_label" type="Label" parent="ui_debug/ui_debug_root_container/HBoxContainer/VBoxContainer/fps_display_container/fps_panel/MarginContainer"]
-modulate = Color( 1, 1, 1, 0.870588 )
-margin_left = 3.0
-margin_top = 3.0
-margin_right = 42.0
-margin_bottom = 18.0
-custom_fonts/font = ExtResource( 9 )
+modulate = Color(1, 1, 1, 0.870588)
+layout_mode = 2
 text = "fps"
 
 [node name="render_info_container" type="HBoxContainer" parent="ui_debug/ui_debug_root_container/HBoxContainer/VBoxContainer"]
-margin_top = 24.0
-margin_right = 139.0
-margin_bottom = 150.0
+layout_mode = 2
 
 [node name="Control" type="Control" parent="ui_debug/ui_debug_root_container/HBoxContainer/VBoxContainer/render_info_container"]
-margin_bottom = 126.0
-mouse_filter = 1
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
+mouse_filter = 1
 
-[node name="render_info_panel" type="PanelContainer" parent="ui_debug/ui_debug_root_container/HBoxContainer/VBoxContainer/render_info_container"]
-margin_left = 4.0
-margin_right = 139.0
-margin_bottom = 126.0
-grow_vertical = 2
-mouse_filter = 2
+[node name="render_info_panel" type="PanelContainer" parent="ui_debug/ui_debug_root_container/HBoxContainer/VBoxContainer/render_info_container" node_paths=PackedStringArray("viewport")]
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 1.1
-custom_styles/panel = SubResource( 5 )
-script = ExtResource( 7 )
+mouse_filter = 2
+script = ExtResource("7")
 viewport = NodePath("../../../../../../ViewportContainer/Viewport")
 
 [node name="MarginContainer" type="MarginContainer" parent="ui_debug/ui_debug_root_container/HBoxContainer/VBoxContainer/render_info_container/render_info_panel"]
-margin_right = 135.0
-margin_bottom = 126.0
+layout_mode = 2
 mouse_filter = 2
-custom_constants/margin_right = 3
-custom_constants/margin_top = 3
-custom_constants/margin_left = 3
-custom_constants/margin_bottom = 3
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
 
 [node name="VBoxContainer" type="VBoxContainer" parent="ui_debug/ui_debug_root_container/HBoxContainer/VBoxContainer/render_info_container/render_info_panel/MarginContainer"]
-margin_left = 3.0
-margin_top = 3.0
-margin_right = 132.0
-margin_bottom = 123.0
-rect_min_size = Vector2( 0, -0.036 )
-custom_constants/separation = 0
+layout_mode = 2
 
 [node name="objects_in_frame" type="Label" parent="ui_debug/ui_debug_root_container/HBoxContainer/VBoxContainer/render_info_container/render_info_panel/MarginContainer/VBoxContainer"]
-modulate = Color( 1, 1, 1, 0.509804 )
-margin_right = 129.0
-margin_bottom = 15.0
-custom_fonts/font = ExtResource( 9 )
+modulate = Color(1, 1, 1, 0.509804)
+layout_mode = 2
 text = "objects in frame"
 
-[node name="vertices_in_frame" type="Label" parent="ui_debug/ui_debug_root_container/HBoxContainer/VBoxContainer/render_info_container/render_info_panel/MarginContainer/VBoxContainer"]
-modulate = Color( 1, 1, 1, 0.509804 )
-margin_top = 15.0
-margin_right = 129.0
-margin_bottom = 30.0
-custom_fonts/font = ExtResource( 9 )
+[node name="primitives_in_frame" type="Label" parent="ui_debug/ui_debug_root_container/HBoxContainer/VBoxContainer/render_info_container/render_info_panel/MarginContainer/VBoxContainer"]
+modulate = Color(1, 1, 1, 0.509804)
+layout_mode = 2
 text = "vertices in frame"
 
-[node name="material_changes_in_frame" type="Label" parent="ui_debug/ui_debug_root_container/HBoxContainer/VBoxContainer/render_info_container/render_info_panel/MarginContainer/VBoxContainer"]
-modulate = Color( 1, 1, 1, 0.509804 )
-margin_top = 30.0
-margin_right = 129.0
-margin_bottom = 45.0
-custom_fonts/font = ExtResource( 9 )
-text = "material changes in frame"
-
-[node name="shader_changes_in_frame" type="Label" parent="ui_debug/ui_debug_root_container/HBoxContainer/VBoxContainer/render_info_container/render_info_panel/MarginContainer/VBoxContainer"]
-modulate = Color( 1, 1, 1, 0.509804 )
-margin_top = 45.0
-margin_right = 129.0
-margin_bottom = 60.0
-custom_fonts/font = ExtResource( 9 )
-text = "shader changes in frame"
-
-[node name="surface_changes_in_frame" type="Label" parent="ui_debug/ui_debug_root_container/HBoxContainer/VBoxContainer/render_info_container/render_info_panel/MarginContainer/VBoxContainer"]
-modulate = Color( 1, 1, 1, 0.509804 )
-margin_top = 60.0
-margin_right = 129.0
-margin_bottom = 75.0
-custom_fonts/font = ExtResource( 9 )
-text = "surface changes in frame"
-
 [node name="draw_calls_in_frame" type="Label" parent="ui_debug/ui_debug_root_container/HBoxContainer/VBoxContainer/render_info_container/render_info_panel/MarginContainer/VBoxContainer"]
-modulate = Color( 1, 1, 1, 0.509804 )
-margin_top = 75.0
-margin_right = 129.0
-margin_bottom = 90.0
-custom_fonts/font = ExtResource( 9 )
+modulate = Color(1, 1, 1, 0.509804)
+layout_mode = 2
 text = "draw calls in frame"
 
-[node name="twod_items_in_frame" type="Label" parent="ui_debug/ui_debug_root_container/HBoxContainer/VBoxContainer/render_info_container/render_info_panel/MarginContainer/VBoxContainer"]
-modulate = Color( 1, 1, 1, 0.509804 )
-margin_top = 90.0
-margin_right = 129.0
-margin_bottom = 105.0
-custom_fonts/font = ExtResource( 9 )
-text = "2d items in frame"
+[node name="texture_mem" type="Label" parent="ui_debug/ui_debug_root_container/HBoxContainer/VBoxContainer/render_info_container/render_info_panel/MarginContainer/VBoxContainer"]
+modulate = Color(1, 1, 1, 0.509804)
+layout_mode = 2
+text = "texture memory"
 
-[node name="twod_draw_calls_in_frame" type="Label" parent="ui_debug/ui_debug_root_container/HBoxContainer/VBoxContainer/render_info_container/render_info_panel/MarginContainer/VBoxContainer"]
-modulate = Color( 1, 1, 1, 0.509804 )
-margin_top = 105.0
-margin_right = 129.0
-margin_bottom = 120.0
-custom_fonts/font = ExtResource( 9 )
-text = "2d draw calls in frame"
+[node name="buffer_mem" type="Label" parent="ui_debug/ui_debug_root_container/HBoxContainer/VBoxContainer/render_info_container/render_info_panel/MarginContainer/VBoxContainer"]
+modulate = Color(1, 1, 1, 0.509804)
+layout_mode = 2
+text = "buffer memory"
 
 [node name="resolutions_info_container" type="HBoxContainer" parent="ui_debug/ui_debug_root_container/HBoxContainer/VBoxContainer"]
-margin_top = 153.0
-margin_right = 139.0
-margin_bottom = 189.0
+layout_mode = 2
 
 [node name="Control" type="Control" parent="ui_debug/ui_debug_root_container/HBoxContainer/VBoxContainer/resolutions_info_container"]
-margin_right = 35.0
-margin_bottom = 36.0
+layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 1
 
-[node name="resolutions_info_panel" type="PanelContainer" parent="ui_debug/ui_debug_root_container/HBoxContainer/VBoxContainer/resolutions_info_container"]
-margin_left = 39.0
-margin_right = 139.0
-margin_bottom = 36.0
-custom_styles/panel = SubResource( 16 )
-script = ExtResource( 15 )
+[node name="resolutions_info_panel" type="PanelContainer" parent="ui_debug/ui_debug_root_container/HBoxContainer/VBoxContainer/resolutions_info_container" node_paths=PackedStringArray("main_viewport", "viewport_display_rect")]
+layout_mode = 2
+mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_1fxad")
+script = ExtResource("15")
 main_viewport = NodePath("../../../../../../ViewportContainer/Viewport")
 viewport_display_rect = NodePath("../../../../../../ViewportDisplay/ViewportDisplayTextureRect")
 
 [node name="MarginContainer" type="MarginContainer" parent="ui_debug/ui_debug_root_container/HBoxContainer/VBoxContainer/resolutions_info_container/resolutions_info_panel"]
-margin_right = 100.0
-margin_bottom = 36.0
-custom_constants/margin_right = 3
-custom_constants/margin_top = 3
-custom_constants/margin_left = 3
-custom_constants/margin_bottom = 3
+layout_mode = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="ui_debug/ui_debug_root_container/HBoxContainer/VBoxContainer/resolutions_info_container/resolutions_info_panel/MarginContainer"]
-margin_left = 3.0
-margin_top = 3.0
-margin_right = 97.0
-margin_bottom = 33.0
-custom_constants/separation = 0
+layout_mode = 2
 
 [node name="viewport_resolution" type="Label" parent="ui_debug/ui_debug_root_container/HBoxContainer/VBoxContainer/resolutions_info_container/resolutions_info_panel/MarginContainer/VBoxContainer"]
-margin_right = 94.0
-margin_bottom = 15.0
-custom_colors/font_color = Color( 1, 1, 1, 0.584314 )
-custom_fonts/font = ExtResource( 9 )
+layout_mode = 2
 text = "viewport resolution"
-align = 2
 
 [node name="window_resolution" type="Label" parent="ui_debug/ui_debug_root_container/HBoxContainer/VBoxContainer/resolutions_info_container/resolutions_info_panel/MarginContainer/VBoxContainer"]
-margin_top = 15.0
-margin_right = 94.0
-margin_bottom = 30.0
-custom_colors/font_color = Color( 1, 1, 1, 0.584314 )
-custom_fonts/font = ExtResource( 9 )
+layout_mode = 2
 text = "window resolution"
-align = 2
 
 [node name="ui_menu" type="Node" parent="."]
 
-[node name="menu_container" type="MarginContainer" parent="ui_menu"]
-visible = false
+[node name="menu_container" type="MarginContainer" parent="ui_menu" node_paths=PackedStringArray("game_node", "graphics_settings_menu", "render_viewport", "display_texture", "ui_debug_root", "camera")]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_constants/margin_right = 5
-custom_constants/margin_top = 5
-custom_constants/margin_left = 5
-custom_constants/margin_bottom = 27
-script = ExtResource( 11 )
+theme = ExtResource("13_1fxad")
+theme_override_constants/margin_left = 2
+script = ExtResource("11")
 game_node = NodePath("../..")
-graphics_settings_menu = NodePath("Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu")
+graphics_settings_menu = NodePath("MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu")
 render_viewport = NodePath("../../ViewportContainer/Viewport")
 display_texture = NodePath("../../ViewportDisplay/ViewportDisplayTextureRect")
 ui_debug_root = NodePath("../../ui_debug")
 camera = NodePath("../../ViewportContainer/Viewport/Camera")
 
-[node name="Panel" type="Panel" parent="ui_menu/menu_container"]
-margin_left = 5.0
-margin_top = 5.0
-margin_right = 1019.0
-margin_bottom = 573.0
-custom_styles/panel = SubResource( 11 )
+[node name="MarginContainer" type="MarginContainer" parent="ui_menu/menu_container"]
+layout_mode = 2
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 25
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ui_menu/menu_container/Panel"]
+[node name="Panel" type="Panel" parent="ui_menu/menu_container/MarginContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_v5wsg")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ui_menu/menu_container/MarginContainer/Panel"]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="HBoxContainer3" type="HBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer"]
-margin_right = 1014.0
-margin_bottom = 568.0
+[node name="HBoxContainer3" type="HBoxContainer" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer"]
+layout_mode = 2
 size_flags_vertical = 3
-custom_constants/separation = 0
+theme_override_constants/separation = 0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3"]
-margin_right = 90.0
-margin_bottom = 568.0
-rect_min_size = Vector2( 90, 0 )
+[node name="VBoxContainer" type="VBoxContainer" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
 
-[node name="Control" type="Control" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/VBoxContainer"]
-margin_right = 90.0
-margin_bottom = 485.0
+[node name="Control" type="Control" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/VBoxContainer"]
+layout_mode = 2
 size_flags_vertical = 3
 
-[node name="PanelContainer" type="PanelContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/VBoxContainer"]
-margin_top = 489.0
-margin_right = 90.0
-margin_bottom = 568.0
-custom_styles/panel = SubResource( 32 )
+[node name="PanelContainer" type="PanelContainer" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/VBoxContainer"]
+layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/VBoxContainer/PanelContainer"]
-margin_right = 90.0
-margin_bottom = 79.0
+[node name="MarginContainer" type="MarginContainer" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/VBoxContainer/PanelContainer"]
+layout_mode = 2
 size_flags_horizontal = 3
-custom_constants/margin_right = 5
-custom_constants/margin_top = 5
-custom_constants/margin_left = 5
-custom_constants/margin_bottom = 5
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/VBoxContainer/PanelContainer/MarginContainer"]
-margin_left = 5.0
-margin_top = 5.0
-margin_right = 85.0
-margin_bottom = 74.0
-custom_constants/separation = 5
+[node name="VBoxContainer" type="VBoxContainer" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/VBoxContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
 
-[node name="return_button" type="Button" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
-margin_right = 80.0
-margin_bottom = 32.0
-theme = ExtResource( 14 )
-custom_fonts/font = ExtResource( 13 )
+[node name="return_button" type="Button" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+theme = ExtResource("14")
+theme_override_colors/font_color = Color(0.731301, 0.731301, 0.731301, 1)
+theme_override_font_sizes/font_size = 25
 text = "return"
 
-[node name="settings_button" type="Button" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="settings_button" type="Button" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
 visible = false
-margin_top = 37.0
-margin_right = 79.0
-margin_bottom = 69.0
-theme = ExtResource( 14 )
-custom_fonts/font = ExtResource( 13 )
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+theme = ExtResource("14")
 toggle_mode = true
 text = "  settings "
 
-[node name="quit_button" type="Button" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
-margin_top = 37.0
-margin_right = 80.0
-margin_bottom = 69.0
-theme = ExtResource( 14 )
-custom_fonts/font = ExtResource( 13 )
+[node name="quit_button" type="Button" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+theme = ExtResource("14")
+theme_override_colors/font_color = Color(0.731301, 0.731301, 0.731301, 1)
+theme_override_font_sizes/font_size = 25
 text = "quit"
 
-[node name="graphics_settings_menu" type="MarginContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3"]
-margin_left = 90.0
-margin_right = 1014.0
-margin_bottom = 568.0
+[node name="graphics_settings_menu" type="MarginContainer" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 0
 
-[node name="PanelContainer" type="PanelContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu"]
-margin_right = 924.0
-margin_bottom = 568.0
-custom_styles/panel = SubResource( 13 )
+[node name="PanelContainer" type="PanelContainer" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_o5518")
 
-[node name="MarginContainer" type="MarginContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer"]
-margin_right = 924.0
-margin_bottom = 568.0
-custom_constants/margin_left = 4
+[node name="MarginContainer" type="MarginContainer" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer"]
-margin_left = 4.0
-margin_right = 924.0
-margin_bottom = 568.0
+[node name="HBoxContainer" type="HBoxContainer" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer"]
+layout_mode = 2
 
-[node name="graphics_settings_panel_container" type="PanelContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer"]
-margin_right = 180.0
-margin_bottom = 568.0
-custom_styles/panel = SubResource( 15 )
+[node name="graphics_settings_panel_container" type="PanelContainer" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container"]
-margin_right = 180.0
-margin_bottom = 568.0
-rect_min_size = Vector2( 180, 0 )
-custom_constants/margin_right = 3
-custom_constants/margin_top = 3
-custom_constants/margin_left = 3
-custom_constants/margin_bottom = 3
+[node name="MarginContainer" type="MarginContainer" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container"]
+layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer"]
-margin_left = 3.0
-margin_top = 3.0
-margin_right = 177.0
-margin_bottom = 565.0
-custom_constants/separation = 4
+[node name="VBoxContainer" type="VBoxContainer" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer"]
+layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer"]
-margin_right = 174.0
-margin_bottom = 42.0
-custom_constants/margin_right = 5
-custom_constants/margin_top = 5
-custom_constants/margin_left = 5
-custom_constants/margin_bottom = 5
+[node name="MarginContainer" type="MarginContainer" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer"]
+layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/MarginContainer"]
-margin_left = 5.0
-margin_top = 5.0
-margin_right = 169.0
-margin_bottom = 37.0
-rect_min_size = Vector2( 32, 32 )
-texture = ExtResource( 16 )
-expand = true
-stretch_mode = 5
+[node name="TextureRect" type="TextureRect" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/MarginContainer"]
+texture_filter = 4
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("16")
+expand_mode = 1
+stretch_mode = 4
 
-[node name="MarginContainer2" type="MarginContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer"]
-margin_top = 46.0
-margin_right = 174.0
-margin_bottom = 74.0
+[node name="MarginContainer2" type="MarginContainer" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer"]
+layout_mode = 2
 
-[node name="Label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/MarginContainer2"]
-margin_right = 174.0
-margin_bottom = 28.0
-custom_colors/font_color = Color( 0.898039, 0.592157, 0.113725, 1 )
-custom_fonts/font = SubResource( 20 )
+[node name="Label" type="Label" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/MarginContainer2"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.935458, 0.590858, 0.2606, 1)
+theme_override_font_sizes/font_size = 25
 text = "GRAPHICS"
 
-[node name="PanelContainer" type="PanelContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer"]
-margin_top = 78.0
-margin_right = 174.0
-margin_bottom = 192.0
-custom_styles/panel = SubResource( 17 )
+[node name="PanelContainer" type="PanelContainer" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_v5wsg")
 
-[node name="MarginContainer" type="MarginContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer"]
-margin_left = 2.0
-margin_top = 2.0
-margin_right = 172.0
-margin_bottom = 112.0
-custom_constants/margin_right = 2
-custom_constants/margin_top = 2
-custom_constants/margin_left = 2
-custom_constants/margin_bottom = 2
+[node name="MarginContainer" type="MarginContainer" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer"]
+layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer"]
-margin_left = 2.0
-margin_top = 2.0
-margin_right = 168.0
-margin_bottom = 108.0
-custom_constants/separation = 0
+[node name="VBoxContainer" type="VBoxContainer" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
 
-[node name="resolution_label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
-margin_right = 166.0
-margin_bottom = 13.0
-custom_colors/font_color = Color( 1, 0.678431, 0.12549, 1 )
-custom_fonts/font = SubResource( 18 )
+[node name="resolution_label" type="Label" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.935458, 0.590858, 0.2606, 1)
+theme_override_font_sizes/font_size = 10
 text = "resolution"
 
-[node name="fullscreen_checkbox_container" type="HBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
-margin_top = 13.0
-margin_right = 166.0
-margin_bottom = 37.0
+[node name="fullscreen_checkbox_container" type="HBoxContainer" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
 
-[node name="fullscreen_checkbox_label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/fullscreen_checkbox_container"]
-margin_top = 4.0
-margin_right = 81.0
-margin_bottom = 19.0
+[node name="fullscreen_checkbox_label" type="Label" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/fullscreen_checkbox_container"]
+layout_mode = 2
 size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 9 )
 text = "fullscreen"
 
-[node name="fullscreen_checkbox" type="CheckBox" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/fullscreen_checkbox_container"]
-margin_left = 85.0
-margin_right = 166.0
-margin_bottom = 24.0
+[node name="fullscreen_checkbox" type="CheckBox" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/fullscreen_checkbox_container"]
+layout_mode = 2
 size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 9 )
 text = "on"
 
-[node name="resolution_scale_container" type="HBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
-margin_top = 37.0
-margin_right = 166.0
-margin_bottom = 61.0
+[node name="resolution_scale_container" type="HBoxContainer" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
 
-[node name="resolution_scale_label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/resolution_scale_container"]
-margin_top = 4.0
-margin_right = 78.0
-margin_bottom = 19.0
-custom_fonts/font = ExtResource( 9 )
+[node name="resolution_scale_label" type="Label" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/resolution_scale_container"]
+layout_mode = 2
 text = "resolution scale"
 
-[node name="resolution_scale" type="SpinBox" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/resolution_scale_container"]
-margin_left = 82.0
-margin_right = 156.0
-margin_bottom = 24.0
+[node name="resolution_scale" type="SpinBox" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/resolution_scale_container"]
+layout_mode = 2
 min_value = 0.001
 max_value = 2.0
 step = 0.001
 value = 1.0
-align = 2
 suffix = "x"
 
-[node name="msaa_container" type="HBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
-margin_top = 61.0
-margin_right = 166.0
-margin_bottom = 82.0
+[node name="msaa_container" type="HBoxContainer" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
 
-[node name="Label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/msaa_container"]
-margin_top = 3.0
-margin_right = 81.0
-margin_bottom = 18.0
+[node name="Label" type="Label" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/msaa_container"]
+layout_mode = 2
 size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 9 )
 text = "MSAA"
 
-[node name="msaa_options" type="OptionButton" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/msaa_container"]
-margin_left = 85.0
-margin_right = 166.0
-margin_bottom = 21.0
+[node name="msaa_options" type="OptionButton" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/msaa_container"]
+layout_mode = 2
 size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 9 )
-text = "Disabled"
-align = 2
 
-[node name="fxaa_container" type="HBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
-margin_top = 82.0
-margin_right = 166.0
-margin_bottom = 106.0
+[node name="PanelContainer2" type="PanelContainer" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer"]
+layout_mode = 2
 
-[node name="fxaa_label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/fxaa_container"]
-margin_top = 4.0
-margin_right = 81.0
-margin_bottom = 19.0
-size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 9 )
-text = "FXAA"
+[node name="MarginContainer" type="MarginContainer" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2"]
+layout_mode = 2
 
-[node name="fxaa_checkbox" type="CheckBox" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/fxaa_container"]
-margin_left = 85.0
-margin_right = 166.0
-margin_bottom = 24.0
-size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 9 )
-text = "on"
+[node name="VBoxContainer" type="VBoxContainer" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer"]
+layout_mode = 2
 
-[node name="PanelContainer2" type="PanelContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer"]
-margin_top = 196.0
-margin_right = 174.0
-margin_bottom = 257.0
-custom_styles/panel = SubResource( 19 )
-
-[node name="MarginContainer" type="MarginContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2"]
-margin_left = 2.0
-margin_top = 2.0
-margin_right = 172.0
-margin_bottom = 59.0
-custom_constants/margin_right = 2
-custom_constants/margin_top = 2
-custom_constants/margin_left = 2
-custom_constants/margin_bottom = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer"]
-margin_left = 2.0
-margin_top = 2.0
-margin_right = 168.0
-margin_bottom = 55.0
-custom_constants/separation = 0
-
-[node name="resolution_label2" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer"]
-margin_right = 166.0
-margin_bottom = 13.0
-custom_colors/font_color = Color( 0.415686, 0.72549, 1, 1 )
-custom_fonts/font = SubResource( 18 )
+[node name="resolution_label2" type="Label" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer"]
+layout_mode = 2
 text = "display"
 
-[node name="filter_display_container" type="HBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer"]
-margin_top = 13.0
-margin_right = 166.0
-margin_bottom = 37.0
+[node name="filter_display_container" type="HBoxContainer" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer"]
+layout_mode = 2
 
-[node name="filter_display_label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/filter_display_container"]
-margin_top = 4.0
-margin_right = 81.0
-margin_bottom = 19.0
+[node name="filter_display_label" type="Label" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/filter_display_container"]
+layout_mode = 2
 size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 9 )
 text = "filter display"
 
-[node name="filter_display_checkbox" type="CheckBox" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/filter_display_container"]
-margin_left = 85.0
-margin_right = 166.0
-margin_bottom = 24.0
+[node name="filter_display_checkbox" type="CheckBox" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/filter_display_container"]
+layout_mode = 2
 size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 9 )
-pressed = true
+button_pressed = true
 text = "on"
 
-[node name="sharpen_intensity_container" type="HBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer"]
-margin_top = 37.0
-margin_right = 166.0
-margin_bottom = 53.0
+[node name="PanelContainer3" type="PanelContainer" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer"]
+layout_mode = 2
 
-[node name="sharpen_intensity_label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/sharpen_intensity_container"]
-margin_right = 84.0
-margin_bottom = 15.0
-size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 9 )
-text = "sharpen intensity"
+[node name="MarginContainer" type="MarginContainer" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3"]
+layout_mode = 2
 
-[node name="sharpen_intensity_slider" type="HSlider" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/sharpen_intensity_container"]
-margin_left = 88.0
-margin_right = 166.0
-margin_bottom = 16.0
-size_flags_horizontal = 3
-max_value = 1.0
-step = 0.001
-tick_count = 5
-ticks_on_borders = true
+[node name="VBoxContainer" type="VBoxContainer" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer"]
+layout_mode = 2
 
-[node name="PanelContainer3" type="PanelContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer"]
-margin_top = 261.0
-margin_right = 174.0
-margin_bottom = 367.0
-custom_styles/panel = SubResource( 31 )
-
-[node name="MarginContainer" type="MarginContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3"]
-margin_left = 2.0
-margin_top = 2.0
-margin_right = 172.0
-margin_bottom = 104.0
-custom_constants/margin_right = 2
-custom_constants/margin_top = 2
-custom_constants/margin_left = 2
-custom_constants/margin_bottom = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer"]
-margin_left = 2.0
-margin_top = 2.0
-margin_right = 168.0
-margin_bottom = 100.0
-
-[node name="effects_label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer"]
-margin_right = 166.0
-margin_bottom = 13.0
-custom_colors/font_color = Color( 0.968627, 0.376471, 0.87451, 1 )
-custom_fonts/font = SubResource( 18 )
+[node name="effects_label" type="Label" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer"]
+layout_mode = 2
 text = "effects"
 
-[node name="PanelContainer" type="PanelContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer"]
-margin_top = 17.0
-margin_right = 166.0
-margin_bottom = 98.0
-custom_styles/panel = SubResource( 31 )
+[node name="PanelContainer" type="PanelContainer" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer"]
+layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/PanelContainer"]
-margin_left = 2.0
-margin_top = 2.0
-margin_right = 164.0
-margin_bottom = 79.0
-custom_constants/margin_right = 2
-custom_constants/margin_top = 2
-custom_constants/margin_left = 2
-custom_constants/margin_bottom = 2
+[node name="MarginContainer" type="MarginContainer" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/PanelContainer"]
+layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/PanelContainer/MarginContainer"]
-margin_left = 2.0
-margin_top = 2.0
-margin_right = 160.0
-margin_bottom = 75.0
-custom_constants/separation = -4
+[node name="VBoxContainer" type="VBoxContainer" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
 
-[node name="motionblur_label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
-margin_right = 158.0
-margin_bottom = 13.0
-custom_colors/font_color = Color( 0.968627, 0.376471, 0.87451, 1 )
-custom_fonts/font = SubResource( 18 )
+[node name="motionblur_label" type="Label" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
 text = "motion blur"
 
-[node name="motionblur_enable_container" type="HBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
-margin_top = 9.0
-margin_right = 158.0
-margin_bottom = 33.0
+[node name="motionblur_enable_container" type="HBoxContainer" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
 
-[node name="motionblur_enable_label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/motionblur_enable_container"]
-margin_top = 4.0
-margin_right = 77.0
-margin_bottom = 19.0
+[node name="motionblur_enable_label" type="Label" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/motionblur_enable_container"]
+layout_mode = 2
 size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 9 )
 text = "enable"
 
-[node name="motionblur_enable_checkbox" type="CheckBox" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/motionblur_enable_container"]
-margin_left = 81.0
-margin_right = 158.0
-margin_bottom = 24.0
+[node name="motionblur_enable_checkbox" type="CheckBox" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/motionblur_enable_container"]
+layout_mode = 2
 size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 9 )
-pressed = true
 text = "on"
 
-[node name="motionblur_iterations_container" type="HBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
-margin_top = 29.0
-margin_right = 158.0
-margin_bottom = 53.0
+[node name="motionblur_iterations_container" type="HBoxContainer" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
 
-[node name="motionblur_iterations_label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/motionblur_iterations_container"]
-margin_top = 4.0
-margin_right = 80.0
-margin_bottom = 19.0
+[node name="motionblur_iterations_label" type="Label" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/motionblur_iterations_container"]
+layout_mode = 2
 size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 9 )
 text = "iterations"
 
-[node name="motionblur_iterations" type="SpinBox" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/motionblur_iterations_container"]
-margin_left = 84.0
-margin_right = 158.0
-margin_bottom = 24.0
+[node name="motionblur_iterations" type="SpinBox" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/motionblur_iterations_container"]
+layout_mode = 2
 min_value = 1.0
 max_value = 128.0
 value = 2.0
-align = 2
 
-[node name="motionblur_intensity_container" type="HBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
-margin_top = 49.0
-margin_right = 158.0
-margin_bottom = 73.0
+[node name="motionblur_intensity_container" type="HBoxContainer" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
 
-[node name="motionblur_intensity_label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/motionblur_intensity_container"]
-margin_top = 4.0
-margin_right = 80.0
-margin_bottom = 19.0
+[node name="motionblur_intensity_label" type="Label" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/motionblur_intensity_container"]
+layout_mode = 2
 size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 9 )
 text = "intensity"
 
-[node name="motionblur_intensity" type="SpinBox" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/motionblur_intensity_container"]
-margin_left = 84.0
-margin_right = 158.0
-margin_bottom = 24.0
+[node name="motionblur_intensity" type="SpinBox" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/motionblur_intensity_container"]
+layout_mode = 2
 max_value = 1.0
 step = 0.001
 value = 1.0
-align = 2
 
-[node name="controls_settings_panel_container" type="PanelContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer"]
-margin_left = 184.0
-margin_right = 364.0
-margin_bottom = 568.0
-rect_min_size = Vector2( 180, 0 )
-custom_styles/panel = SubResource( 15 )
+[node name="controls_settings_panel_container" type="PanelContainer" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container"]
-margin_right = 180.0
-margin_bottom = 568.0
-custom_constants/margin_right = 3
-custom_constants/margin_top = 3
-custom_constants/margin_left = 3
-custom_constants/margin_bottom = 3
+[node name="MarginContainer" type="MarginContainer" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container"]
+layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer"]
-margin_left = 3.0
-margin_top = 3.0
-margin_right = 177.0
-margin_bottom = 565.0
+[node name="VBoxContainer" type="VBoxContainer" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer"]
+layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer"]
-margin_right = 174.0
-margin_bottom = 42.0
-custom_constants/margin_right = 5
-custom_constants/margin_top = 5
-custom_constants/margin_left = 5
-custom_constants/margin_bottom = 5
+[node name="MarginContainer" type="MarginContainer" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer"]
+layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/MarginContainer"]
-margin_left = 5.0
-margin_top = 5.0
-margin_right = 169.0
-margin_bottom = 37.0
-rect_min_size = Vector2( 32, 32 )
-texture = ExtResource( 19 )
-expand = true
-stretch_mode = 5
+[node name="TextureRect" type="TextureRect" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/MarginContainer"]
+texture_filter = 4
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("19")
+expand_mode = 1
+stretch_mode = 4
 
-[node name="MarginContainer3" type="MarginContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer"]
-margin_top = 46.0
-margin_right = 174.0
-margin_bottom = 74.0
+[node name="MarginContainer3" type="MarginContainer" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer"]
+layout_mode = 2
 
-[node name="Label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/MarginContainer3"]
-margin_right = 174.0
-margin_bottom = 28.0
-custom_colors/font_color = Color( 0.898039, 0.592157, 0.113725, 1 )
-custom_fonts/font = SubResource( 20 )
+[node name="Label" type="Label" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/MarginContainer3"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.935458, 0.590858, 0.2606, 1)
+theme_override_font_sizes/font_size = 20
 text = "CONTROLS"
 
-[node name="PanelContainer2" type="PanelContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer"]
-margin_top = 78.0
-margin_right = 174.0
-margin_bottom = 293.0
-custom_styles/panel = SubResource( 26 )
+[node name="PanelContainer2" type="PanelContainer" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer"]
+layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2"]
-margin_left = 2.0
-margin_top = 2.0
-margin_right = 172.0
-margin_bottom = 213.0
+[node name="MarginContainer" type="MarginContainer" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2"]
+layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer"]
-margin_right = 170.0
-margin_bottom = 211.0
-custom_constants/separation = 0
+[node name="VBoxContainer" type="VBoxContainer" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer"]
+layout_mode = 2
 
-[node name="MarginContainer2" type="MarginContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer"]
-margin_right = 170.0
-margin_bottom = 211.0
-custom_constants/margin_right = 2
-custom_constants/margin_top = 2
-custom_constants/margin_left = 2
-custom_constants/margin_bottom = 2
+[node name="MarginContainer2" type="MarginContainer" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer"]
+layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2"]
-margin_left = 2.0
-margin_top = 2.0
-margin_right = 168.0
-margin_bottom = 209.0
+[node name="VBoxContainer" type="VBoxContainer" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2"]
+layout_mode = 2
 
-[node name="camera_controls_label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer"]
-margin_right = 166.0
-margin_bottom = 13.0
-custom_colors/font_color = Color( 0.556863, 0.556863, 0.556863, 1 )
-custom_fonts/font = SubResource( 18 )
+[node name="camera_controls_label" type="Label" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer"]
+layout_mode = 2
 text = "camera"
 
-[node name="PanelContainer3" type="PanelContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer"]
-margin_top = 17.0
-margin_right = 166.0
-margin_bottom = 134.0
-custom_styles/panel = SubResource( 28 )
+[node name="PanelContainer3" type="PanelContainer" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer"]
+layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/PanelContainer3"]
-margin_left = 2.0
-margin_top = 2.0
-margin_right = 164.0
-margin_bottom = 115.0
-custom_constants/margin_right = 2
-custom_constants/margin_top = 2
-custom_constants/margin_left = 2
-custom_constants/margin_bottom = 2
+[node name="MarginContainer" type="MarginContainer" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/PanelContainer3"]
+layout_mode = 2
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer"]
-margin_left = 2.0
-margin_top = 2.0
-margin_right = 160.0
-margin_bottom = 111.0
-custom_constants/separation = 0
+[node name="VBoxContainer2" type="VBoxContainer" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer"]
+layout_mode = 2
 
-[node name="look_label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer2"]
-margin_right = 158.0
-margin_bottom = 13.0
-custom_colors/font_color = Color( 0.556863, 0.556863, 0.556863, 1 )
-custom_fonts/font = SubResource( 18 )
+[node name="look_label" type="Label" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer2"]
+layout_mode = 2
 text = "look"
 
-[node name="invert_x_look_checkbox_container" type="HBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer2"]
-margin_top = 13.0
-margin_right = 158.0
-margin_bottom = 37.0
+[node name="invert_x_look_checkbox_container" type="HBoxContainer" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer2"]
+layout_mode = 2
 
-[node name="invert_x_look_checkbox_label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer2/invert_x_look_checkbox_container"]
-margin_top = 4.0
-margin_right = 77.0
-margin_bottom = 19.0
+[node name="invert_x_look_checkbox_label" type="Label" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer2/invert_x_look_checkbox_container"]
+layout_mode = 2
 size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 9 )
 text = "invert X"
 
-[node name="invert_x_look_checkbox" type="CheckBox" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer2/invert_x_look_checkbox_container"]
-margin_left = 81.0
-margin_right = 158.0
-margin_bottom = 24.0
+[node name="invert_x_look_checkbox" type="CheckBox" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer2/invert_x_look_checkbox_container"]
+layout_mode = 2
 size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 9 )
 text = "on"
 
-[node name="invert_y_look_checkbox_container" type="HBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer2"]
-margin_top = 37.0
-margin_right = 158.0
-margin_bottom = 61.0
+[node name="invert_y_look_checkbox_container" type="HBoxContainer" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer2"]
+layout_mode = 2
 
-[node name="invert_y_look_checkbox_label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer2/invert_y_look_checkbox_container"]
-margin_top = 4.0
-margin_right = 77.0
-margin_bottom = 19.0
+[node name="invert_y_look_checkbox_label" type="Label" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer2/invert_y_look_checkbox_container"]
+layout_mode = 2
 size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 9 )
 text = "invert Y"
 
-[node name="invert_y_look_checkbox" type="CheckBox" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer2/invert_y_look_checkbox_container"]
-margin_left = 81.0
-margin_right = 158.0
-margin_bottom = 24.0
+[node name="invert_y_look_checkbox" type="CheckBox" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer2/invert_y_look_checkbox_container"]
+layout_mode = 2
 size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 9 )
-pressed = true
 text = "on"
 
-[node name="look_smoothing_container" type="HBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer2"]
-margin_top = 61.0
-margin_right = 158.0
-margin_bottom = 85.0
+[node name="look_smoothing_container" type="HBoxContainer" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer2"]
+layout_mode = 2
 
-[node name="look_smoothing_label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer2/look_smoothing_container"]
-margin_top = 4.0
-margin_right = 77.0
-margin_bottom = 19.0
-hint_tooltip = "Time-smoothing on camera look.
-Is a multiplier on tick delta.
-Default is 10, lower is slower, higher is faster."
-mouse_filter = 0
+[node name="look_smoothing_label" type="Label" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer2/look_smoothing_container"]
+layout_mode = 2
 size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 9 )
+mouse_filter = 0
 text = "smoothing"
 
-[node name="look_smoothing" type="SpinBox" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer2/look_smoothing_container"]
-margin_left = 81.0
-margin_right = 158.0
-margin_bottom = 24.0
-hint_tooltip = "Time-smoothing on camera look.
-Is a multiplier on tick delta.
-Default is 10, lower is slower, higher is faster."
+[node name="look_smoothing" type="SpinBox" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer2/look_smoothing_container"]
+layout_mode = 2
 size_flags_horizontal = 3
 min_value = 0.001
 step = 0.1
-value = 10.0
-align = 2
+value = 10.001
 
-[node name="look_sensitivity_container" type="HBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer2"]
-margin_top = 85.0
-margin_right = 158.0
-margin_bottom = 109.0
+[node name="look_sensitivity_container" type="HBoxContainer" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer2"]
+layout_mode = 2
 
-[node name="look_sensitivity_label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer2/look_sensitivity_container"]
-margin_top = 4.0
-margin_right = 77.0
-margin_bottom = 19.0
-hint_tooltip = "Look sensitivity.
-NOT CURRENTLY delta DEPENDENT!"
-mouse_filter = 0
+[node name="look_sensitivity_label" type="Label" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer2/look_sensitivity_container"]
+layout_mode = 2
 size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 9 )
+mouse_filter = 0
 text = "sensitivity"
 
-[node name="look_sensitivity" type="SpinBox" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer2/look_sensitivity_container"]
-margin_left = 81.0
-margin_right = 158.0
-margin_bottom = 24.0
-hint_tooltip = "Look sensitivity.
-NOT CURRENTLY delta DEPENDENT!"
+[node name="look_sensitivity" type="SpinBox" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer2/look_sensitivity_container"]
+layout_mode = 2
 size_flags_horizontal = 3
 min_value = 0.001
 max_value = 1.0
 step = 0.001
 value = 0.055
-align = 2
 
-[node name="PanelContainer" type="PanelContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer"]
-margin_top = 138.0
-margin_right = 166.0
-margin_bottom = 207.0
-custom_styles/panel = SubResource( 27 )
+[node name="PanelContainer" type="PanelContainer" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer"]
+layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/PanelContainer"]
-margin_left = 2.0
-margin_top = 2.0
-margin_right = 164.0
-margin_bottom = 67.0
-custom_constants/margin_right = 2
-custom_constants/margin_top = 2
-custom_constants/margin_left = 2
-custom_constants/margin_bottom = 2
+[node name="MarginContainer" type="MarginContainer" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/PanelContainer"]
+layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer"]
-margin_left = 2.0
-margin_top = 2.0
-margin_right = 160.0
-margin_bottom = 63.0
-custom_constants/separation = 0
+[node name="VBoxContainer" type="VBoxContainer" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
 
-[node name="camtarget_spring_label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
-margin_right = 158.0
-margin_bottom = 13.0
-hint_tooltip = "Controls for the spring that
-forces the camera to follow
-the translation of the target
-(usually the character)."
+[node name="camtarget_spring_label" type="Label" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
 mouse_filter = 0
-custom_colors/font_color = Color( 0.556863, 0.556863, 0.556863, 1 )
-custom_fonts/font = SubResource( 18 )
 text = "target spring"
 
-[node name="camtarget_damping_ratio_container" type="HBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
-margin_top = 13.0
-margin_right = 158.0
-margin_bottom = 37.0
-__meta__ = {
-"_editor_description_": ""
-}
+[node name="camtarget_damping_ratio_container" type="HBoxContainer" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
 
-[node name="camtarget_damping_ratio_label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/camtarget_damping_ratio_container"]
-margin_top = 4.0
-margin_right = 77.0
-margin_bottom = 19.0
-hint_tooltip = "Controls for the spring that
-forces the camera to follow
-the translation of the target
-(usually the character)."
-mouse_filter = 0
+[node name="camtarget_damping_ratio_label" type="Label" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/camtarget_damping_ratio_container"]
+layout_mode = 2
 size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 9 )
+mouse_filter = 0
 text = "damping ratio"
 
-[node name="camtarget_damping_ratio" type="SpinBox" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/camtarget_damping_ratio_container"]
-margin_left = 81.0
-margin_right = 158.0
-margin_bottom = 24.0
-hint_tooltip = "Controls for the spring that
-forces the camera to follow
-the translation of the target
-(usually the character)."
+[node name="camtarget_damping_ratio" type="SpinBox" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/camtarget_damping_ratio_container"]
+layout_mode = 2
 size_flags_horizontal = 3
 min_value = 0.001
 max_value = 1.0
 step = 0.001
 value = 0.965
-align = 2
 
-[node name="camtarget_angular_frequency_container" type="HBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
-margin_top = 37.0
-margin_right = 158.0
-margin_bottom = 61.0
+[node name="camtarget_angular_frequency_container" type="HBoxContainer" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
 
-[node name="camtarget_angular_frequency_label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/camtarget_angular_frequency_container"]
-margin_top = 4.0
-margin_right = 77.0
-margin_bottom = 19.0
-hint_tooltip = "Controls for the spring that
-forces the camera to follow
-the translation of the target
-(usually the character)."
-mouse_filter = 0
+[node name="camtarget_angular_frequency_label" type="Label" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/camtarget_angular_frequency_container"]
+layout_mode = 2
 size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 9 )
+mouse_filter = 0
 text = "angular freq"
 
-[node name="camtarget_angular_frequency_ratio" type="SpinBox" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/camtarget_angular_frequency_container"]
-margin_left = 81.0
-margin_right = 158.0
-margin_bottom = 24.0
-hint_tooltip = "Controls for the spring that
-forces the camera to follow
-the translation of the target
-(usually the character)."
+[node name="camtarget_angular_frequency_ratio" type="SpinBox" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/camtarget_angular_frequency_container"]
+layout_mode = 2
 size_flags_horizontal = 3
 min_value = 0.001
 max_value = 10.0
 step = 0.001
 value = 2.0
-align = 2
 
-[node name="debug_settings_panel_container" type="PanelContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer"]
-margin_left = 368.0
-margin_right = 548.0
-margin_bottom = 568.0
-custom_styles/panel = SubResource( 15 )
+[node name="debug_settings_panel_container" type="PanelContainer" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container"]
-margin_right = 180.0
-margin_bottom = 568.0
-rect_min_size = Vector2( 180, 0 )
-custom_constants/margin_right = 3
-custom_constants/margin_top = 3
-custom_constants/margin_left = 3
-custom_constants/margin_bottom = 3
+[node name="MarginContainer" type="MarginContainer" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container"]
+layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer"]
-margin_left = 3.0
-margin_top = 3.0
-margin_right = 177.0
-margin_bottom = 565.0
+[node name="VBoxContainer" type="VBoxContainer" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer"]
+layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer"]
-margin_right = 174.0
-margin_bottom = 42.0
-custom_constants/margin_right = 5
-custom_constants/margin_top = 5
-custom_constants/margin_left = 5
-custom_constants/margin_bottom = 5
+[node name="MarginContainer" type="MarginContainer" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer"]
+layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/MarginContainer"]
-margin_left = 5.0
-margin_top = 5.0
-margin_right = 169.0
-margin_bottom = 37.0
-rect_min_size = Vector2( 32, 32 )
-texture = ExtResource( 17 )
-expand = true
-stretch_mode = 5
+[node name="TextureRect" type="TextureRect" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/MarginContainer"]
+texture_filter = 4
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("17")
+expand_mode = 1
+stretch_mode = 4
 
-[node name="MarginContainer2" type="MarginContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer"]
-margin_top = 46.0
-margin_right = 174.0
-margin_bottom = 74.0
+[node name="MarginContainer2" type="MarginContainer" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer"]
+layout_mode = 2
 
-[node name="Label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/MarginContainer2"]
-margin_right = 174.0
-margin_bottom = 28.0
-custom_colors/font_color = Color( 0.898039, 0.592157, 0.113725, 1 )
-custom_fonts/font = SubResource( 20 )
+[node name="Label" type="Label" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/MarginContainer2"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.935458, 0.590858, 0.2606, 1)
+theme_override_font_sizes/font_size = 20
 text = "DEBUG"
 
-[node name="PanelContainer2" type="PanelContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer"]
-margin_top = 78.0
-margin_right = 174.0
-margin_bottom = 106.0
-custom_styles/panel = SubResource( 23 )
+[node name="PanelContainer2" type="PanelContainer" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_o5518")
 
-[node name="PanelContainer" type="PanelContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2"]
-margin_right = 174.0
-margin_bottom = 28.0
-custom_styles/panel = SubResource( 24 )
+[node name="PanelContainer" type="PanelContainer" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_wcsbp")
 
-[node name="MarginContainer" type="MarginContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2"]
-margin_right = 174.0
-margin_bottom = 28.0
-custom_constants/margin_right = 2
-custom_constants/margin_top = 2
-custom_constants/margin_left = 4
-custom_constants/margin_bottom = 2
+[node name="MarginContainer" type="MarginContainer" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2"]
+layout_mode = 2
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_bottom = 0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer"]
-margin_left = 4.0
-margin_top = 2.0
-margin_right = 172.0
-margin_bottom = 26.0
+[node name="VBoxContainer" type="VBoxContainer" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer"]
+layout_mode = 2
 
-[node name="debug_overlay_checkbox_container" type="HBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer"]
-margin_right = 168.0
-margin_bottom = 24.0
+[node name="debug_overlay_checkbox_container" type="HBoxContainer" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer"]
+layout_mode = 2
 
-[node name="debug_overlay_checkbox_label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/debug_overlay_checkbox_container"]
-margin_top = 4.0
-margin_right = 82.0
-margin_bottom = 19.0
-hint_tooltip = "display an overlay showing various performance
-and rendering statistics, as well as custom graphs
-and information panels"
-mouse_filter = 0
+[node name="debug_overlay_checkbox_label" type="Label" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/debug_overlay_checkbox_container"]
+layout_mode = 2
 size_flags_horizontal = 3
-custom_colors/font_color = Color( 1, 0.309804, 0.309804, 1 )
-custom_fonts/font = ExtResource( 9 )
+mouse_filter = 0
 text = "debug overlay"
 
-[node name="debug_overlay_checkbox" type="CheckBox" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/debug_overlay_checkbox_container"]
-margin_left = 86.0
-margin_right = 168.0
-margin_bottom = 24.0
-hint_tooltip = "display an overlay showing various performance
-and rendering statistics, as well as custom graphs
-and information panels"
+[node name="debug_overlay_checkbox" type="CheckBox" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/debug_overlay_checkbox_container"]
+layout_mode = 2
 size_flags_horizontal = 3
-custom_colors/font_color_disabled = Color( 1, 0.309804, 0.309804, 1 )
-custom_colors/font_color_focus = Color( 1, 0.309804, 0.309804, 1 )
-custom_colors/font_color_hover_pressed = Color( 1, 0.309804, 0.309804, 1 )
-custom_colors/font_color = Color( 1, 0.309804, 0.309804, 1 )
-custom_colors/font_color_hover = Color( 1, 0.309804, 0.309804, 1 )
-custom_colors/font_color_pressed = Color( 1, 0.309804, 0.309804, 1 )
-custom_fonts/font = ExtResource( 9 )
-pressed = true
+button_pressed = true
 text = "on"
 
-[node name="PanelContainer" type="PanelContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer"]
-margin_top = 110.0
-margin_right = 174.0
-margin_bottom = 191.0
-custom_styles/panel = SubResource( 22 )
+[node name="PanelContainer" type="PanelContainer" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_7riqa")
 
-[node name="MarginContainer" type="MarginContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer"]
-margin_left = 2.0
-margin_top = 2.0
-margin_right = 172.0
-margin_bottom = 79.0
-custom_constants/margin_right = 2
-custom_constants/margin_top = 2
-custom_constants/margin_left = 2
-custom_constants/margin_bottom = 2
+[node name="MarginContainer" type="MarginContainer" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer"]
+layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer"]
-margin_left = 2.0
-margin_top = 2.0
-margin_right = 168.0
-margin_bottom = 75.0
-custom_constants/separation = -4
+[node name="VBoxContainer" type="VBoxContainer" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
 
-[node name="frame_stats_label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
-margin_right = 166.0
-margin_bottom = 13.0
-custom_colors/font_color = Color( 0.396078, 0.619608, 0.341176, 1 )
-custom_fonts/font = SubResource( 18 )
+[node name="frame_stats_label" type="Label" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.357094, 0.619915, 0.296472, 1)
+theme_override_font_sizes/font_size = 10
 text = "frame"
 
-[node name="fps_checkbox_container" type="HBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
-margin_top = 9.0
-margin_right = 166.0
-margin_bottom = 33.0
+[node name="fps_checkbox_container" type="HBoxContainer" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
 
-[node name="fps_checkbox_label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/fps_checkbox_container"]
-margin_top = 4.0
-margin_right = 81.0
-margin_bottom = 19.0
+[node name="fps_checkbox_label" type="Label" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/fps_checkbox_container"]
+layout_mode = 2
 size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 9 )
 text = "fps "
 
-[node name="fps_checkbox" type="CheckBox" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/fps_checkbox_container"]
-margin_left = 85.0
-margin_right = 166.0
-margin_bottom = 24.0
+[node name="fps_checkbox" type="CheckBox" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/fps_checkbox_container"]
+layout_mode = 2
 size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 9 )
-pressed = true
+button_pressed = true
 text = "on"
 
-[node name="debug_render_info_checkbox_container" type="HBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
-margin_top = 29.0
-margin_right = 166.0
-margin_bottom = 53.0
+[node name="debug_render_info_checkbox_container" type="HBoxContainer" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
 
-[node name="debug_render_info_checkbox_label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/debug_render_info_checkbox_container"]
-margin_top = 4.0
-margin_right = 81.0
-margin_bottom = 19.0
+[node name="debug_render_info_checkbox_label" type="Label" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/debug_render_info_checkbox_container"]
+layout_mode = 2
 size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 9 )
 text = "render info"
 
-[node name="debug_render_info_checkbox" type="CheckBox" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/debug_render_info_checkbox_container"]
-margin_left = 85.0
-margin_right = 166.0
-margin_bottom = 24.0
+[node name="debug_render_info_checkbox" type="CheckBox" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/debug_render_info_checkbox_container"]
+layout_mode = 2
 size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 9 )
-pressed = true
+button_pressed = true
 text = "on"
 
-[node name="resolutions_info_checkbox_container" type="HBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
-margin_top = 49.0
-margin_right = 166.0
-margin_bottom = 73.0
+[node name="resolutions_info_checkbox_container" type="HBoxContainer" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
 
-[node name="resolutions_info_checkbox_label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/resolutions_info_checkbox_container"]
-margin_top = 4.0
-margin_right = 81.0
-margin_bottom = 19.0
+[node name="resolutions_info_checkbox_label" type="Label" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/resolutions_info_checkbox_container"]
+layout_mode = 2
 size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 9 )
 text = "resolutions info"
 
-[node name="resolutions_info_checkbox" type="CheckBox" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/resolutions_info_checkbox_container"]
-margin_left = 85.0
-margin_right = 166.0
-margin_bottom = 24.0
+[node name="resolutions_info_checkbox" type="CheckBox" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/resolutions_info_checkbox_container"]
+layout_mode = 2
 size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 9 )
-pressed = true
+button_pressed = true
 text = "on"
 
-[node name="Control" type="Control" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer"]
-margin_left = 552.0
-margin_right = 920.0
-margin_bottom = 568.0
+[node name="Control" type="Control" parent="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
 size_flags_horizontal = 3
 
 [connection signal="size_changed" from="ViewportContainer/Viewport" to="ui_debug/ui_debug_root_container/HBoxContainer/VBoxContainer/resolutions_info_container/resolutions_info_panel" method="_on_Viewport_size_changed"]
 [connection signal="resized" from="ViewportDisplay/ViewportDisplayTextureRect" to="ui_debug/ui_debug_root_container/HBoxContainer/VBoxContainer/resolutions_info_container/resolutions_info_panel" method="_on_ViewportDisplayTextureRect_resized"]
-[connection signal="visibility_changed" from="ui_debug/ui_debug_root_container/HBoxContainer/VBoxContainer/render_info_container" to="ui_debug/ui_debug_root_container/HBoxContainer/VBoxContainer/render_info_container/render_info_panel" method="_on_render_info_container_visibility_changed"]
-[connection signal="pressed" from="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/return_button" to="ui_menu/menu_container" method="_on_return_button_pressed"]
-[connection signal="toggled" from="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/settings_button" to="ui_menu/menu_container" method="_on_graphics_settings_button_toggled"]
-[connection signal="pressed" from="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/quit_button" to="." method="_on_quit_button_pressed"]
-[connection signal="toggled" from="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/fullscreen_checkbox_container/fullscreen_checkbox" to="ui_menu/menu_container" method="_on_fullscreen_checkbox_toggled"]
-[connection signal="value_changed" from="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/resolution_scale_container/resolution_scale" to="ui_menu/menu_container" method="_on_resolution_scale_value_changed"]
-[connection signal="item_selected" from="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/msaa_container/msaa_options" to="ui_menu/menu_container" method="_on_msaa_options_item_selected"]
-[connection signal="toggled" from="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/fxaa_container/fxaa_checkbox" to="ui_menu/menu_container" method="_on_fxaa_checkbox_toggled"]
-[connection signal="toggled" from="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/filter_display_container/filter_display_checkbox" to="ui_menu/menu_container" method="_on_filter_display_checkbox_toggled"]
-[connection signal="value_changed" from="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/sharpen_intensity_container/sharpen_intensity_slider" to="ui_menu/menu_container" method="_on_sharpen_intensity_slider_value_changed"]
-[connection signal="toggled" from="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/motionblur_enable_container/motionblur_enable_checkbox" to="ui_menu/menu_container" method="_on_motionblur_enable_checkbox_toggled"]
-[connection signal="value_changed" from="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/motionblur_iterations_container/motionblur_iterations" to="ui_menu/menu_container" method="_on_motionblur_iterations_value_changed"]
-[connection signal="value_changed" from="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/motionblur_intensity_container/motionblur_intensity" to="ui_menu/menu_container" method="_on_motionblur_intensity_value_changed"]
-[connection signal="toggled" from="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/debug_overlay_checkbox_container/debug_overlay_checkbox" to="." method="_on_debug_overlay_checkbox_toggled"]
-[connection signal="toggled" from="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/fps_checkbox_container/fps_checkbox" to="ui_menu/menu_container" method="_on_fps_checkbox_toggled"]
-[connection signal="toggled" from="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/debug_render_info_checkbox_container/debug_render_info_checkbox" to="ui_menu/menu_container" method="_on_debug_render_info_checkbox_toggled"]
-[connection signal="toggled" from="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/resolutions_info_checkbox_container/resolutions_info_checkbox" to="ui_menu/menu_container" method="_on_resolutions_info_checkbox_toggled"]
+[connection signal="visibility_changed" from="ui_debug/ui_debug_root_container/HBoxContainer/VBoxContainer/render_info_container/render_info_panel" to="ui_debug/ui_debug_root_container/HBoxContainer/VBoxContainer/render_info_container/render_info_panel" method="_on_render_info_container_visibility_changed"]
+[connection signal="pressed" from="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/return_button" to="ui_menu/menu_container" method="_on_return_button_pressed"]
+[connection signal="toggled" from="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/settings_button" to="ui_menu/menu_container" method="_on_graphics_settings_button_toggled"]
+[connection signal="pressed" from="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/quit_button" to="." method="_on_quit_button_pressed"]
+[connection signal="toggled" from="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/fullscreen_checkbox_container/fullscreen_checkbox" to="ui_menu/menu_container" method="_on_fullscreen_checkbox_toggled"]
+[connection signal="value_changed" from="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/resolution_scale_container/resolution_scale" to="ui_menu/menu_container" method="_on_resolution_scale_value_changed"]
+[connection signal="item_selected" from="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/msaa_container/msaa_options" to="ui_menu/menu_container" method="_on_msaa_options_item_selected"]
+[connection signal="toggled" from="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/filter_display_container/filter_display_checkbox" to="ui_menu/menu_container" method="_on_filter_display_checkbox_toggled"]
+[connection signal="toggled" from="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/motionblur_enable_container/motionblur_enable_checkbox" to="ui_menu/menu_container" method="_on_motionblur_enable_checkbox_toggled"]
+[connection signal="value_changed" from="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/motionblur_iterations_container/motionblur_iterations" to="ui_menu/menu_container" method="_on_motionblur_iterations_value_changed"]
+[connection signal="value_changed" from="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/motionblur_intensity_container/motionblur_intensity" to="ui_menu/menu_container" method="_on_motionblur_intensity_value_changed"]
+[connection signal="toggled" from="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/debug_overlay_checkbox_container/debug_overlay_checkbox" to="." method="_on_debug_overlay_checkbox_toggled"]
+[connection signal="toggled" from="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/fps_checkbox_container/fps_checkbox" to="ui_menu/menu_container" method="_on_fps_checkbox_toggled"]
+[connection signal="toggled" from="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/debug_render_info_checkbox_container/debug_render_info_checkbox" to="ui_menu/menu_container" method="_on_debug_render_info_checkbox_toggled"]
+[connection signal="toggled" from="ui_menu/menu_container/MarginContainer/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/resolutions_info_checkbox_container/resolutions_info_checkbox" to="ui_menu/menu_container" method="_on_resolutions_info_checkbox_toggled"]

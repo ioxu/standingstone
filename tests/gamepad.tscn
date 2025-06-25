@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=2 format=3 uid="uid://cjlxc0ndo0ste"]
 
-[sub_resource type="GDScript" id=1]
+[sub_resource type="GDScript" id="1"]
 script/source = "extends Node2D
 
 var _raw_left_stick_input := Vector2.ZERO
@@ -90,7 +90,7 @@ func _draw() -> void:
 "
 
 [node name="Node2D" type="Node2D"]
-script = SubResource( 1 )
+script = SubResource("1")
 
 [node name="title" type="Label" parent="."]
 margin_left = 15.0

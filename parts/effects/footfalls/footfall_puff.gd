@@ -1,11 +1,13 @@
-extends Spatial
+extends Node3D
+# extends Spatial # 3.5
 var gtime = 0.0
 var initial_colour : Color
 
 
 func _ready() -> void:
 	$Timer.start()
-	initial_colour = $MeshInstance.get_active_material(0).albedo_color
+	#initial_colour = $MeshInstance.get_active_material(0).albedo_color # 3.5
+	initial_colour = $MeshInstance.get_surface_override_material(0).albedo_color
 
 
 func _process(delta: float) -> void:

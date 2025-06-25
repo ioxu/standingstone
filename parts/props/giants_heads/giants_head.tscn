@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://bectxmt7unrxd"]
+
+[ext_resource type="PackedScene" uid="uid://7xgouh4da8b0" path="res://parts/props/giants_heads/giantHead_nomadSculpt_01-01_decim_p01.glb" id="1_435mc"]
+[ext_resource type="Texture2D" uid="uid://6w0k2xop4y3a" path="res://parts/props/giants_heads/head_decim_Bake1_PBR StoA_Normal.png" id="2_xqsh7"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_aa2bj"]
+albedo_color = Color(0.614045, 0.614046, 0.614045, 1)
+metallic_specular = 0.19
+roughness = 0.34
+normal_enabled = true
+normal_scale = 0.5
+normal_texture = ExtResource("2_xqsh7")
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_of0oi"]
+points = PackedVector3Array(-0.02698, 0.110621, -0.412912, 0.0414687, 0.021968, 0.497456, 0.110441, 0.0915036, 0.465574, 0.282678, -0.613123, -0.014943, -0.285053, -0.613394, -0.0149781, -0.28406, 0.280088, 0.122347, 0.282172, 0.29779, -0.0835156, -0.0609007, -0.660956, 0.429293, 0.111009, -0.493659, -0.377311, 0.441217, -0.0405741, 0.0181399, -0.410947, -0.132142, -0.0801768, -0.213444, 0.0381461, 0.410493, 0.0923415, -0.556606, 0.444572, -0.163578, -0.507848, -0.339566, 0.0938646, 0.352229, 0.295595, -0.148479, 0.354138, -0.18882, 0.212173, 0.107206, -0.338553, -0.264531, 0.106235, -0.286137, -0.42369, -0.028002, 0.00217001, 0.260775, 0.0878005, 0.340852, 0.0940901, 0.370778, -0.188536, -0.0960077, 0.351987, 0.29542, 0.0769838, -0.704118, 0.210045, -0.227774, -0.518088, 0.255049, 0.212498, -0.5416, -0.270796, 0.245812, 0.27686, 0.240942, 0.0944923, 0.407729, 0.0712738, -0.0785019, -0.57871, -0.255774, -0.299834, 0.26105, -0.116943, 0.24465, -0.0640735, 0.392552, 0.243124, -0.502304, 0.221949, -0.165455, 0.387735, -0.0499459)
+
+[node name="giantHead_nomadSculpt_01-01_decim_p01" instance=ExtResource("1_435mc")]
+
+[node name="head_decim" parent="." index="0"]
+surface_material_override/0 = SubResource("StandardMaterial3D_aa2bj")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="head_decim" index="0"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="head_decim/StaticBody3D" index="0"]
+shape = SubResource("ConvexPolygonShape3D_of0oi")

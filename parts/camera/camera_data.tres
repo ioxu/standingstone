@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="CameraData" load_steps=2 format=3 uid="uid://dcfoxpqk48faf"]
+
+[ext_resource type="Script" uid="uid://c8et7046akdnf" path="res://parts/camera/camera_data.gd" id="1_s4x72"]
+
+[resource]
+script = ExtResource("1_s4x72")
+anchor_offset = Vector3(0, 1.2, 0)
+target_offset = Vector3(0.57, 0.046, 2.287)
+rotation = Vector3(0, 0, 0)
+pitch_limit = Vector2(-70, 70)
+look_target = Vector3(0, 0, -100)

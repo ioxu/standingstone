@@ -14,7 +14,8 @@ func _ready():
 func is_f6(node:Node):
 	# checks if node is running through GUI by F6,
 	# TODO: needs rigorous testing
-	return node.get_parent().get_path() == "/root/"
+	#return node.get_parent().get_path() == "/root/"
+	return node.get_parent() == get_tree().root
 
 
 # ------------------------------------------------------------------------------
@@ -22,6 +23,7 @@ func is_f6(node:Node):
 # ------------------------------------------------------------------------------
 
 
+@warning_ignore("shadowed_global_identifier")
 func remap( f, start1, stop1, start2, stop2):
 	return start2 + (stop2 - start2) * ((f - start1) / (stop1 - start1))
 
@@ -67,6 +69,7 @@ func square_to_circle(inv: Vector2) -> Vector2:
 	# https://www.xarg.org/2017/07/how-to-map-a-square-to-a-circle/
 	# args:
 	#	inv: Vector2 - members from -1 to +1
+	@warning_ignore("unassigned_variable")
 	var _o:Vector2
 	_o.x = inv.x * sqrt( 1-inv.y*inv.y/2.0 )
 	_o.y = inv.y * sqrt( 1-inv.x*inv.x/2.0 )
@@ -80,23 +83,23 @@ func square_to_circle(inv: Vector2) -> Vector2:
 
 func ring_points(npoints:int = 32, radius:float = 5.0) -> Array:
 	# a ring of points on the x-z plane
-	var ring_points = []
+	var ring_points_a := []
 	for i in range(npoints):
 		var p = (i/float(npoints)) * (2*PI)
-		ring_points.append( Vector3( sin( p ) , 0.0, cos( p ) ) * radius )
-	ring_points.append( Vector3( sin( 2*PI ) , 0.0, cos( 2*PI ) ) * radius )
-	return ring_points
+		ring_points_a.append( Vector3( sin( p ) , 0.0, cos( p ) ) * radius )
+	ring_points_a.append( Vector3( sin( 2*PI ) , 0.0, cos( 2*PI ) ) * radius )
+	return ring_points_a
 
 
 func arc_points(npoints:int = 10, start:float = 45.0, end:float = 315.0, radius:float = 5.0) -> Array:
 	# an arc of points on the x-z plane
 	# start and end are in degrees,
 	# 0 degrees is at 3 o'clock on the x-z plane
-	var arc_points = []
+	var arc_points_a = []
 	for i in range(npoints+1):
-		var p = deg2rad(start + i * (end-start) / float(npoints) - 90)
-		arc_points.append( Vector3( cos( p ) , 0.0, sin( p ) ) * radius )
-	return arc_points
+		var p = deg_to_rad(start + i * (end-start) / float(npoints) - 90)
+		arc_points_a.append( Vector3( cos( p ) , 0.0, sin( p ) ) * radius )
+	return arc_points_a
 
 
 func set_curve_from_array_linear(in_array: Array, curve:Curve) -> void:

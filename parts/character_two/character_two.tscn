@@ -1,0 +1,141 @@
+[gd_scene load_steps=24 format=3 uid="uid://dbcqcccuu1886"]
+
+[ext_resource type="Script" uid="uid://bx253wkst6td0" path="res://parts/character_two/character_controller_two_two.gd" id="1_5h5kc"]
+[ext_resource type="PackedScene" uid="uid://cnwbqxcbqu5a7" path="res://parts/character_two/animation_library_godot.tscn" id="1_dpqmh"]
+[ext_resource type="Texture2D" uid="uid://qkklamrqhycw" path="res://parts/textures/texture_08.png" id="3_q1pnq"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_dpqmh"]
+margin = 0.075
+radius = 0.31
+height = 1.74626
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5h5kc"]
+albedo_color = Color(0.604949, 0.604949, 0.604949, 1)
+albedo_texture = ExtResource("3_q1pnq")
+roughness = 0.48
+uv1_scale = Vector3(20, 20, 20)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q1pnq"]
+albedo_color = Color(0.726368, 0.726368, 0.726368, 1)
+roughness = 0.37
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_n1he0"]
+animation = &"Idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_7nunn"]
+animation = &"Idle_LookAround"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_pisth"]
+animation = &"Idle_Tired"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_hx0kl"]
+animation = &"Idle_Talking"
+
+[sub_resource type="AnimationNodeBlendSpace2D" id="AnimationNodeBlendSpace2D_61u5i"]
+blend_point_0/node = SubResource("AnimationNodeAnimation_n1he0")
+blend_point_0/pos = Vector2(-1, 0)
+blend_point_1/node = SubResource("AnimationNodeAnimation_7nunn")
+blend_point_1/pos = Vector2(0, 1)
+blend_point_2/node = SubResource("AnimationNodeAnimation_pisth")
+blend_point_2/pos = Vector2(1, 0)
+blend_point_3/node = SubResource("AnimationNodeAnimation_hx0kl")
+blend_point_3/pos = Vector2(0, -1)
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_5h5kc"]
+graph_offset = Vector2(-864.706, -87.0588)
+nodes/BlendSpace2D/node = SubResource("AnimationNodeBlendSpace2D_61u5i")
+nodes/BlendSpace2D/position = Vector2(-129.412, 148.588)
+node_connections = [&"output", 0, &"BlendSpace2D"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_5h5kc"]
+animation = &"Jog_Fwd_Root"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_q1pnq"]
+animation = &"Sprint_Root"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_txpjf"]
+animation = &"Walk_Root"
+
+[sub_resource type="AnimationNodeBlend3" id="AnimationNodeBlend3_5h5kc"]
+sync = true
+
+[sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_n1he0"]
+
+[sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_7nunn"]
+
+[sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_pisth"]
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_q1pnq"]
+graph_offset = Vector2(21.1765, 102.353)
+nodes/Animation/node = SubResource("AnimationNodeAnimation_txpjf")
+nodes/Animation/position = Vector2(47.0588, 47.0588)
+"nodes/Animation 2/node" = SubResource("AnimationNodeAnimation_5h5kc")
+"nodes/Animation 2/position" = Vector2(47.0588, 282.353)
+"nodes/Animation 3/node" = SubResource("AnimationNodeAnimation_q1pnq")
+"nodes/Animation 3/position" = Vector2(47.0588, 541.176)
+nodes/blend_walk_running/node = SubResource("AnimationNodeBlend3_5h5kc")
+nodes/blend_walk_running/position = Vector2(847.059, 211.765)
+nodes/jog_timescale/node = SubResource("AnimationNodeTimeScale_n1he0")
+nodes/jog_timescale/position = Vector2(541.176, 258.824)
+nodes/output/position = Vector2(1200, 211.765)
+nodes/sprint_timescale/node = SubResource("AnimationNodeTimeScale_7nunn")
+nodes/sprint_timescale/position = Vector2(541.176, 470.588)
+nodes/walk_timescale/node = SubResource("AnimationNodeTimeScale_pisth")
+nodes/walk_timescale/position = Vector2(541.176, 70.5882)
+node_connections = [&"blend_walk_running", 0, &"walk_timescale", &"blend_walk_running", 1, &"jog_timescale", &"blend_walk_running", 2, &"sprint_timescale", &"jog_timescale", 0, &"Animation 2", &"output", 0, &"blend_walk_running", &"sprint_timescale", 0, &"Animation 3", &"walk_timescale", 0, &"Animation"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_q1pnq"]
+xfade_time = 0.25
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_txpjf"]
+xfade_time = 0.25
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_5h5kc"]
+reset_ends = true
+states/IdleAction/node = SubResource("AnimationNodeBlendTree_5h5kc")
+states/IdleAction/position = Vector2(562.668, 531.882)
+states/WalkRun_blendspace/node = SubResource("AnimationNodeBlendTree_q1pnq")
+states/WalkRun_blendspace/position = Vector2(562.118, 239.059)
+transitions = ["WalkRun_blendspace", "IdleAction", SubResource("AnimationNodeStateMachineTransition_q1pnq"), "IdleAction", "WalkRun_blendspace", SubResource("AnimationNodeStateMachineTransition_txpjf")]
+graph_offset = Vector2(-152, 133)
+
+[node name="Character_two" type="CharacterBody3D" node_paths=PackedStringArray("animation_tree", "animation_player")]
+script = ExtResource("1_5h5kc")
+animation_tree = NodePath("AnimationTree")
+animation_player = NodePath("AnimationLibrary_Godot/AnimationPlayer")
+
+[node name="CollisionShape" type="CollisionShape3D" parent="." groups=["collision_shapes"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.87612, 0)
+shape = SubResource("CapsuleShape3D_dpqmh")
+
+[node name="AnimationLibrary_Godot" parent="." instance=ExtResource("1_dpqmh")]
+
+[node name="Mannequin" parent="AnimationLibrary_Godot/Rig/GeneralSkeleton" index="0"]
+surface_material_override/0 = SubResource("StandardMaterial3D_5h5kc")
+surface_material_override/1 = SubResource("StandardMaterial3D_q1pnq")
+
+[node name="AnimationPlayer" parent="AnimationLibrary_Godot" index="1"]
+root_motion_track = NodePath("%GeneralSkeleton:Root")
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+root_node = NodePath("../AnimationLibrary_Godot")
+root_motion_track = NodePath("%GeneralSkeleton:Root")
+root_motion_local = false
+tree_root = SubResource("AnimationNodeStateMachine_5h5kc")
+anim_player = NodePath("../AnimationLibrary_Godot/AnimationPlayer")
+parameters/IdleAction/BlendSpace2D/blend_position = Vector2(-0.88451, 0.000812769)
+parameters/WalkRun_blendspace/blend_walk_running/blend_amount = -1.0
+parameters/WalkRun_blendspace/jog_timescale/scale = 1.0
+parameters/WalkRun_blendspace/sprint_timescale/scale = 1.0
+parameters/WalkRun_blendspace/walk_timescale/scale = 1.0
+
+[node name="idle_loop_timeout" type="Timer" parent="."]
+wait_time = 5.0
+autostart = true
+
+[node name="RootMotionView" type="RootMotionView" parent="."]
+animation_path = NodePath("../AnimationLibrary_Godot/AnimationPlayer")
+
+[connection signal="timeout" from="idle_loop_timeout" to="." method="_on_idle_loop_timeout_timeout"]
+
+[editable path="AnimationLibrary_Godot"]

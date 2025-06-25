@@ -1,35 +1,12 @@
 extends TextureRect
 
-export(NodePath) onready var camera = get_node(camera)
-
-var debug_display := true
 
 func _ready() -> void:
 	prep_dither()
 
 
-# warning-ignore:unused_argument
 func _process(delta: float) -> void:
-	update()
-	
-
-func _draw() -> void:
-	if debug_display:
-		var unproject_target = camera.unproject_position_in_viewport( camera.target.transform.origin )
-		unproject_target = unproject_target * self.rect_size
-		draw_arc( unproject_target, 12, 0, PI*2, 24, Color(0.933594, 0.481384, 0.862936, 0.803922), true)
-
-#		# draw camera track margins
-#		var ws = get_tree().get_root().size
-#		var _xminc = Color(1, 0.384314, 0.917647, 0.25)
-#		var _xmin1 = Vector2(ws.x * camera.track_horizontal_margin_min, ws.y)
-#		var _xmin2 = Vector2(ws.x * (1-camera.track_horizontal_margin_min), ws.y)
-#		draw_line( _xmin1 * Vector2(1.0,0.0), _xmin1, _xminc, 3 )
-#		draw_line( _xmin2 * Vector2(1.0,0.0), _xmin2, _xminc, 3 )
-#		_xmin1 = Vector2(ws.x * camera.track_horizontal_margin_max, ws.y)
-#		_xmin2 = Vector2(ws.x * (1-camera.track_horizontal_margin_max), ws.y)
-#		draw_line( _xmin1 * Vector2(1.0,0.0), _xmin1, _xminc, 1 )
-#		draw_line( _xmin2 * Vector2(1.0,0.0), _xmin2, _xminc, 1 )
+	pass
 
 
 
@@ -38,29 +15,25 @@ func _draw() -> void:
 # dither stuff
 # https://github.com/ioxu/dithering
 # https://www.shadertoy.com/view/4ddGWr
-
 func prep_dither():
 	var bm_size = 4
 	var bm_size_dim = 1 << bm_size
 	var bayer_m : Array = bayer_matrix(bm_size)
 
 	pprint("bayer_matrix:")
-	#pprint(bayer_m)
 	pprint("%s (%s)"%[bayer_m.size(), sqrt(bayer_m.size())])
 
-	var texim = ImageTexture.new()
-	var image = Image.new()
-	image.create( bm_size_dim, bm_size_dim, false, Image.FORMAT_L8 )
-	image.lock()
+	var image = Image.create( bm_size_dim, bm_size_dim, false, Image.FORMAT_L8 ) 
 	for y in bm_size_dim:
 		for x in bm_size_dim:
 			var idx = y * bm_size_dim + x
 			var p = bayer_m[ idx ]
 			image.set_pixel( x, y, Color( p/255.0, p/255.0, p/255.0 ) )
-	image.unlock()
-	texim.create_from_image(image, 0)
-	self.material.set_shader_param("bayer_texture", texim)
-	self.material.set_shader_param("bayer_matrix_dim_size", bm_size_dim)
+	var texim = ImageTexture.create_from_image(image)
+	self.material.set_shader_parameter("bayer_texture", texim)
+	self.material.set_shader_parameter("bayer_matrix_dim_size", bm_size_dim)
+
+	$bayer_matrix.set_texture( texim )
 
 
 func bayer_matrix(size : int = 2) -> Array:

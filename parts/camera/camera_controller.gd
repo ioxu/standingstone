@@ -1,46 +1,62 @@
-extends Camera
+extends Camera3D
 
-export (NodePath) onready var target = get_node(target)
-export (Resource) var camera_data
+#export (NodePath) onready var target = get_node(target)
+#export (Resource) var camera_data
 
-export(Curve) var look_stick_response_curve
-export(Array, Vector2) var look_stick_response_regions setget set_look_stick_response_regions
+@export var target : CharacterBody3D
+@export var camera_data : Resource
 
+#export(Curve) var look_stick_response_curve
+#export(Array, Vector2) var look_stick_response_regions setget set_look_stick_response_regions
 
-
+@export var look_stick_response_curve : Curve
+@export var look_stick_response_regions : Array[Vector2]:
+	set = set_look_stick_response_regions
 
 
 var pitch_limit : Vector2 = Vector2(-0.5, 0.5)
 var target_rotation := Vector3.ZERO
 
-export(float) var track_horizontal_margin_min := 0.3
-export(float) var track_horizontal_margin_max := 0.075
+#export(float) var track_horizontal_margin_min := 0.3
+#export(float) var track_horizontal_margin_max := 0.075
 
-export(float) var track_bottom_margin_min := .95 # (very bottom of screen)
-export(float) var track_bottom_margin_max := 1.2
+@export var track_horizontal_margin_min := 0.3
+@export var track_horizontal_margin_max := 0.075
 
-export(float) var track_distance_margin_min := 1.0
-export(float) var track_distance_margin_max := 3.0
+#export(float) var track_bottom_margin_min := .95 # (very bottom of screen)
+#export(float) var track_bottom_margin_max := 1.2
 
+@export var track_bottom_margin_min := 0.95  # (very bottom of screen)
+@export var track_bottom_margin_max := 1.2
+
+#export(float) var track_distance_margin_min := 1.0
+#export(float) var track_distance_margin_max := 3.0
+
+@export var track_distance_margin_min := 1.0
+@export var track_distance_margin_max := 3.0
 
 var target_origin_track := Vector3.ZERO
 const harmonic_motion_lib = preload("res://scripts/harmonic_motion.gd")
 var target_origin_spring = harmonic_motion_lib.new()
 var target_margin_factor := 0.0 # the factor thaat the target origin is in the edge margins of the camera view
 
+
 func _ready():
-	yield(get_owner(), "ready")
+	#yield(get_owner(), "ready")
+	await get_owner().ready
+	
 	print("[camera] target reference: %s"%target.get_path())
 	
 	if camera_data.target_offset == Vector3.ZERO:
 		camera_data.target_offset = self.transform.origin -\
 									target.transform.origin -\
 									camera_data.anchor_offset
+		print("[camera] calculated target_offset: %s"%camera_data.target_offset)
 	if camera_data.look_target == Vector3.ZERO:
 		camera_data.look_target = Vector3(0.0, 0.0, -100.0)
 	
-	pitch_limit.x = deg2rad( camera_data.pitch_limit.x )
-	pitch_limit.y = deg2rad( camera_data.pitch_limit.y )
+	pitch_limit.x = deg_to_rad( camera_data.pitch_limit.x )
+	pitch_limit.y = deg_to_rad( camera_data.pitch_limit.y )
 
 	target_rotation = camera_data.rotation
 
@@ -56,10 +72,10 @@ func _process(delta):
 	var vertical = Input.get_action_strength("look_up") - Input.get_action_strength("look_down")
 	
 	# look stick sensitivity curve lookup
-	var hsign := sign(horizontal)
-	var vsign := sign(vertical)
-	horizontal = hsign * look_stick_response_curve.interpolate_baked( abs(horizontal) )
-	vertical = vsign * look_stick_response_curve.interpolate_baked( abs(vertical) )
+	var hsign := signf(horizontal)
+	var vsign := signf(vertical)
+	horizontal = hsign * look_stick_response_curve.sample_baked( abs(horizontal) )
+	vertical = vsign * look_stick_response_curve.sample_baked( abs(vertical) )
 	
 	# times settings sensitivity and inverted-look
 	# TODO: gamepad camera look sensitivity is not time delta dependant
@@ -98,11 +114,16 @@ func _process(delta):
 
 
 func _unhandled_input(event):
-	if event is InputEventMouseMotion:
-		#print("[camera] _unhandled_input, event.get_relative %s"%event.get_relative() )
-		var _mrel = event.get_relative()*0.005
-		target_rotation.y -= _mrel.x
-		target_rotation.x -= _mrel.y
+#	if event is InputEventMouseButton:
+#		print("[camera] _unhandled_input, event %s"%event )
+
+	#if event is InputEventMouseMotion:
+		##print("[camera] _unhandled_input, event %s"%event )
+		##print("[camera] _unhandled_input, event.get_relative %s"%event.get_relative() )
+		#var _mrel = event.get_relative()*0.005
+		#target_rotation.y -= _mrel.x
+		#target_rotation.x -= _mrel.y
+		
 	target_rotation.x = clamp( target_rotation.x, pitch_limit.x, pitch_limit.y)
 
 
@@ -123,7 +144,7 @@ func calculate_target_margin_factor() -> float:
 	var _tmf := 0.0
 	var unproject_target = self.unproject_position( target.transform.origin )
 	var ws = get_viewport().size #get_tree().get_root().size
-	var norm_uproject_target : Vector2 = unproject_target / ws
+	var norm_uproject_target : Vector2 = unproject_target / Vector2(ws)
 	_tmf = max( Util.remap_clamp( norm_uproject_target.x,
 		track_horizontal_margin_min,
 		track_horizontal_margin_max,
@@ -160,4 +181,4 @@ func _exit_tree() -> void:
 
 func unproject_position_in_viewport(pos:Vector3) -> Vector2:
 	# unproject_position, but normalised to viewport
-	return self.unproject_position( pos ) / get_viewport().size
+	return self.unproject_position( pos ) / Vector2( get_viewport().size )

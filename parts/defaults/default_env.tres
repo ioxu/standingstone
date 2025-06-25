@@ -1,26 +1,17 @@
-[gd_resource type="Environment" load_steps=2 format=2]
+[gd_resource type="Environment" load_steps=2 format=3 uid="uid://umtduegy4qno"]
 
-[sub_resource type="ProceduralSky" id=1]
-sky_top_color = Color( 0.912, 0.9367, 0.95, 1 )
-sky_horizon_color = Color( 0.8918, 0.94031, 0.98, 1 )
+[sub_resource type="Sky" id="1"]
 
 [resource]
 background_mode = 2
-background_sky = SubResource( 1 )
-fog_enabled = true
-fog_depth_begin = 3.0
+sky = SubResource("1")
 ssao_enabled = true
 ssao_radius = 2.0
-ssao_radius2 = 0.1
-ssao_intensity2 = 20.0
-ssao_bias = 0.001
-ssao_edge_sharpness = 0.0
 glow_enabled = true
-glow_levels/1 = true
+glow_levels/1 = 1.0
 glow_strength = 0.75
 glow_blend_mode = 0
-glow_bicubic_upscale = true
-glow_high_quality = true
+fog_enabled = true
 adjustment_enabled = true
 adjustment_brightness = 1.15
 adjustment_contrast = 1.26

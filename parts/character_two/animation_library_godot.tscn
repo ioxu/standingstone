@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://cnwbqxcbqu5a7"]
+
+[ext_resource type="PackedScene" uid="uid://dai3k1fhrnteg" path="res://parts/character_two/AnimationLibrary_Godot.glb" id="1_k5ojo"]
+
+[node name="AnimationLibrary_Godot" instance=ExtResource("1_k5ojo")]
+
+[node name="AnimationPlayer" parent="." index="1"]
+root_motion_track = NodePath("Rig/Skeleton3D:root")
+root_motion_local = false

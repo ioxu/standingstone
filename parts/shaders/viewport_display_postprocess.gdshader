@@ -11,7 +11,7 @@ uniform float saturation = 1.0;
 uniform bool apply_bayer_filter = false;
 uniform float bayer_scale = 1.0;
 uniform float bayer_matrix_dim_size = 4.0;
-uniform sampler2D bayer_texture;
+uniform sampler2D bayer_texture: filter_nearest;
 uniform float bayerQuantizeRGBSize = 16.;// number of values possible for each R, G, B.
 
 
@@ -28,13 +28,13 @@ void fragment() {
     	vec3 quantizationPeriod = vec3(1./(bayerQuantizeRGBSize-1.));
 
 		// dither
-		vec2 bayer_coords = fract( (UV / SCREEN_PIXEL_SIZE) * (1.0/bayer_matrix_dim_size) * (1./bayer_scale) ) ;
+		vec2 bayer_coords = fract( (UV / SCREEN_PIXEL_SIZE) * (1.0/bayer_matrix_dim_size) * (1.0/bayer_scale) ) ;
 		float dither = texture( bayer_texture, bayer_coords ).r * 0.98 + 0.01;
 
 		// get screen and colour-correct
 		vec2 uvPixellated = floor(FRAGCOORD.xy / bayer_scale)*bayer_scale;
 		uvPixellated = uvPixellated / (1.0/SCREEN_PIXEL_SIZE);
-		uvPixellated.y = 1.0-uvPixellated.y;
+		//uvPixellated.y = 1.0-uvPixellated.y; // FLIPV
 	    vec3 c = texture(TEXTURE, uvPixellated ).rgb ;
 
 //		vec3 cc = c;
@@ -58,6 +58,7 @@ void fragment() {
 			quantize(c.b, quantizationPeriod.b)
 				);
 		COLOR = vec4( c, 1.0);
+		//COLOR = vec4( dither, dither, dither, 1.0);
 	}
 	else {
 		COLOR = texture(TEXTURE, UV);

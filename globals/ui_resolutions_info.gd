@@ -1,7 +1,9 @@
 extends PanelContainer
 
-export(NodePath) onready var main_viewport = get_node(main_viewport)
-export(NodePath) onready var viewport_display_rect = get_node(viewport_display_rect)
+#export(NodePath) onready var main_viewport = get_node(main_viewport) # 3.5
+@export var main_viewport : SubViewport
+#export(NodePath) onready var viewport_display_rect = get_node(viewport_display_rect) # 3.5
+@export var viewport_display_rect : TextureRect
 
 var _r = false
 
@@ -14,9 +16,11 @@ func _ready() -> void:
 
 func update() -> void:
 	var rr = main_viewport.get_size()
-	self.find_node("viewport_resolution").text = "render %s x %s"%[rr[0], rr[1]]
+	#self.find_node("viewport_resolution").text = "render %s x %s"%[rr[0], rr[1]] # 3.5
+	self.find_child("viewport_resolution").text = "render %d x %d"%[rr[0], rr[1]]
 	var wr = get_viewport().get_visible_rect().size
-	self.find_node("window_resolution").text = "display %s x %s"%[wr[0], wr[1]]
+	#self.find_node("window_resolution").text = "display %s x %s"%[wr[0], wr[1]] # 3.5
+	self.find_child("window_resolution").text = "display %d x %d"%[wr[0], wr[1]]
 	pass
 
 
@@ -32,4 +36,3 @@ func _on_Viewport_size_changed() -> void:
 func _on_ViewportDisplayTextureRect_resized() -> void:
 	if self._r:
 		self.update()
-

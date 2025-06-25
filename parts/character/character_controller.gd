@@ -1,17 +1,25 @@
-extends KinematicBody
+extends CharacterBody3D
+#extends KinematicBody
 
-export(NodePath) var animation_tree_path
-onready var animation_tree = get_node( animation_tree_path )
+#export(NodePath) var animation_tree_path
+@export var animation_tree : AnimationTree
+#onready var animation_tree = get_node( animation_tree_path )
 
-export(NodePath) onready var camera = get_node(camera)
+#export(NodePath) onready var camera = get_node(camera)
+@export var camera : Camera3D
+
+@export var y_control : float
 
 var gravity : Vector3 = Vector3.ZERO
 
-var ms_collision_vel := Vector3.ZERO
+# var ms_collision_vel := Vector3.ZERO # TODO : 3.5 : is this used??
+var ms_collided := false
 var dir := Vector3.ZERO
 var _raw_dir_input := Vector2.ZERO
 
+#---------------------------------------------
 const harmonic_motion_lib = preload("res://scripts/harmonic_motion.gd")
+var global_time = 0.0
 
 #---------------------------------------------
 # TODO: make most character locomotion parameters into a struct/resource (single object for other objects to read from)
@@ -19,7 +27,7 @@ var movement_walk_run_blend = 0.0 # TODO: temp
 var dir_length_smoothed := 0.0
 #---------------------------------------------
 # timescales are set in the blendspace, calculated to normalise their length egainst each other
-# and set to 'sync' mode in the blend
+# and set to 'sync' mode in the blend 
 var initial_timescale_walk := 1.0
 var initial_timescale_run := 1.0
 var initial_timescale_fastrun := 1.0
@@ -27,14 +35,23 @@ var initial_timescale_fastrun := 1.0
 var is_sprinting := false
 var sprint_blend := 0.0
 var sprint_blend_hm = harmonic_motion_lib.new()
-
+#---------------------------------------------
+# random idle
+# these vars are involved in choosing and blending to random idle animations in 
+# animation_tree parameters/IdleAction2/BlendSpace2D.
+var idle_blend_coords = [Vector2(1, 0)]# [Vector2(0.0,1.0), Vector2(1.0,0.0), Vector2(0,-1), Vector2(-1, 0)]
+var this_idle_coord = idle_blend_coords[0]
+var next_idle_coord = idle_blend_coords[0]
+var idle_blend_speed = 2.0
+var idle_blend_blend = 0.0
+var blend_coord : Vector2
 
 #---------------------------------------------
 # TODO: footfall / foot call method trackm in AnimationPlyer is temporary
-onready var puff = preload( "res://parts/effects/footfalls/footfall_puff.tscn" )
-onready var skeleton = $mannequin/Armature/Skeleton
-onready var leftFootBone_index = skeleton.find_bone("LeftFoot")
-onready var rightFootBone_index = skeleton.find_bone("RightFoot")
+@onready var puff : PackedScene = preload( "res://parts/effects/footfalls/footfall_puff.tscn" )
+@onready var skeleton = $mannequin/Armature/Skeleton3D #$mannequin/Armature/Skeleton # 3.5
+@onready var leftFootBone_index = skeleton.find_bone("LeftFoot")
+@onready var rightFootBone_index = skeleton.find_bone("RightFoot")
 
 
 func _ready():
@@ -42,13 +59,22 @@ func _ready():
 
 	pprint("animations:")
 	# normalise WalkRun blendspace animation lengths
-	var animation_player = self.find_node("AnimationPlayer")
-	var standardWalkLoop_length = animation_player.get_animation("Standard Walk-loop").length
-	pprint("  Standard Walk-loop length %s"%standardWalkLoop_length)
-	var runningLoop_length = animation_player.get_animation("Running-loop").length
-	pprint("  Running-loop length %s (timescale %s)"%[runningLoop_length, runningLoop_length/standardWalkLoop_length])
-	var fastRunLoop_length = animation_player.get_animation("Fast Run-loop").length
-	pprint("  Fast Run-loop length %s (timescale %s)"%[fastRunLoop_length,fastRunLoop_length/standardWalkLoop_length])
+	var animation_player = self.find_child("AnimationPlayer") # self.find_node("AnimationPlayer")
+
+	# 3.5 looks like animation import REMOVES "-loop" from animation names
+#	var standardWalkLoop_length = animation_player.get_animation("Standard Walk-loop").length
+#	pprint("  Standard Walk-loop length %s"%standardWalkLoop_length)
+#	var runningLoop_length = animation_player.get_animation("Running-loop").length
+#	pprint("  Running-loop length %s (timescale %s)"%[runningLoop_length, runningLoop_length/standardWalkLoop_length])
+#	var fastRunLoop_length = animation_player.get_animation("Fast Run-loop").length
+#	pprint("  Fast Run-loop length %s (timescale %s)"%[fastRunLoop_length,fastRunLoop_length/standardWalkLoop_length])
+
+	var standardWalkLoop_length = animation_player.get_animation("Standard Walk").length
+	pprint("  Standard Walk length %s"%standardWalkLoop_length)
+	var runningLoop_length = animation_player.get_animation("Running").length
+	pprint("  Running length %s (timescale %s)"%[runningLoop_length, runningLoop_length/standardWalkLoop_length])
+	var fastRunLoop_length = animation_player.get_animation("Fast Run").length
+	pprint("  Fast Run length %s (timescale %s)"%[fastRunLoop_length,fastRunLoop_length/standardWalkLoop_length])
 
 	animation_tree.set("parameters/WalkRun_blendspace/walk_timescale/scale", 1.0)
 	animation_tree.set("parameters/WalkRun_blendspace/run_timescale/scale", runningLoop_length/standardWalkLoop_length)
@@ -63,30 +89,44 @@ func _ready():
 
 
 func _physics_process(delta):
-	var root_motion : Transform = animation_tree.get_root_motion_transform()
+	global_time += delta
+	# **AnimationTree** must run in Physics frame; .set_process_callback(0) # (default is 1)
+	# in 4.0 AnimationTree.get_root_motion_transform() has been split into
+	# .get_root_motion_position()
+	# .get_root_motion_rotation()
+	# .get_root_motion_scale()
 
-	var v = root_motion.origin / delta
+	#var root_motion : Transform3D = animation_tree.get_root_motion_transform() # 3.5
+	# var v = root_motion.origin / delta # 3.5
+	
+	#var v : Vector3 = animation_tree.get_root_motion_position() / delta
+	var v : Vector3 = animation_tree.get_root_motion_position() /delta
 
+
+	#skeleton.position.y = -v.y * delta * y_control
 	#--------------------------------------------------------------------------
 	# gravity
 	if is_on_floor():
 		gravity = Vector3.ZERO
 		#print("on floor")
-		v *= Vector3(1, 0, 1)
+		#v *= Vector3(1, 0, 1)
 	else:
 		gravity += Vector3(0.0, -9.8, 0.0) * delta
 		#print("NOT on floor")
 
+	
 	v += gravity
 	#--------------------------------------------------------------------------
 
-	if Input.is_action_pressed("ui_select") || Input.is_action_pressed("action_stance"):
+	#if Input.is_action_pressed("ui_select") || Input.is_action_pressed("action_stance"):
+	if Input.is_action_pressed("action_stance"):
 		animation_tree["parameters/playback"].travel("IdleFistsUp")
 		#animation_tree["parameters/playback"].travel("Running")
-
+		print("ACTION_STANCE")
 	else:
 		#animation_tree["parameters/playback"].travel("IdleAction")
-		animation_tree["parameters/playback"].travel("Idle Tap Foot-loop")
+#		animation_tree["parameters/playback"].travel("Idle Tap Foot-loop") # 3.5
+		animation_tree["parameters/playback"].travel("Idle Tap Foot")
 
 	#--------------------------------------------------------------------------
 	# movement
@@ -144,12 +184,21 @@ func _physics_process(delta):
 	else:
 		movement_walk_run_blend = -1.0
 		v = v.rotated( Vector3.UP, self.rotation.y)
-		animation_tree["parameters/playback"].travel("IdleAction")
+		animation_tree["parameters/playback"].travel("IdleAction2")
 		self.is_sprinting = false
 		self.sprint_blend = sprint_blend_hm.calculate( self.sprint_blend, 0.0 )
- 
+		
+		if idle_blend_blend < 1.0:
+			idle_blend_blend += delta*idle_blend_speed
+			blend_coord = lerp( this_idle_coord, next_idle_coord, idle_blend_blend )
+		else:
+			blend_coord = next_idle_coord
 
-	ms_collision_vel = move_and_slide(v, Vector3.UP)
+		animation_tree.set("parameters/IdleAction2/BlendSpace2D/blend_position", blend_coord )
+ 
+	set_velocity(v)
+	set_up_direction( Vector3.UP )
+	ms_collided = move_and_slide()
 
 
 # warning-ignore:unused_argument
@@ -162,7 +211,7 @@ func foot_fall(strength:float=1.0, side:= "left", source:="undefined") -> void:
 		ft = skeleton.get_bone_global_pose( leftFootBone_index )
 	elif side == "right":
 		ft = skeleton.get_bone_global_pose( rightFootBone_index )
-	var p = puff.instance()
+	var p = puff.instantiate()
 	self.get_parent().add_child(p)
 	p.transform.origin = skeleton.global_transform * ft.origin
 
@@ -173,3 +222,11 @@ func _exit_tree() -> void:
 
 func pprint(thing) -> void:
 	print("[character] %s"%thing)
+
+
+func _on_idle_loop_timeout_timeout() -> void:
+	this_idle_coord = next_idle_coord
+	next_idle_coord = idle_blend_coords[randi() % idle_blend_coords.size()]
+	idle_blend_blend = 0.0
+	pprint("choosing a new idle loop ... %s"%next_idle_coord)
+	

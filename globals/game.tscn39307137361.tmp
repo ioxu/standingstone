@@ -1,0 +1,957 @@
+[gd_scene load_steps=29 format=3 uid="uid://bgkrawuhak6u7"]
+
+[ext_resource type="Script" uid="uid://bcaapaemnq65k" path="res://globals/game.gd" id="1"]
+[ext_resource type="PackedScene" uid="uid://b33gk8gjn74fs" path="res://levels/default_level.tscn" id="2"]
+[ext_resource type="PackedScene" uid="uid://iyg3hk6wfxm0" path="res://parts/character/character.tscn" id="3"]
+[ext_resource type="Script" uid="uid://gsevldt54mg3" path="res://parts/camera/camera_controller.gd" id="4"]
+[ext_resource type="Resource" uid="uid://dcfoxpqk48faf" path="res://parts/camera/camera_data.tres" id="5_enq2u"]
+[ext_resource type="Script" uid="uid://wyk0ho4ew0wk" path="res://scripts/Plot2D.gd" id="6"]
+[ext_resource type="Shader" uid="uid://sk27eyfibawj" path="res://parts/shaders/motion_blur.gdshader" id="6_j14w1"]
+[ext_resource type="Script" uid="uid://dqj6biu3r0vyt" path="res://globals/ui_render_info.gd" id="7"]
+[ext_resource type="Script" uid="uid://dqt7d4fwq6ip0" path="res://globals/ui_fps_panel.gd" id="8"]
+[ext_resource type="Material" uid="uid://bultktk7pal7q" path="res://parts/shaders/viewport_display_postprocess.material" id="8_p3gs4"]
+[ext_resource type="Script" uid="uid://cwdh4m2njq80p" path="res://globals/ViewportDisplay.gd" id="10"]
+[ext_resource type="Script" uid="uid://flfxc1o4sib" path="res://globals/menu.gd" id="11"]
+[ext_resource type="Script" uid="uid://8hp2ddugwvud" path="res://globals/ViewportDebugDraw.gd" id="11_ihh82"]
+[ext_resource type="Theme" uid="uid://4fnx6in2n21k" path="res://themes/screen_ui_theme.tres" id="13_1fxad"]
+[ext_resource type="Theme" uid="uid://ds7x1qytjx337" path="res://themes/menu/menu_button_theme.tres" id="14"]
+[ext_resource type="Script" uid="uid://dq4wo3cfxntsk" path="res://globals/ui_resolutions_info.gd" id="15"]
+[ext_resource type="Texture2D" uid="uid://b02batdw8n3dq" path="res://parts/icons/settings.png" id="16"]
+[ext_resource type="Texture2D" uid="uid://bub0h0t8nyouk" path="res://parts/icons/pulse.png" id="17"]
+[ext_resource type="Texture2D" uid="uid://cicnadqowe60t" path="res://parts/icons/game-controller.png" id="19"]
+[ext_resource type="Script" uid="uid://ds6yl75sft0os" path="res://parts/camera/motion_blur.gd" id="20"]
+[ext_resource type="PackedScene" uid="uid://sfl30axxnwbp" path="res://parts/charts/diagnostic_charts.tscn" id="22"]
+
+[sub_resource type="BoxMesh" id="9"]
+size = Vector3(0.3, 0.3, 0.3)
+
+[sub_resource type="CameraAttributesPhysical" id="CameraAttributesPhysical_7l36b"]
+auto_exposure_enabled = true
+auto_exposure_speed = 1.0
+frustum_focal_length = 20.78
+auto_exposure_min_exposure_value = 1.83
+auto_exposure_max_exposure_value = 8.0
+
+[sub_resource type="Curve" id="2"]
+_data = [Vector2(0, 0), 0.0, 5.42416, 0, 1, Vector2(0.147806, 0.801724), 5.42416, -1.78815, 1, 1, Vector2(0.533487, 0.112069), -1.78815, 1.90334, 1, 1, Vector2(1, 1), 1.90334, 0.0, 1, 0]
+point_count = 4
+
+[sub_resource type="QuadMesh" id="29"]
+size = Vector2(3, 2)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ccggj"]
+render_priority = 0
+shader = ExtResource("6_j14w1")
+shader_parameter/linear_velocity = Vector3(0, 0, 0)
+shader_parameter/angular_velocity = Vector3(0, 0, 0)
+shader_parameter/iteration_count = 16
+shader_parameter/intensity = 0.5
+
+[sub_resource type="ViewportTexture" id="8"]
+viewport_path = NodePath("ViewportContainer/Viewport")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1fxad"]
+bg_color = Color(0.552783, 0.0327855, 0.193596, 0.333333)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[node name="game" type="Node2D" node_paths=PackedStringArray("main_menu", "player", "viewport_display_texture_rect")]
+script = ExtResource("1")
+main_menu = NodePath("ui_menu/menu_container")
+player = NodePath("ViewportContainer/Viewport/character")
+viewport_display_texture_rect = NodePath("ViewportDisplay/ViewportDisplayTextureRect")
+
+[node name="ViewportContainer" type="SubViewportContainer" parent="."]
+custom_minimum_size = Vector2(1024, 600)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Viewport" type="SubViewport" parent="ViewportContainer"]
+handle_input_locally = false
+msaa_3d = 3
+size = Vector2i(1024, 600)
+size_2d_override = Vector2i(1024, 600)
+size_2d_override_stretch = true
+render_target_update_mode = 4
+
+[node name="default_level" parent="ViewportContainer/Viewport" instance=ExtResource("2")]
+
+[node name="MeshInstance5" type="MeshInstance3D" parent="ViewportContainer/Viewport/default_level"]
+transform = Transform3D(1.1803, 0, 0, 0, 1.1803, 0, 0, 0, 1.1803, 7.78995, 0.15462, -5.50613)
+mesh = SubResource("9")
+
+[node name="OmniLight" type="OmniLight3D" parent="ViewportContainer/Viewport/default_level/MeshInstance5"]
+omni_range = 1.57088
+
+[node name="ReflectionProbe" type="ReflectionProbe" parent="ViewportContainer/Viewport/default_level/MeshInstance5"]
+transform = Transform3D(0.847242, 0, 0, 0, 0.847242, 0, 0, 0, 0.847242, 0, 0.245207, 0)
+size = Vector3(2.72898, 2, 2.74806)
+
+[node name="character" parent="ViewportContainer/Viewport" node_paths=PackedStringArray("camera") instance=ExtResource("3")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 2.644, 0, -0.939)
+camera = NodePath("../Camera")
+
+[node name="Camera" type="Camera3D" parent="ViewportContainer/Viewport" node_paths=PackedStringArray("target")]
+transform = Transform3D(0.999857, 0.00316881, -0.0165942, 0, 0.982251, 0.18757, 0.016894, -0.187543, 0.982111, 3.21423, 1.24633, 1.34832)
+attributes = SubResource("CameraAttributesPhysical_7l36b")
+script = ExtResource("4")
+target = NodePath("../character")
+camera_data = ExtResource("5_enq2u")
+look_stick_response_curve = SubResource("2")
+look_stick_response_regions = Array[Vector2]([Vector2(0, 0), Vector2(0.5, 0.1), Vector2(0.85, 0.65), Vector2(1, 1)])
+
+[node name="motion_blur" type="MeshInstance3D" parent="ViewportContainer/Viewport/Camera"]
+transform = Transform3D(1, 0, -1.30385e-08, 4.65661e-10, 1, -1.04308e-07, -7.45058e-09, 0, 1, 0, -1.19209e-07, -1.16812)
+visible = false
+mesh = SubResource("29")
+surface_material_override/0 = SubResource("ShaderMaterial_ccggj")
+script = ExtResource("20")
+
+[node name="diagnostic_charts" parent="ViewportContainer/Viewport/Camera" instance=ExtResource("22")]
+transform = Transform3D(0.468553, 0.00282048, -0.1745, 0, 0.499935, 0.00808052, 0.174523, -0.0075723, 0.468492, 0.491, -0.408, -0.94)
+
+[node name="ReflectionProbe2" type="ReflectionProbe" parent="ViewportContainer/Viewport/Camera/diagnostic_charts"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.227407, -0.0197831, 0.481773)
+visible = false
+size = Vector3(3.6723, 2.73594, 3.646)
+
+[node name="ViewportDisplay" type="Node" parent="."]
+
+[node name="ViewportDisplayTextureRect" type="TextureRect" parent="ViewportDisplay"]
+modulate = Color(1, 0, 0, 1)
+self_modulate = Color(1, 0, 0, 1)
+material = ExtResource("8_p3gs4")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+texture = SubResource("8")
+expand_mode = 1
+script = ExtResource("10")
+
+[node name="ViewportDebugDraw" type="TextureRect" parent="ViewportDisplay/ViewportDisplayTextureRect" node_paths=PackedStringArray("camera")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("11_ihh82")
+camera = NodePath("../../../ViewportContainer/Viewport/Camera")
+
+[node name="bayer_matrix" type="TextureRect" parent="ViewportDisplay/ViewportDisplayTextureRect"]
+visible = false
+texture_filter = 1
+layout_mode = 0
+offset_left = 546.0
+offset_top = 25.0
+offset_right = 586.0
+offset_bottom = 65.0
+scale = Vector2(5.98988, 5.98988)
+
+[node name="ui_persistent" type="Node" parent="."]
+
+[node name="MarginContainer" type="MarginContainer" parent="ui_persistent"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="ui_persistent/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="Control" type="Control" parent="ui_persistent/MarginContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ui_persistent/MarginContainer/VBoxContainer2"]
+layout_mode = 2
+
+[node name="persistant_ui_hint_panel" type="PanelContainer" parent="ui_persistent/MarginContainer/VBoxContainer2/HBoxContainer"]
+layout_mode = 2
+mouse_filter = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="ui_persistent/MarginContainer/VBoxContainer2/HBoxContainer/persistant_ui_hint_panel"]
+layout_mode = 2
+
+[node name="hint_label" type="Label" parent="ui_persistent/MarginContainer/VBoxContainer2/HBoxContainer/persistant_ui_hint_panel/MarginContainer"]
+layout_mode = 2
+text = "Esc : menu        Ctrl-Alt-B : toggle debug overlay       Alt-Enter : toggle full-screen"
+
+[node name="ui_debug" type="Node" parent="."]
+
+[node name="ColorRect2" type="ColorRect" parent="ui_debug"]
+offset_left = 48.0
+offset_top = 64.0
+offset_right = 360.0
+offset_bottom = 233.0
+mouse_filter = 1
+color = Color(0, 0, 0, 0.478431)
+
+[node name="c_dir_length_plots" type="Node2D" parent="ui_debug"]
+position = Vector2(150, 75)
+script = ExtResource("6")
+color_clear = Color(0, 0, 0, 0.345098)
+
+[node name="c_blend" type="Label" parent="ui_debug"]
+offset_left = 53.0
+offset_top = 104.0
+offset_right = 112.0
+offset_bottom = 130.0
+text = "c_blend"
+
+[node name="c_dir_length" type="Label" parent="ui_debug"]
+modulate = Color(0.619608, 0.619608, 0.619608, 1)
+offset_left = 54.0
+offset_top = 65.0
+offset_right = 147.0
+offset_bottom = 91.0
+text = "c_dir_length"
+
+[node name="c_dir_length_smoothed" type="Label" parent="ui_debug"]
+modulate = Color(0.921569, 0.686275, 0.192157, 1)
+offset_left = 54.0
+offset_top = 85.0
+offset_right = 217.0
+offset_bottom = 111.0
+text = "dir_length_smoothed"
+
+[node name="c_is_sprinting" type="Label" parent="ui_debug"]
+modulate = Color(0.286275, 0.827451, 0.211765, 1)
+offset_left = 55.0
+offset_top = 128.0
+offset_right = 159.0
+offset_bottom = 154.0
+text = "c_is_sprinting"
+
+[node name="c_camera_track_plots" type="Node2D" parent="ui_debug"]
+position = Vector2(150, 170)
+script = ExtResource("6")
+title = "camera margin plot"
+color_clear = Color(0, 0, 0, 0.313726)
+
+[node name="ui_debug_root_container" type="MarginContainer" parent="ui_debug"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+theme = ExtResource("13_1fxad")
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ui_debug/ui_debug_root_container"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Control" type="Control" parent="ui_debug/ui_debug_root_container/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ui_debug/ui_debug_root_container/HBoxContainer"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="fps_display_container" type="HBoxContainer" parent="ui_debug/ui_debug_root_container/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="ui_debug/ui_debug_root_container/HBoxContainer/VBoxContainer/fps_display_container"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+
+[node name="fps_panel" type="PanelContainer" parent="ui_debug/ui_debug_root_container/HBoxContainer/VBoxContainer/fps_display_container"]
+layout_mode = 2
+mouse_filter = 2
+script = ExtResource("8")
+
+[node name="MarginContainer" type="MarginContainer" parent="ui_debug/ui_debug_root_container/HBoxContainer/VBoxContainer/fps_display_container/fps_panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="fps_label" type="Label" parent="ui_debug/ui_debug_root_container/HBoxContainer/VBoxContainer/fps_display_container/fps_panel/MarginContainer"]
+modulate = Color(1, 1, 1, 0.870588)
+layout_mode = 2
+text = "fps"
+
+[node name="render_info_container" type="HBoxContainer" parent="ui_debug/ui_debug_root_container/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="ui_debug/ui_debug_root_container/HBoxContainer/VBoxContainer/render_info_container"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+mouse_filter = 1
+
+[node name="render_info_panel" type="PanelContainer" parent="ui_debug/ui_debug_root_container/HBoxContainer/VBoxContainer/render_info_container" node_paths=PackedStringArray("viewport")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 1.1
+mouse_filter = 2
+script = ExtResource("7")
+viewport = NodePath("../../../../../../ViewportContainer/Viewport")
+
+[node name="MarginContainer" type="MarginContainer" parent="ui_debug/ui_debug_root_container/HBoxContainer/VBoxContainer/render_info_container/render_info_panel"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ui_debug/ui_debug_root_container/HBoxContainer/VBoxContainer/render_info_container/render_info_panel/MarginContainer"]
+layout_mode = 2
+
+[node name="objects_in_frame" type="Label" parent="ui_debug/ui_debug_root_container/HBoxContainer/VBoxContainer/render_info_container/render_info_panel/MarginContainer/VBoxContainer"]
+modulate = Color(1, 1, 1, 0.509804)
+layout_mode = 2
+text = "objects in frame"
+
+[node name="vertices_in_frame" type="Label" parent="ui_debug/ui_debug_root_container/HBoxContainer/VBoxContainer/render_info_container/render_info_panel/MarginContainer/VBoxContainer"]
+modulate = Color(1, 1, 1, 0.509804)
+layout_mode = 2
+text = "vertices in frame"
+
+[node name="material_changes_in_frame" type="Label" parent="ui_debug/ui_debug_root_container/HBoxContainer/VBoxContainer/render_info_container/render_info_panel/MarginContainer/VBoxContainer"]
+modulate = Color(1, 1, 1, 0.509804)
+layout_mode = 2
+text = "material changes in frame"
+
+[node name="shader_changes_in_frame" type="Label" parent="ui_debug/ui_debug_root_container/HBoxContainer/VBoxContainer/render_info_container/render_info_panel/MarginContainer/VBoxContainer"]
+modulate = Color(1, 1, 1, 0.509804)
+layout_mode = 2
+text = "shader changes in frame"
+
+[node name="surface_changes_in_frame" type="Label" parent="ui_debug/ui_debug_root_container/HBoxContainer/VBoxContainer/render_info_container/render_info_panel/MarginContainer/VBoxContainer"]
+modulate = Color(1, 1, 1, 0.509804)
+layout_mode = 2
+text = "surface changes in frame"
+
+[node name="draw_calls_in_frame" type="Label" parent="ui_debug/ui_debug_root_container/HBoxContainer/VBoxContainer/render_info_container/render_info_panel/MarginContainer/VBoxContainer"]
+modulate = Color(1, 1, 1, 0.509804)
+layout_mode = 2
+text = "draw calls in frame"
+
+[node name="twod_items_in_frame" type="Label" parent="ui_debug/ui_debug_root_container/HBoxContainer/VBoxContainer/render_info_container/render_info_panel/MarginContainer/VBoxContainer"]
+modulate = Color(1, 1, 1, 0.509804)
+layout_mode = 2
+text = "2d items in frame"
+
+[node name="twod_draw_calls_in_frame" type="Label" parent="ui_debug/ui_debug_root_container/HBoxContainer/VBoxContainer/render_info_container/render_info_panel/MarginContainer/VBoxContainer"]
+modulate = Color(1, 1, 1, 0.509804)
+layout_mode = 2
+text = "2d draw calls in frame"
+
+[node name="resolutions_info_container" type="HBoxContainer" parent="ui_debug/ui_debug_root_container/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="ui_debug/ui_debug_root_container/HBoxContainer/VBoxContainer/resolutions_info_container"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+
+[node name="resolutions_info_panel" type="PanelContainer" parent="ui_debug/ui_debug_root_container/HBoxContainer/VBoxContainer/resolutions_info_container" node_paths=PackedStringArray("main_viewport", "viewport_display_rect")]
+layout_mode = 2
+mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_1fxad")
+script = ExtResource("15")
+main_viewport = NodePath("../../../../../../ViewportContainer/Viewport")
+viewport_display_rect = NodePath("../../../../../../ViewportDisplay/ViewportDisplayTextureRect")
+
+[node name="MarginContainer" type="MarginContainer" parent="ui_debug/ui_debug_root_container/HBoxContainer/VBoxContainer/resolutions_info_container/resolutions_info_panel"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ui_debug/ui_debug_root_container/HBoxContainer/VBoxContainer/resolutions_info_container/resolutions_info_panel/MarginContainer"]
+layout_mode = 2
+
+[node name="viewport_resolution" type="Label" parent="ui_debug/ui_debug_root_container/HBoxContainer/VBoxContainer/resolutions_info_container/resolutions_info_panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "viewport resolution"
+
+[node name="window_resolution" type="Label" parent="ui_debug/ui_debug_root_container/HBoxContainer/VBoxContainer/resolutions_info_container/resolutions_info_panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "window resolution"
+
+[node name="ui_menu" type="Node" parent="."]
+
+[node name="menu_container" type="MarginContainer" parent="ui_menu" node_paths=PackedStringArray("game_node", "graphics_settings_menu", "render_viewport", "display_texture", "ui_debug_root", "camera")]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("11")
+game_node = NodePath("../..")
+graphics_settings_menu = NodePath("Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu")
+render_viewport = NodePath("../../ViewportContainer/Viewport")
+display_texture = NodePath("../../ViewportDisplay/ViewportDisplayTextureRect")
+ui_debug_root = NodePath("../../ui_debug")
+camera = NodePath("../../ViewportContainer/Viewport/Camera")
+
+[node name="Panel" type="Panel" parent="ui_menu/menu_container"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ui_menu/menu_container/Panel"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/VBoxContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/VBoxContainer/PanelContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/VBoxContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="return_button" type="Button" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("14")
+text = "return"
+
+[node name="settings_button" type="Button" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+theme = ExtResource("14")
+toggle_mode = true
+text = "  settings "
+
+[node name="quit_button" type="Button" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("14")
+text = "quit"
+
+[node name="graphics_settings_menu" type="MarginContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="graphics_settings_panel_container" type="PanelContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+texture = ExtResource("16")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="MarginContainer2" type="MarginContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/MarginContainer2"]
+layout_mode = 2
+text = "GRAPHICS"
+
+[node name="PanelContainer" type="PanelContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="resolution_label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "resolution"
+
+[node name="fullscreen_checkbox_container" type="HBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="fullscreen_checkbox_label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/fullscreen_checkbox_container"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "fullscreen"
+
+[node name="fullscreen_checkbox" type="CheckBox" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/fullscreen_checkbox_container"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "on"
+
+[node name="resolution_scale_container" type="HBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="resolution_scale_label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/resolution_scale_container"]
+layout_mode = 2
+text = "resolution scale"
+
+[node name="resolution_scale" type="SpinBox" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/resolution_scale_container"]
+layout_mode = 2
+min_value = 0.001
+max_value = 2.0
+step = 0.001
+value = 1.0
+suffix = "x"
+
+[node name="msaa_container" type="HBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/msaa_container"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "MSAA"
+
+[node name="msaa_options" type="OptionButton" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/msaa_container"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="fxaa_container" type="HBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="fxaa_label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/fxaa_container"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "FXAA"
+
+[node name="fxaa_checkbox" type="CheckBox" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/fxaa_container"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "on"
+
+[node name="PanelContainer2" type="PanelContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer"]
+layout_mode = 2
+
+[node name="resolution_label2" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "display"
+
+[node name="filter_display_container" type="HBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="filter_display_label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/filter_display_container"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "filter display"
+
+[node name="filter_display_checkbox" type="CheckBox" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/filter_display_container"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "on"
+
+[node name="sharpen_intensity_container" type="HBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="sharpen_intensity_label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/sharpen_intensity_container"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "sharpen intensity"
+
+[node name="sharpen_intensity_slider" type="HSlider" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/sharpen_intensity_container"]
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.001
+tick_count = 5
+ticks_on_borders = true
+
+[node name="PanelContainer3" type="PanelContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer"]
+layout_mode = 2
+
+[node name="effects_label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "effects"
+
+[node name="PanelContainer" type="PanelContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/PanelContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="motionblur_label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "motion blur"
+
+[node name="motionblur_enable_container" type="HBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="motionblur_enable_label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/motionblur_enable_container"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "enable"
+
+[node name="motionblur_enable_checkbox" type="CheckBox" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/motionblur_enable_container"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "on"
+
+[node name="motionblur_iterations_container" type="HBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="motionblur_iterations_label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/motionblur_iterations_container"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "iterations"
+
+[node name="motionblur_iterations" type="SpinBox" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/motionblur_iterations_container"]
+layout_mode = 2
+min_value = 1.0
+max_value = 128.0
+value = 2.0
+
+[node name="motionblur_intensity_container" type="HBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="motionblur_intensity_label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/motionblur_intensity_container"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "intensity"
+
+[node name="motionblur_intensity" type="SpinBox" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/motionblur_intensity_container"]
+layout_mode = 2
+max_value = 1.0
+step = 0.001
+value = 1.0
+
+[node name="controls_settings_panel_container" type="PanelContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+texture = ExtResource("19")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="MarginContainer3" type="MarginContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/MarginContainer3"]
+layout_mode = 2
+text = "CONTROLS"
+
+[node name="PanelContainer2" type="PanelContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer"]
+layout_mode = 2
+
+[node name="MarginContainer2" type="MarginContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2"]
+layout_mode = 2
+
+[node name="camera_controls_label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+text = "camera"
+
+[node name="PanelContainer3" type="PanelContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/PanelContainer3"]
+layout_mode = 2
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer"]
+layout_mode = 2
+
+[node name="look_label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer2"]
+layout_mode = 2
+text = "look"
+
+[node name="invert_x_look_checkbox_container" type="HBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer2"]
+layout_mode = 2
+
+[node name="invert_x_look_checkbox_label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer2/invert_x_look_checkbox_container"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "invert X"
+
+[node name="invert_x_look_checkbox" type="CheckBox" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer2/invert_x_look_checkbox_container"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "on"
+
+[node name="invert_y_look_checkbox_container" type="HBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer2"]
+layout_mode = 2
+
+[node name="invert_y_look_checkbox_label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer2/invert_y_look_checkbox_container"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "invert Y"
+
+[node name="invert_y_look_checkbox" type="CheckBox" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer2/invert_y_look_checkbox_container"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "on"
+
+[node name="look_smoothing_container" type="HBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer2"]
+layout_mode = 2
+
+[node name="look_smoothing_label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer2/look_smoothing_container"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 0
+text = "smoothing"
+
+[node name="look_smoothing" type="SpinBox" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer2/look_smoothing_container"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 0.001
+step = 0.1
+value = 10.001
+
+[node name="look_sensitivity_container" type="HBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer2"]
+layout_mode = 2
+
+[node name="look_sensitivity_label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer2/look_sensitivity_container"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 0
+text = "sensitivity"
+
+[node name="look_sensitivity" type="SpinBox" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer2/look_sensitivity_container"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 0.001
+max_value = 1.0
+step = 0.001
+value = 0.055
+
+[node name="PanelContainer" type="PanelContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/PanelContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="camtarget_spring_label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+mouse_filter = 0
+text = "target spring"
+
+[node name="camtarget_damping_ratio_container" type="HBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="camtarget_damping_ratio_label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/camtarget_damping_ratio_container"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 0
+text = "damping ratio"
+
+[node name="camtarget_damping_ratio" type="SpinBox" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/camtarget_damping_ratio_container"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 0.001
+max_value = 1.0
+step = 0.001
+value = 0.965
+
+[node name="camtarget_angular_frequency_container" type="HBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="camtarget_angular_frequency_label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/camtarget_angular_frequency_container"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 0
+text = "angular freq"
+
+[node name="camtarget_angular_frequency_ratio" type="SpinBox" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/controls_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/camtarget_angular_frequency_container"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 0.001
+max_value = 10.0
+step = 0.001
+value = 2.0
+
+[node name="debug_settings_panel_container" type="PanelContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+texture = ExtResource("17")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="MarginContainer2" type="MarginContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/MarginContainer2"]
+layout_mode = 2
+text = "DEBUG"
+
+[node name="PanelContainer2" type="PanelContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer"]
+layout_mode = 2
+
+[node name="debug_overlay_checkbox_container" type="HBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="debug_overlay_checkbox_label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/debug_overlay_checkbox_container"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 0
+text = "debug overlay"
+
+[node name="debug_overlay_checkbox" type="CheckBox" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/debug_overlay_checkbox_container"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "on"
+
+[node name="PanelContainer" type="PanelContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="frame_stats_label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "frame"
+
+[node name="fps_checkbox_container" type="HBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="fps_checkbox_label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/fps_checkbox_container"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "fps "
+
+[node name="fps_checkbox" type="CheckBox" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/fps_checkbox_container"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "on"
+
+[node name="debug_render_info_checkbox_container" type="HBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="debug_render_info_checkbox_label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/debug_render_info_checkbox_container"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "render info"
+
+[node name="debug_render_info_checkbox" type="CheckBox" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/debug_render_info_checkbox_container"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "on"
+
+[node name="resolutions_info_checkbox_container" type="HBoxContainer" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="resolutions_info_checkbox_label" type="Label" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/resolutions_info_checkbox_container"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "resolutions info"
+
+[node name="resolutions_info_checkbox" type="CheckBox" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/resolutions_info_checkbox_container"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "on"
+
+[node name="Control" type="Control" parent="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[connection signal="size_changed" from="ViewportContainer/Viewport" to="ui_debug/ui_debug_root_container/HBoxContainer/VBoxContainer/resolutions_info_container/resolutions_info_panel" method="_on_Viewport_size_changed"]
+[connection signal="resized" from="ViewportDisplay/ViewportDisplayTextureRect" to="ui_debug/ui_debug_root_container/HBoxContainer/VBoxContainer/resolutions_info_container/resolutions_info_panel" method="_on_ViewportDisplayTextureRect_resized"]
+[connection signal="visibility_changed" from="ui_debug/ui_debug_root_container/HBoxContainer/VBoxContainer/render_info_container/render_info_panel" to="ui_debug/ui_debug_root_container/HBoxContainer/VBoxContainer/render_info_container/render_info_panel" method="_on_render_info_container_visibility_changed"]
+[connection signal="pressed" from="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/return_button" to="ui_menu/menu_container" method="_on_return_button_pressed"]
+[connection signal="toggled" from="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/settings_button" to="ui_menu/menu_container" method="_on_graphics_settings_button_toggled"]
+[connection signal="pressed" from="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/quit_button" to="." method="_on_quit_button_pressed"]
+[connection signal="toggled" from="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/fullscreen_checkbox_container/fullscreen_checkbox" to="ui_menu/menu_container" method="_on_fullscreen_checkbox_toggled"]
+[connection signal="value_changed" from="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/resolution_scale_container/resolution_scale" to="ui_menu/menu_container" method="_on_resolution_scale_value_changed"]
+[connection signal="item_selected" from="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/msaa_container/msaa_options" to="ui_menu/menu_container" method="_on_msaa_options_item_selected"]
+[connection signal="toggled" from="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/fxaa_container/fxaa_checkbox" to="ui_menu/menu_container" method="_on_fxaa_checkbox_toggled"]
+[connection signal="toggled" from="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/filter_display_container/filter_display_checkbox" to="ui_menu/menu_container" method="_on_filter_display_checkbox_toggled"]
+[connection signal="value_changed" from="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/sharpen_intensity_container/sharpen_intensity_slider" to="ui_menu/menu_container" method="_on_sharpen_intensity_slider_value_changed"]
+[connection signal="toggled" from="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/motionblur_enable_container/motionblur_enable_checkbox" to="ui_menu/menu_container" method="_on_motionblur_enable_checkbox_toggled"]
+[connection signal="value_changed" from="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/motionblur_iterations_container/motionblur_iterations" to="ui_menu/menu_container" method="_on_motionblur_iterations_value_changed"]
+[connection signal="value_changed" from="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/graphics_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer3/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/motionblur_intensity_container/motionblur_intensity" to="ui_menu/menu_container" method="_on_motionblur_intensity_value_changed"]
+[connection signal="toggled" from="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/debug_overlay_checkbox_container/debug_overlay_checkbox" to="." method="_on_debug_overlay_checkbox_toggled"]
+[connection signal="toggled" from="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/fps_checkbox_container/fps_checkbox" to="ui_menu/menu_container" method="_on_fps_checkbox_toggled"]
+[connection signal="toggled" from="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/debug_render_info_checkbox_container/debug_render_info_checkbox" to="ui_menu/menu_container" method="_on_debug_render_info_checkbox_toggled"]
+[connection signal="toggled" from="ui_menu/menu_container/Panel/VBoxContainer/HBoxContainer3/graphics_settings_menu/PanelContainer/MarginContainer/HBoxContainer/debug_settings_panel_container/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/resolutions_info_checkbox_container/resolutions_info_checkbox" to="ui_menu/menu_container" method="_on_resolutions_info_checkbox_toggled"]
