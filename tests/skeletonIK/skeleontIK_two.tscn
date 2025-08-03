@@ -1,7 +1,6 @@
-[gd_scene load_steps=20 format=3 uid="uid://b41viao7o3qrf"]
+[gd_scene load_steps=17 format=3 uid="uid://b41viao7o3qrf"]
 
 [ext_resource type="PackedScene" uid="uid://cnwbqxcbqu5a7" path="res://parts/character_two/animation_library_godot.tscn" id="1_pvrkh"]
-[ext_resource type="Texture2D" uid="uid://qkklamrqhycw" path="res://parts/textures/texture_08.png" id="2_7kl7a"]
 [ext_resource type="Script" uid="uid://dikxi44okss1o" path="res://tests/skeletonIK/custom_skel_modifier.gd" id="3_r4cgf"]
 
 [sub_resource type="GDScript" id="GDScript_bjm1h"]
@@ -58,18 +57,6 @@ sdfgi_use_occlusion = true
 glow_enabled = true
 adjustment_enabled = true
 adjustment_color_correction = SubResource("GradientTexture1D_5pl1y")
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bjm1h"]
-albedo_color = Color(0.670551, 0.621573, 0.556724, 1)
-albedo_texture = ExtResource("2_7kl7a")
-roughness = 0.45
-subsurf_scatter_enabled = true
-subsurf_scatter_strength = 1.0
-subsurf_scatter_skin_mode = true
-uv1_scale = Vector3(20, 20, 20)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fopuo"]
-albedo_color = Color(0.99501, 0.758754, 0.609462, 1)
 
 [sub_resource type="GDScript" id="GDScript_fopuo"]
 script/source = "#@tool
@@ -188,10 +175,6 @@ directional_shadow_blend_splits = true
 environment = SubResource("Environment_5pl1y")
 
 [node name="AnimationLibrary_Godot" parent="." instance=ExtResource("1_pvrkh")]
-
-[node name="Mannequin" parent="AnimationLibrary_Godot/Rig/GeneralSkeleton" index="0"]
-surface_material_override/0 = SubResource("StandardMaterial3D_bjm1h")
-surface_material_override/1 = SubResource("StandardMaterial3D_fopuo")
 
 [node name="CustomSkelModifier" type="SkeletonModifier3D" parent="AnimationLibrary_Godot/Rig/GeneralSkeleton" index="1"]
 _import_path = NodePath("")

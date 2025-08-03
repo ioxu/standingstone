@@ -223,6 +223,7 @@ grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("11_ihh82")
 camera = NodePath("../../../ViewportContainer/Viewport/Camera")
+debug_display = false
 
 [node name="bayer_matrix" type="TextureRect" parent="ViewportDisplay/ViewportDisplayTextureRect"]
 visible = false

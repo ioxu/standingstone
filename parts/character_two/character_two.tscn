@@ -1,23 +1,12 @@
-[gd_scene load_steps=24 format=3 uid="uid://dbcqcccuu1886"]
+[gd_scene load_steps=21 format=3 uid="uid://dbcqcccuu1886"]
 
 [ext_resource type="Script" uid="uid://bx253wkst6td0" path="res://parts/character_two/character_controller_two_two.gd" id="1_5h5kc"]
 [ext_resource type="PackedScene" uid="uid://cnwbqxcbqu5a7" path="res://parts/character_two/animation_library_godot.tscn" id="1_dpqmh"]
-[ext_resource type="Texture2D" uid="uid://qkklamrqhycw" path="res://parts/textures/texture_08.png" id="3_q1pnq"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_dpqmh"]
 margin = 0.075
 radius = 0.31
 height = 1.74626
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5h5kc"]
-albedo_color = Color(0.604949, 0.604949, 0.604949, 1)
-albedo_texture = ExtResource("3_q1pnq")
-roughness = 0.48
-uv1_scale = Vector3(20, 20, 20)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q1pnq"]
-albedo_color = Color(0.726368, 0.726368, 0.726368, 1)
-roughness = 0.37
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_n1he0"]
 animation = &"Idle"
@@ -109,10 +98,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.87612, 0)
 shape = SubResource("CapsuleShape3D_dpqmh")
 
 [node name="AnimationLibrary_Godot" parent="." instance=ExtResource("1_dpqmh")]
-
-[node name="Mannequin" parent="AnimationLibrary_Godot/Rig/GeneralSkeleton" index="0"]
-surface_material_override/0 = SubResource("StandardMaterial3D_5h5kc")
-surface_material_override/1 = SubResource("StandardMaterial3D_q1pnq")
 
 [node name="AnimationPlayer" parent="AnimationLibrary_Godot" index="1"]
 root_motion_track = NodePath("%GeneralSkeleton:Root")
