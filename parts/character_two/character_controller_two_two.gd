@@ -16,6 +16,9 @@ var gravity : Vector3 = Vector3.ZERO
 # var ms_collision_vel := Vector3.ZERO # TODO : 3.5 : is this used??
 var ms_collided := false
 var dir := Vector3.ZERO
+var dir_length := 0.0
+#var last_dir_length := 0.0
+var dir_length_q := 0.0 # dir length quantised
 var _raw_dir_input := Vector2.ZERO
 
 #---------------------------------------------
@@ -113,6 +116,8 @@ func _ready():
 	var tc = anim.get_track_count()
 	for ti in range(tc):
 		print("track: %s"%anim.track_get_path(ti) )
+	
+	# try to find custom animated properties
 	pprint("Sprint_Root:")
 	var track_idx = animation_player.get_animation("Sprint_Root").find_track("Rig/Skeleton3D:root:property:extra_prop", Animation.TYPE_BEZIER)
 	if track_idx != -1:
@@ -125,10 +130,12 @@ func _ready():
 var root_pos : Vector3
 var root_velocity : Vector3
 
+
 func _process(delta: float) -> void:
-	root_pos = animation_tree.get_root_motion_position() * 0.5
+	root_pos = animation_tree.get_root_motion_position() #* 0.5
 	root_velocity = root_pos / delta
 	#pprint("root_pos %s"%root_pos )
+
 
 func _physics_process(delta):
 	global_time += delta
@@ -173,10 +180,27 @@ func _physics_process(delta):
 	dir.z += _raw_dir_input.y
 	dir.x += _raw_dir_input.x
 
-	dir_length_smoothed = lerp( dir_length_smoothed, dir.length(), 0.95 * delta * 3.5 )
+	dir_length = dir.length()
+	if dir_length > 0.9:
+		dir_length_q = 1
+	else:
+		dir_length_q = 0
+
 	#dir_length_smoothed = clamp(Util.remap(dir_length_smoothed, 0.0, 0.9,  0.0, 1.0), 0.0, 1.0)
+	#dir_length_smoothed = lerp( dir_length_smoothed, dir.length(), 0.95 * delta * 3.5 )
+
+
+	# change lerp speed based on if the direction strength is moving faster or slower than last time
+	# - lerp fast when increasing speed
+	# - lerp much slower when decreasing speed
+	if dir_length > dir_length_smoothed:
+		dir_length_smoothed = lerp( dir_length_smoothed, dir_length_q, 0.95 * delta * 10.0)#3.5 )
+	else:
+		dir_length_smoothed = lerp( dir_length_smoothed, dir_length_q, 0.95 * delta * 0.5)#3.5 )
+
+
 	
-	if dir.length_squared() > 0.005:
+	if dir.length_squared() > 0.01: #0.005:
 		dir = dir.rotated(Vector3.UP, camera.camera_data.rotation.y)
 
 		var player_heading_2d := Vector2(self.transform.basis.z.x, self.transform.basis.z.z)
@@ -195,20 +219,24 @@ func _physics_process(delta):
 
 		# bias the dir_length so that walking is finer at the lower end of dir_length.6
 		var _dir_length_bias = Util.bias(dir_length_smoothed, 0.255)#TODO: curve control instead of bias
+		#var _dir_length_bias = dir_length_smoothed
+		#
 		
 		movement_walk_run_blend = Util.remap(_dir_length_bias, 0.0, 1.0, -1.0, self.sprint_blend )
 		#var _top_speed = Util.remap(self.sprint_blend, 0.0, 1.0, 1.5, 2.5)
 		var _top_speed = Util.remap(self.sprint_blend, 0.0, 1.0, 1.5, 2.5)
 		#var _top_speed = Util.remap(self.sprint_blend, 0.0, 1.0, 5.0, 20.0)
 		#pprint("top speed: %s"%_top_speed)
-		var _ts = Util.remap( _dir_length_bias, 0.0, 1.0, 1.0, _top_speed )
+		
+		var _ts = Util.remap( _dir_length_bias, 0.0, 1.0, 1.0, _top_speed ) #* 0.5
+		
 		animation_tree.set("parameters/WalkRun_blendspace/walk_timescale/scale", initial_timescale_walk * _ts)
 		animation_tree.set("parameters/WalkRun_blendspace/jog_timescale/scale", initial_timescale_jog * _ts )
 		animation_tree.set("parameters/WalkRun_blendspace/sprint_timescale/scale", initial_timescale_sprint * _ts)
 
+		# using a blend3 (walk/jog/sprint)
 		movement_walk_run_blend = clamp( movement_walk_run_blend, -1.0, 1.0 )
 		animation_tree.set("parameters/WalkRun_blendspace/blend_walk_running/blend_amount", movement_walk_run_blend )
-
 
 		if dir.length() > 0.5:
 			if !is_sprinting and Input.is_action_just_pressed("sprint"):
@@ -242,6 +270,7 @@ func _physics_process(delta):
 	set_up_direction( Vector3.UP )
 	ms_collided = move_and_slide()
 
+	#last_dir_length = dir.length()
 
 # warning-ignore:unused_argument
 # warning-ignore:unused_argument

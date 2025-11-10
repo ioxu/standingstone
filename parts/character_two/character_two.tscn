@@ -55,7 +55,7 @@ sync = true
 [sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_pisth"]
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_q1pnq"]
-graph_offset = Vector2(21.1765, 102.353)
+graph_offset = Vector2(-166.952, 2.4278)
 nodes/Animation/node = SubResource("AnimationNodeAnimation_txpjf")
 nodes/Animation/position = Vector2(47.0588, 47.0588)
 "nodes/Animation 2/node" = SubResource("AnimationNodeAnimation_5h5kc")
@@ -63,10 +63,10 @@ nodes/Animation/position = Vector2(47.0588, 47.0588)
 "nodes/Animation 3/node" = SubResource("AnimationNodeAnimation_q1pnq")
 "nodes/Animation 3/position" = Vector2(47.0588, 541.176)
 nodes/blend_walk_running/node = SubResource("AnimationNodeBlend3_5h5kc")
-nodes/blend_walk_running/position = Vector2(847.059, 211.765)
+nodes/blend_walk_running/position = Vector2(988.235, 305.882)
 nodes/jog_timescale/node = SubResource("AnimationNodeTimeScale_n1he0")
 nodes/jog_timescale/position = Vector2(541.176, 258.824)
-nodes/output/position = Vector2(1200, 211.765)
+nodes/output/position = Vector2(1529.41, 235.294)
 nodes/sprint_timescale/node = SubResource("AnimationNodeTimeScale_7nunn")
 nodes/sprint_timescale/position = Vector2(541.176, 470.588)
 nodes/walk_timescale/node = SubResource("AnimationNodeTimeScale_pisth")
@@ -84,9 +84,9 @@ reset_ends = true
 states/IdleAction/node = SubResource("AnimationNodeBlendTree_5h5kc")
 states/IdleAction/position = Vector2(562.668, 531.882)
 states/WalkRun_blendspace/node = SubResource("AnimationNodeBlendTree_q1pnq")
-states/WalkRun_blendspace/position = Vector2(562.118, 239.059)
+states/WalkRun_blendspace/position = Vector2(562.765, 242.588)
 transitions = ["WalkRun_blendspace", "IdleAction", SubResource("AnimationNodeStateMachineTransition_q1pnq"), "IdleAction", "WalkRun_blendspace", SubResource("AnimationNodeStateMachineTransition_txpjf")]
-graph_offset = Vector2(-152, 133)
+graph_offset = Vector2(-504, 91)
 
 [node name="Character_two" type="CharacterBody3D" node_paths=PackedStringArray("animation_tree", "animation_player")]
 script = ExtResource("1_5h5kc")
@@ -109,7 +109,7 @@ root_motion_local = false
 tree_root = SubResource("AnimationNodeStateMachine_5h5kc")
 anim_player = NodePath("../AnimationLibrary_Godot/AnimationPlayer")
 parameters/IdleAction/BlendSpace2D/blend_position = Vector2(-0.88451, 0.000812769)
-parameters/WalkRun_blendspace/blend_walk_running/blend_amount = -1.0
+parameters/WalkRun_blendspace/blend_walk_running/blend_amount = -0.35
 parameters/WalkRun_blendspace/jog_timescale/scale = 1.0
 parameters/WalkRun_blendspace/sprint_timescale/scale = 1.0
 parameters/WalkRun_blendspace/walk_timescale/scale = 1.0
