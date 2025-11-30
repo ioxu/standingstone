@@ -4,6 +4,12 @@ extends Camera3D
 #export (Resource) var camera_data
 
 @export var target : CharacterBody3D
+
+#---
+# camera data
+# look_target should be set a large ditance away (-2000 on z)
+# otherwise it feels wierd orbiting the camera
+#---
 @export var camera_data : Resource
 
 #export(Curve) var look_stick_response_curve
@@ -98,10 +104,12 @@ func _process(delta):
 		target_origin_spring.initialise( 0.965, 2.0 )
 		
 	target_origin_track = target_origin_spring.calculate_v3( target_origin_track, target.transform.origin )
+	
 	self.transform.origin = target_origin_track + camera_data.anchor_offset
 	#self.transform.origin = target.transform.origin + camera_data.anchor_offset
-	
+
 	var target_offset = camera_data.target_offset
+
 	var look_at = camera_data.look_target
 	var up_down_axis = Vector3.RIGHT.rotated(Vector3.UP, camera_data.rotation.y)
 	target_offset = target_offset.rotated(Vector3.UP, camera_data.rotation.y)

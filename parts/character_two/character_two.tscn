@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://dbcqcccuu1886"]
+[gd_scene load_steps=23 format=3 uid="uid://dbcqcccuu1886"]
 
 [ext_resource type="Script" uid="uid://bx253wkst6td0" path="res://parts/character_two/character_controller_two_two.gd" id="1_5h5kc"]
 [ext_resource type="PackedScene" uid="uid://cnwbqxcbqu5a7" path="res://parts/character_two/animation_library_godot.tscn" id="1_dpqmh"]
@@ -88,6 +88,13 @@ states/WalkRun_blendspace/position = Vector2(562.765, 242.588)
 transitions = ["WalkRun_blendspace", "IdleAction", SubResource("AnimationNodeStateMachineTransition_q1pnq"), "IdleAction", "WalkRun_blendspace", SubResource("AnimationNodeStateMachineTransition_txpjf")]
 graph_offset = Vector2(-504, 91)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5h5kc"]
+albedo_color = Color(0.6181804, 0.031073574, 0.26030067, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_q1pnq"]
+radial_segments = 12
+rings = 12
+
 [node name="Character_two" type="CharacterBody3D" node_paths=PackedStringArray("animation_tree", "animation_player")]
 script = ExtResource("1_5h5kc")
 animation_tree = NodePath("AnimationTree")
@@ -119,6 +126,11 @@ autostart = true
 
 [node name="RootMotionView" type="RootMotionView" parent="."]
 animation_path = NodePath("../AnimationLibrary_Godot/AnimationPlayer")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.126, 0, 0, 0, 0.126, 0, 0, 0, 0.126, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_5h5kc")
+mesh = SubResource("SphereMesh_q1pnq")
 
 [connection signal="timeout" from="idle_loop_timeout" to="." method="_on_idle_loop_timeout_timeout"]
 
