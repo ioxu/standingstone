@@ -56,6 +56,7 @@ sync = true
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_q1pnq"]
 graph_offset = Vector2(-166.952, 2.4278)
+nodes/output/position = Vector2(1529.41, 235.294)
 nodes/Animation/node = SubResource("AnimationNodeAnimation_txpjf")
 nodes/Animation/position = Vector2(47.0588, 47.0588)
 "nodes/Animation 2/node" = SubResource("AnimationNodeAnimation_5h5kc")
@@ -66,12 +67,11 @@ nodes/blend_walk_running/node = SubResource("AnimationNodeBlend3_5h5kc")
 nodes/blend_walk_running/position = Vector2(988.235, 305.882)
 nodes/jog_timescale/node = SubResource("AnimationNodeTimeScale_n1he0")
 nodes/jog_timescale/position = Vector2(541.176, 258.824)
-nodes/output/position = Vector2(1529.41, 235.294)
 nodes/sprint_timescale/node = SubResource("AnimationNodeTimeScale_7nunn")
 nodes/sprint_timescale/position = Vector2(541.176, 470.588)
 nodes/walk_timescale/node = SubResource("AnimationNodeTimeScale_pisth")
 nodes/walk_timescale/position = Vector2(541.176, 70.5882)
-node_connections = [&"blend_walk_running", 0, &"walk_timescale", &"blend_walk_running", 1, &"jog_timescale", &"blend_walk_running", 2, &"sprint_timescale", &"jog_timescale", 0, &"Animation 2", &"output", 0, &"blend_walk_running", &"sprint_timescale", 0, &"Animation 3", &"walk_timescale", 0, &"Animation"]
+node_connections = [&"output", 0, &"blend_walk_running", &"blend_walk_running", 0, &"walk_timescale", &"blend_walk_running", 1, &"jog_timescale", &"blend_walk_running", 2, &"sprint_timescale", &"jog_timescale", 0, &"Animation 2", &"sprint_timescale", 0, &"Animation 3", &"walk_timescale", 0, &"Animation"]
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_q1pnq"]
 xfade_time = 0.25
@@ -105,7 +105,6 @@ root_motion_track = NodePath("%GeneralSkeleton:Root")
 [node name="AnimationTree" type="AnimationTree" parent="."]
 root_node = NodePath("../AnimationLibrary_Godot")
 root_motion_track = NodePath("%GeneralSkeleton:Root")
-root_motion_local = false
 tree_root = SubResource("AnimationNodeStateMachine_5h5kc")
 anim_player = NodePath("../AnimationLibrary_Godot/AnimationPlayer")
 parameters/IdleAction/BlendSpace2D/blend_position = Vector2(-0.88451, 0.000812769)

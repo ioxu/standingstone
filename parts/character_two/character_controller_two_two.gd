@@ -228,7 +228,7 @@ func _physics_process(delta):
 		#var _top_speed = Util.remap(self.sprint_blend, 0.0, 1.0, 5.0, 20.0)
 		#pprint("top speed: %s"%_top_speed)
 		
-		var _ts = Util.remap( _dir_length_bias, 0.0, 1.0, 1.0, _top_speed ) #* 0.5
+		var _ts = Util.remap( _dir_length_bias, 0.0, 1.0, 1.0, _top_speed ) * 0.75
 		
 		animation_tree.set("parameters/WalkRun_blendspace/walk_timescale/scale", initial_timescale_walk * _ts)
 		animation_tree.set("parameters/WalkRun_blendspace/jog_timescale/scale", initial_timescale_jog * _ts )
