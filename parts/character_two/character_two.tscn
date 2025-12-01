@@ -55,7 +55,7 @@ sync = true
 [sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_pisth"]
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_q1pnq"]
-graph_offset = Vector2(-166.952, 2.4278)
+graph_offset = Vector2(-281.42844, -20.662321)
 nodes/output/position = Vector2(1529.41, 235.294)
 nodes/Animation/node = SubResource("AnimationNodeAnimation_txpjf")
 nodes/Animation/position = Vector2(47.0588, 47.0588)
@@ -86,7 +86,7 @@ states/IdleAction/position = Vector2(562.668, 531.882)
 states/WalkRun_blendspace/node = SubResource("AnimationNodeBlendTree_q1pnq")
 states/WalkRun_blendspace/position = Vector2(562.765, 242.588)
 transitions = ["WalkRun_blendspace", "IdleAction", SubResource("AnimationNodeStateMachineTransition_q1pnq"), "IdleAction", "WalkRun_blendspace", SubResource("AnimationNodeStateMachineTransition_txpjf")]
-graph_offset = Vector2(-504, 91)
+graph_offset = Vector2(-288, 82)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5h5kc"]
 albedo_color = Color(0.6181804, 0.031073574, 0.26030067, 1)

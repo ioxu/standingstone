@@ -186,7 +186,7 @@ func _physics_process(delta):
 	# (rather than smoothly blending betweenslow walk and walk, and run)
 	# TODO: bring back complex blend!
 	dir_length = dir.length()
-	if dir_length > 0.9:
+	if dir_length > 0.95:
 		dir_length_q = 1
 	else:
 		dir_length_q = 0
@@ -212,7 +212,7 @@ func _physics_process(delta):
 		var desired_heading_2d := Vector2(dir.x, dir.z)
 
 		var phi : float = desired_heading_2d.angle_to( player_heading_2d )
-		phi = phi * delta * 6.0 #3.0
+		phi = phi * delta * 5.0 #6.0 #3.0
 		self.rotation.y += phi
 		v = v.rotated( Vector3.UP, self.rotation.y)
 
@@ -223,7 +223,8 @@ func _physics_process(delta):
 		#dir_length_smoothed = clamp(Util.remap(dir_length_smoothed, 0.0, 0.96,  0.0, 1.0), 0.0, 1.0)
 
 		# bias the dir_length so that walking is finer at the lower end of dir_length.6
-		var _dir_length_bias = Util.bias(dir_length_smoothed, 0.255)#TODO: curve control instead of bias
+		#var _dir_length_bias = Util.bias(dir_length_smoothed, 0.255)#TODO: curve control instead of bias
+		var _dir_length_bias = Util.bias(dir_length_smoothed, 0.35)#TODO: curve control instead of bias
 		#var _dir_length_bias = dir_length_smoothed
 		#
 		
@@ -233,7 +234,14 @@ func _physics_process(delta):
 		#var _top_speed = Util.remap(self.sprint_blend, 0.0, 1.0, 5.0, 20.0)
 		#pprint("top speed: %s"%_top_speed)
 		
-		var _ts = Util.remap( _dir_length_bias, 0.0, 1.0, 1.0, _top_speed ) * 1.5
+		
+		
+		#var _ts = Util.remap( _dir_length_bias, 0.0, 1.0, 1.0, _top_speed ) * 1.5
+		
+		# change (wrt dir_length_smoothed) the animation scaling for walking and jogging (walking 1.5x and jogging 0.5x)
+		var _walking_scale = 1.5
+		var _jogging_scale = 0.5
+		var _ts = Util.remap( _dir_length_bias, 0.0, 1.0, 1.0, _top_speed ) * Util.remap( dir_length_smoothed, 0.0, 1.0, _walking_scale, _jogging_scale)
 		
 		animation_tree.set("parameters/WalkRun_blendspace/walk_timescale/scale", initial_timescale_walk * _ts)
 		animation_tree.set("parameters/WalkRun_blendspace/jog_timescale/scale", initial_timescale_jog * _ts )
