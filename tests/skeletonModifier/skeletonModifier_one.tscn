@@ -1,0 +1,148 @@
+[gd_scene load_steps=11 format=3 uid="uid://crvin5bnvl5dl"]
+
+[ext_resource type="Texture2D" uid="uid://ddv844bqlapvs" path="res://parts/textures/color_corrections/green_yellow.tres" id="1_55f0r"]
+[ext_resource type="PackedScene" uid="uid://cnwbqxcbqu5a7" path="res://parts/character_two/animation_library_godot.tscn" id="2_2nqm7"]
+[ext_resource type="Script" uid="uid://b080necinyalb" path="res://tests/skeletonModifier/custom_skel_modifier_undulator.gd" id="3_ndgvy"]
+
+[sub_resource type="GDScript" id="GDScript_bjm1h"]
+script/source = "extends Node3D
+
+@onready var skeleton : Skeleton3D = $AnimationLibrary_Godot/Rig/GeneralSkeleton
+@onready var ik : SkeletonIK3D = skeleton.find_child(\"SkeletonIK3D\")
+
+func _ready():
+	var animation_player : AnimationPlayer = self.find_child(\"AnimationPlayer\") # self.find_node(\"AnimationPlayer\")
+	animation_player.play(\"Walk_Root\")
+	
+	print(\"ik: %s\"%ik)
+	#ik.start()
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
+
+
+func _input(event):
+	if event.is_action(\"ui_cancel\"):
+		get_tree().quit()
+"
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_bjm1h"]
+sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+ground_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+
+[sub_resource type="Sky" id="Sky_fopuo"]
+sky_material = SubResource("ProceduralSkyMaterial_bjm1h")
+
+[sub_resource type="Environment" id="Environment_5pl1y"]
+background_mode = 2
+sky = SubResource("Sky_fopuo")
+tonemap_mode = 2
+ssr_enabled = true
+ssao_enabled = true
+ssao_intensity = 10.0
+ssao_light_affect = 0.53
+ssil_enabled = true
+ssil_intensity = 15.0
+ssil_sharpness = 0.73
+ssil_normal_rejection = 0.0
+sdfgi_enabled = true
+sdfgi_use_occlusion = true
+glow_enabled = true
+adjustment_color_correction = ExtResource("1_55f0r")
+
+[sub_resource type="GDScript" id="GDScript_onwqd"]
+script/source = "extends Node3D
+@export var speed : float = 0.25
+
+var previous_mouse_motion_delta : Vector2
+var mouse_motion_delta : Vector2
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	pass # Replace with function body.
+
+
+
+func _input(event):
+	if event is InputEventMouseMotion:
+		mouse_motion_delta = event.relative # Store the mouse delta
+
+
+func _process(delta: float) -> void:
+	if Input.is_mouse_button_pressed( 1 ):
+		if mouse_motion_delta == previous_mouse_motion_delta:
+			mouse_motion_delta = Vector2.ZERO
+		if mouse_motion_delta.length() > 0.001:
+			rotate_y( - mouse_motion_delta.x * delta  * speed)
+			$camera_tilt.rotate_x( - mouse_motion_delta.y * delta * speed )
+		
+		previous_mouse_motion_delta = mouse_motion_delta
+"
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_fopuo"]
+height = 0.05
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5pl1y"]
+albedo_color = Color(0.294758, 0.294758, 0.294758, 1)
+
+[node name="SkeleontIkOne" type="Node3D"]
+script = SubResource("GDScript_bjm1h")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+light_energy = 1.5
+light_angular_distance = 1.64
+shadow_enabled = true
+directional_shadow_mode = 1
+directional_shadow_blend_splits = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_5pl1y")
+
+[node name="AnimationLibrary_Godot" parent="." instance=ExtResource("2_2nqm7")]
+
+[node name="CustomSkelModifier_undulator" type="SkeletonModifier3D" parent="AnimationLibrary_Godot/Rig/GeneralSkeleton" index="1"]
+_import_path = NodePath("")
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+physics_interpolation_mode = 0
+auto_translate_mode = 0
+editor_description = ""
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+rotation_edit_mode = 0
+rotation_order = 2
+top_level = false
+visible = true
+visibility_parent = NodePath("")
+active = true
+influence = 1.0
+script = ExtResource("3_ndgvy")
+bone = "Spine"
+min_sy = -0.782
+speed = 2.0
+time_offset = -0.561
+metadata/_custom_type_script = "uid://b080necinyalb"
+
+[node name="AnimationPlayer" parent="AnimationLibrary_Godot" index="1"]
+root_motion_track = NodePath("%GeneralSkeleton:Root")
+
+[node name="camera_root" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.009, 0.713, 0.029)
+script = SubResource("GDScript_onwqd")
+
+[node name="camera_tilt" type="Node3D" parent="camera_root"]
+
+[node name="Camera3D" type="Camera3D" parent="camera_root/camera_tilt"]
+transform = Transform3D(1, 0, 0, 0, 0.903335, 0.428935, 0, -0.428935, 0.903335, -0.00922441, 0.74667, 1.34371)
+
+[node name="floor" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0269233, 0)
+mesh = SubResource("CylinderMesh_fopuo")
+skeleton = NodePath("../WorldEnvironment")
+surface_material_override/0 = SubResource("StandardMaterial3D_5pl1y")
+
+[editable path="AnimationLibrary_Godot"]

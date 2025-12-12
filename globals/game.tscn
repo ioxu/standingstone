@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=3 uid="uid://bgkrawuhak6u7"]
+[gd_scene load_steps=40 format=3 uid="uid://bgkrawuhak6u7"]
 
 [ext_resource type="Script" uid="uid://bcaapaemnq65k" path="res://globals/game.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://b33gk8gjn74fs" path="res://levels/default_level.tscn" id="2"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://gsevldt54mg3" path="res://parts/camera/camera_controller.gd" id="4"]
 [ext_resource type="PackedScene" uid="uid://dbcqcccuu1886" path="res://parts/character_two/character_two.tscn" id="4_o5518"]
 [ext_resource type="Resource" uid="uid://dcfoxpqk48faf" path="res://parts/camera/camera_data.tres" id="5_enq2u"]
+[ext_resource type="PackedScene" uid="uid://buxnljamibwc6" path="res://parts/character_three/character_three.tscn" id="5_wcsbp"]
 [ext_resource type="Script" uid="uid://wyk0ho4ew0wk" path="res://scripts/Plot2D.gd" id="6"]
 [ext_resource type="Shader" uid="uid://sk27eyfibawj" path="res://parts/shaders/motion_blur.gdshader" id="6_j14w1"]
 [ext_resource type="Script" uid="uid://dqj6biu3r0vyt" path="res://globals/ui_render_info.gd" id="7"]
@@ -170,6 +171,9 @@ camera = NodePath("../Camera")
 [node name="Character_two" parent="ViewportContainer/Viewport" node_paths=PackedStringArray("camera") instance=ExtResource("4_o5518")]
 transform = Transform3D(0.904648, 0, -0.426158, 0, 1, 0, 0.426158, 0, 0.904648, 10.7907, 0, -9.66234)
 camera = NodePath("../Camera")
+
+[node name="CharacterThree" parent="ViewportContainer/Viewport" instance=ExtResource("5_wcsbp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.55515, 0, -12.387402)
 
 [node name="Camera" type="Camera3D" parent="ViewportContainer/Viewport" node_paths=PackedStringArray("target")]
 transform = Transform3D(0.999857, 0.00316881, -0.0165942, 0, 0.982251, 0.18757, 0.016894, -0.187543, 0.982111, 3.21423, 1.24633, 1.34832)

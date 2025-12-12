@@ -1,7 +1,7 @@
 extends Node
 # window size/fullscreen manager audotoload
 
-var minimum_size : Vector2 = Vector2(1024,600)#(960, 540)
+var minimum_size : Vector2i = Vector2i(1024,600)#(960, 540)
 var BORDERLESS_FULLSCREEN = false
 
 var window_position := Vector2.ZERO
@@ -9,6 +9,7 @@ var fullscreen : = false
 
 signal change_fullscreen(value)
 
+var previous_mode 
 
 func _ready():
 	pprint("window.dg autoload ready")
@@ -32,6 +33,8 @@ func _ready():
 			DisplayServer.window_set_size( DisplayServer.screen_get_size() )
 			#OS.set_borderless_window(true) # 3.5
 			DisplayServer.window_set_flag( DisplayServer.WINDOW_FLAG_BORDERLESS, true )
+	else:
+		previous_mode = DisplayServer.window_get_mode()
 
 
 func _input(event):
@@ -59,10 +62,16 @@ func go_fullscreen():
 		# if not OS.window_fullscreen: # 3.5
 		if not fullscreen:
 			#OS.set_window_size(minimum_size) # 3.5
-			DisplayServer.window_set_size( minimum_size )
+			#DisplayServer.window_set_size( minimum_size )
+			#Window.size = minimum_size
 			#OS.set_borderless_window(false) # 3.5
-			DisplayServer.window_set_flag( DisplayServer.WINDOW_FLAG_BORDERLESS, false )
-			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+			
+			#----------------
+			#DisplayServer.window_set_flag( DisplayServer.WINDOW_FLAG_BORDERLESS, false )
+			#DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+			#----------------
+			DisplayServer.window_set_mode( previous_mode )
+			
 		else:
 			#OS.set_window_position(window_position) 3.5
 			DisplayServer.window_set_position( window_position )

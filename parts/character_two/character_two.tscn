@@ -1,7 +1,9 @@
-[gd_scene load_steps=23 format=3 uid="uid://dbcqcccuu1886"]
+[gd_scene load_steps=25 format=3 uid="uid://dbcqcccuu1886"]
 
 [ext_resource type="Script" uid="uid://bx253wkst6td0" path="res://parts/character_two/character_controller_two_two.gd" id="1_5h5kc"]
 [ext_resource type="PackedScene" uid="uid://cnwbqxcbqu5a7" path="res://parts/character_two/animation_library_godot.tscn" id="1_dpqmh"]
+[ext_resource type="Script" uid="uid://dikxi44okss1o" path="res://tests/skeletonIK/custom_skel_modifier.gd" id="3_txpjf"]
+[ext_resource type="Script" uid="uid://b080necinyalb" path="res://tests/skeletonModifier/custom_skel_modifier_undulator.gd" id="4_n1he0"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_dpqmh"]
 margin = 0.075
@@ -105,6 +107,50 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.87612, 0)
 shape = SubResource("CapsuleShape3D_dpqmh")
 
 [node name="AnimationLibrary_Godot" parent="." instance=ExtResource("1_dpqmh")]
+
+[node name="CustomSkelModifier" type="SkeletonModifier3D" parent="AnimationLibrary_Godot/Rig/GeneralSkeleton" index="1"]
+_import_path = NodePath("")
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+physics_interpolation_mode = 0
+auto_translate_mode = 0
+editor_description = ""
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+rotation_edit_mode = 0
+rotation_order = 2
+top_level = false
+visible = true
+visibility_parent = NodePath("")
+active = true
+influence = 1.0
+script = ExtResource("3_txpjf")
+metadata/_custom_type_script = "uid://dikxi44okss1o"
+
+[node name="CustomSkelModifier_undulator" type="SkeletonModifier3D" parent="AnimationLibrary_Godot/Rig/GeneralSkeleton" index="2"]
+_import_path = NodePath("")
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+physics_interpolation_mode = 0
+auto_translate_mode = 0
+editor_description = ""
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+rotation_edit_mode = 0
+rotation_order = 2
+top_level = false
+visible = true
+visibility_parent = NodePath("")
+active = true
+influence = 1.0
+script = ExtResource("4_n1he0")
+max_sy = 0.75
+speed = 10.0
+metadata/_custom_type_script = "uid://b080necinyalb"
 
 [node name="AnimationPlayer" parent="AnimationLibrary_Godot" index="1"]
 root_motion_track = NodePath("%GeneralSkeleton:Root")

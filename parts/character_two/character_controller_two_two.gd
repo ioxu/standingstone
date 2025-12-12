@@ -59,6 +59,11 @@ var blend_coord : Vector2
 @onready var puff : PackedScene = preload( "res://parts/effects/footfalls/footfall_puff.tscn" )
 @onready var skeleton : Skeleton3D = $AnimationLibrary_Godot/Rig/GeneralSkeleton #$AnimationLibrary_Godot/Rig/Skeleton3D #$mannequin/Armature/Skeleton3D #$mannequin/Armature/Skeleton # 3.5
 
+#var initial_spine_pose:Transform3D
+#var spine_pose:Transform3D
+#var spine_id := -2
+
+
 @onready var leftFootBone_index = skeleton.find_bone("LeftFoot")#"DEF-foot.L")#"LeftFoot")
 @onready var rightFootBone_index = skeleton.find_bone("RightFoot")#"DEF-foot.R")#"RightFoot")
 
@@ -134,7 +139,6 @@ var root_velocity : Vector3
 func _process(delta: float) -> void:
 	root_pos = animation_tree.get_root_motion_position() #* 0.5
 	root_velocity = root_pos / delta
-	#pprint("root_pos %s"%root_pos )
 
 
 func _physics_process(delta):

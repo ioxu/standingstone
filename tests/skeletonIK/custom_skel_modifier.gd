@@ -12,7 +12,6 @@ var this_sy = 1.0
 
 @export var speed : float = 2.0
 
-
 @onready var global_time = 0.0
 
 var initial_rest_transform : Transform3D
