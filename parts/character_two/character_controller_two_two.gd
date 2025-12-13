@@ -9,9 +9,13 @@ extends CharacterBody3D
 #export(NodePath) onready var camera = get_node(camera)
 @export var camera : Camera3D
 
-@export var y_control : float
-
 var gravity : Vector3 = Vector3.ZERO
+
+#---------------------------------------------
+# visuals
+var skel_rotation_y := 0.0
+
+#---------------------------------------------
 
 # var ms_collision_vel := Vector3.ZERO # TODO : 3.5 : is this used??
 var ms_collided := false
@@ -131,6 +135,8 @@ func _ready():
 	else:
 		pprint( "can't find 'Rig/Skeleton3D:root:property:extra_prop' " )
 
+	skel_rotation_y = self.rotation.y
+	skeleton.global_rotation.y = skel_rotation_y
 
 var root_pos : Vector3
 var root_velocity : Vector3
@@ -215,10 +221,24 @@ func _physics_process(delta):
 		var player_heading_2d := Vector2(self.transform.basis.z.x, self.transform.basis.z.z)
 		var desired_heading_2d := Vector2(dir.x, dir.z)
 
+
+		# smooth character orientation
 		var phi : float = desired_heading_2d.angle_to( player_heading_2d )
-		phi = phi * delta * 5.0 #6.0 #3.0
+		#phi = phi * delta * 3.5 #5.0 #6.0 #3.0 # this line commented == no smoothing to actual character _heading_ vector 
 		self.rotation.y += phi
+
+		# smooth VISUAL character orientation
+		skeleton.global_rotate( Vector3.UP, -skeleton.global_rotation.y + skel_rotation_y )
+		var phi_vis : float = player_heading_2d.angle_to( Vector2(skeleton.global_transform.basis.z.x, skeleton.global_transform.basis.z.z) )
+		phi_vis = phi_vis * delta * 3.5
+		skel_rotation_y += phi_vis
+
+
+
+
 		v = v.rotated( Vector3.UP, self.rotation.y)
+
+
 
 		animation_tree["parameters/playback"].travel("WalkRun_blendspace")
 
