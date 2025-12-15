@@ -25,6 +25,9 @@ var dir_length := 0.0
 var dir_length_q := 0.0 # dir length quantised
 var _raw_dir_input := Vector2.ZERO
 
+var player_heading_2d : Vector2
+var desired_heading_2d : Vector2
+
 #---------------------------------------------
 const harmonic_motion_lib = preload("res://scripts/harmonic_motion.gd")
 var global_time = 0.0
@@ -196,7 +199,7 @@ func _physics_process(delta):
 	# (rather than smoothly blending betweenslow walk and walk, and run)
 	# TODO: bring back complex blend!
 	dir_length = dir.length()
-	if dir_length > 0.95:
+	if dir_length > 0.975:
 		dir_length_q = 1
 	else:
 		dir_length_q = 0
@@ -218,8 +221,10 @@ func _physics_process(delta):
 	if dir.length_squared() > 0.01: #0.005:
 		dir = dir.rotated(Vector3.UP, camera.camera_data.rotation.y)
 
-		var player_heading_2d := Vector2(self.transform.basis.z.x, self.transform.basis.z.z)
-		var desired_heading_2d := Vector2(dir.x, dir.z)
+		#var player_heading_2d := Vector2(self.transform.basis.z.x, self.transform.basis.z.z)
+		#var desired_heading_2d := Vector2(dir.x, dir.z)
+		player_heading_2d = Vector2(self.transform.basis.z.x, self.transform.basis.z.z)
+		desired_heading_2d = Vector2(dir.x, dir.z)
 
 
 		# smooth character orientation
@@ -230,7 +235,7 @@ func _physics_process(delta):
 		# smooth VISUAL character orientation
 		skeleton.global_rotate( Vector3.UP, -skeleton.global_rotation.y + skel_rotation_y )
 		var phi_vis : float = player_heading_2d.angle_to( Vector2(skeleton.global_transform.basis.z.x, skeleton.global_transform.basis.z.z) )
-		phi_vis = phi_vis * delta * 3.5
+		phi_vis = phi_vis * delta * 4.0 #3.5
 		skel_rotation_y += phi_vis
 
 
@@ -289,6 +294,9 @@ func _physics_process(delta):
 			self.sprint_blend = sprint_blend_hm.calculate( self.sprint_blend, 0.0 )
 
 	else:
+		#player_heading_2d = Vector2.ZERO
+		#desired_heading_2d = Vector2.ZERO
+		
 		movement_walk_run_blend = -1.0
 		v = v.rotated( Vector3.UP, self.rotation.y)
 		animation_tree["parameters/playback"].travel("IdleAction")
@@ -303,6 +311,8 @@ func _physics_process(delta):
 
 		animation_tree.set("parameters/IdleAction/BlendSpace2D/blend_position", blend_coord )
  
+	
+
 	set_velocity(v)
 	set_up_direction( Vector3.UP )
 	ms_collided = move_and_slide()

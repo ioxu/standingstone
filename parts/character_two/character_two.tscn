@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://bx253wkst6td0" path="res://parts/character_two/character_controller_two_two.gd" id="1_5h5kc"]
 [ext_resource type="PackedScene" uid="uid://cnwbqxcbqu5a7" path="res://parts/character_two/animation_library_godot.tscn" id="1_dpqmh"]
-[ext_resource type="Script" uid="uid://dikxi44okss1o" path="res://tests/skeletonIK/custom_skel_modifier.gd" id="3_txpjf"]
 [ext_resource type="Script" uid="uid://b080necinyalb" path="res://tests/skeletonModifier/custom_skel_modifier_undulator.gd" id="4_n1he0"]
 [ext_resource type="Script" uid="uid://dsrio0opvrnmv" path="res://tests/skeletonModifier/custom_skel_modifier_orient_torso.gd" id="5_n1he0"]
 
@@ -17,8 +16,15 @@ bottom_radius = 0.01
 height = 1.0
 radial_segments = 8
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_txpjf"]
+albedo_color = Color(0.91122854, 0.0123680625, 0.41478842, 1)
+emission_enabled = true
+emission = Color(0.74098265, 0.19981343, 0.32777122, 1)
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7nunn"]
-albedo_color = Color(0.72672236, 0.09292177, 0.21237603, 1)
+albedo_color = Color(0.86126363, 0.560828, 7.70092e-07, 1)
+emission_enabled = true
+emission = Color(0.82920533, 0.56400603, 0.28932473, 1)
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_n1he0"]
 animation = &"Idle"
@@ -118,28 +124,7 @@ shape = SubResource("CapsuleShape3D_dpqmh")
 
 [node name="AnimationLibrary_Godot" parent="." instance=ExtResource("1_dpqmh")]
 
-[node name="CustomSkelModifier" type="SkeletonModifier3D" parent="AnimationLibrary_Godot/Rig/GeneralSkeleton" index="1"]
-_import_path = NodePath("")
-unique_name_in_owner = false
-process_mode = 0
-process_priority = 0
-process_physics_priority = 0
-process_thread_group = 0
-physics_interpolation_mode = 0
-auto_translate_mode = 0
-editor_description = ""
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
-rotation_edit_mode = 0
-rotation_order = 2
-top_level = false
-visible = true
-visibility_parent = NodePath("")
-active = true
-influence = 1.0
-script = ExtResource("3_txpjf")
-metadata/_custom_type_script = "uid://dikxi44okss1o"
-
-[node name="CustomSkelModifier_undulator" type="SkeletonModifier3D" parent="AnimationLibrary_Godot/Rig/GeneralSkeleton" index="2"]
+[node name="CustomSkelModifier_undulator" type="SkeletonModifier3D" parent="AnimationLibrary_Godot/Rig/GeneralSkeleton" index="1"]
 _import_path = NodePath("")
 unique_name_in_owner = false
 process_mode = 0
@@ -163,7 +148,7 @@ speed = 6.0
 time_offset = -0.612
 metadata/_custom_type_script = "uid://b080necinyalb"
 
-[node name="CustomSkelModifier_OrientTorso" type="SkeletonModifier3D" parent="AnimationLibrary_Godot/Rig/GeneralSkeleton" index="3"]
+[node name="CustomSkelModifier_OrientTorso" type="SkeletonModifier3D" parent="AnimationLibrary_Godot/Rig/GeneralSkeleton" index="2" node_paths=PackedStringArray("character_body")]
 _import_path = NodePath("")
 unique_name_in_owner = false
 process_mode = 0
@@ -182,12 +167,22 @@ visibility_parent = NodePath("")
 active = true
 influence = 1.0
 script = ExtResource("5_n1he0")
+character_body = NodePath("../../../..")
 metadata/_custom_type_script = "uid://dsrio0opvrnmv"
 
-[node name="Node3D" type="Node3D" parent="AnimationLibrary_Godot/Rig/GeneralSkeleton/CustomSkelModifier_OrientTorso"]
+[node name="player_heading" type="Node3D" parent="AnimationLibrary_Godot/Rig/GeneralSkeleton/CustomSkelModifier_OrientTorso"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9842894, 0)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="AnimationLibrary_Godot/Rig/GeneralSkeleton/CustomSkelModifier_OrientTorso/Node3D"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="AnimationLibrary_Godot/Rig/GeneralSkeleton/CustomSkelModifier_OrientTorso/player_heading"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0.5)
+mesh = SubResource("CylinderMesh_n1he0")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_txpjf")
+
+[node name="player_desired_heading" type="Node3D" parent="AnimationLibrary_Godot/Rig/GeneralSkeleton/CustomSkelModifier_OrientTorso"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9842894, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="AnimationLibrary_Godot/Rig/GeneralSkeleton/CustomSkelModifier_OrientTorso/player_desired_heading"]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0.5)
 mesh = SubResource("CylinderMesh_n1he0")
 skeleton = NodePath("../..")

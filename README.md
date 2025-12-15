@@ -10,3 +10,5 @@ icons by [Ayub Irawan on flaticon.com](https://www.flaticon.com/authors/ayub-ira
 [Sphynx Motion Blur Toolkit (Godot 4.5 branch), by Sphynx_Owner ](https://github.com/sphynx-owner/JFA_driven_motion_blur_addon/tree/4.5)
 
 some character animations and character model by [Quaternius, Universal Animation Library](https://quaternius.com/packs/universalanimationlibrary.html)
+
+[natsu-anon](https://github.com/natsu-anon) for another damped harmonic oscillator script
